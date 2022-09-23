@@ -1,77 +1,92 @@
-import React, { type PropsWithChildren } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, Alert } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import SQLite from 'react-native-sqlite-storage';
 
-import {
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const HomeScreen = ({ navigation }) => {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-
-const DetailsScreen = ({ navigation }) => {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Detail Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
+const db = SQLite.openDatabase(
+  {
+    name: 'TestDB',
+    location: 'default',
+  },
+  () => { },
+  error => { console.log(error) }
+);
 
 const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="home"
-          component={HomeScreen}
-          options={{ title: 'Task List' }}
-        />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
 
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: '#61adf5',
-    alignItems: 'center',
-    justifyContent: 'center',
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    createTable();
+    getData();
+  });
+
+  const createTable = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS "
+        + "Users "
+        + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER);"
+      )
+    });
   }
-});
+
+  const getData = () => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT Name, Age FROM Users",
+          [],
+          (tx, results) => {
+            var len = results.rows.length;
+            console.log(len);
+            if (len > 0) {
+              console.log(results.rows.item(0).Name);
+            }
+          }
+        )
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const setData = async () => {
+    if (name.length == 0) {
+      Alert.alert('Warning!', 'Please write your data.')
+    } else {
+      try {
+        await db.transaction(async (tx) => {
+          await tx.executeSql(
+            "INSERT INTO Users (Name) VALUES (?)",
+            [name]
+          );
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View>
+        <Text>name: {name}</Text>
+      </View>
+      <View style={{ marginTop: 28 }}>
+        <TextInput
+          placeholder='your name'
+          onChangeText={(value) => {
+            setName(value);
+          }} />
+      </View>
+      <View style={{ marginTop: 28 }}>
+        <Button title='enter' onPress={() => {
+          setData();
+        }} />
+      </View>
+    </View>
+  );
+}
 
 export default App;

@@ -1,0 +1,44 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
+import SQLite from 'react-native-sqlite-storage';
+
+const db = SQLite.openDatabase(
+  {
+    name: 'TestDB',
+    location: 'default',
+  },
+  () => { },
+  error => { console.log(error) }
+);
+
+const App = () => {
+
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    createTable();
+  });
+
+  const createTable = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS "
+        + "Users "
+        + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER);"
+      )
+    })
+  }
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View>
+        <Text>name: {name}</Text>
+      </View>
+      <View style={{ marginTop: 28 }}>
+        <Text>name: {name}</Text>
+      </View>
+    </View>
+  );
+}
+
+export default App;
