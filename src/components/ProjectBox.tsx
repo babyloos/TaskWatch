@@ -1,33 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, isValidElement } from 'react';
 import {
   View,
   Text,
   StyleSheet,
+  Button,
+  ScrollView,
 } from 'react-native';
+
+type task = {
+  id: number,
+  project_id: number,
+  name: string, 
+  explanation: string,
+  totalTime: 10,
+}
 
 const ProjectBox = () => {
 
+  const [taskList, setTaskList] = useState<task[]>([]);
   return (
-    <View>
+    <ScrollView>
       <View style={styles.projectBox}>
-        <Text>Project Name : Project Name</Text>
-        <Text>Project Detail</Text>
-        <Text>No of Task</Text>
-        <Text>Total work time: ....</Text>
+        <Text>プロジェクト1</Text>
+        <Text>説明文...</Text>
+        <Text>タスク数: 18</Text>
+        <Text>総作業時間: 20時間18分</Text>
       </View>
-      <View style={styles.taskBox}>
-        <Text>Project Name</Text>
-        <Text>Project Detail</Text>
-        <Text>No of Task</Text>
-        <Text>Total work time: ....</Text>
+      <View>
+        {
+          taskList.map(
+            data => {
+              return (
+                <View style={styles.taskBox}>
+                  <Text>{data.name}</Text>
+                  <Text>{data.explanation}</Text>
+                  <Text>合計時間{data.totalTime}時間</Text>
+                </View>
+              );
+            }
+          )
+        }
       </View>
-      <View style={styles.taskBox}>
-        <Text>Project Name</Text>
-        <Text>Project Detail</Text>
-        <Text>No of Task</Text>
-        <Text>Total work time: ....</Text>
+      <View>
+        <Button
+          title="追加" 
+          onPress={() => {
+            const addTask = {
+              id: 0,
+              project_id: 0,
+              name: 'タスク名',
+              explanation: '説明文...',
+              totalTime: 10,
+            }
+            setTaskList([...taskList, addTask]);
+            console.log(taskList);
+          }}/>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
