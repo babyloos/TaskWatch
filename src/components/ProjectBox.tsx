@@ -5,10 +5,12 @@ import {
   StyleSheet,
   Button,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import DropDownMenu from './dropdownMenu';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faClock} from '@fortawesome/free-regular-svg-icons';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 type task = {
   id: number,
@@ -51,8 +53,8 @@ const ProjectBox = () => {
         }
       </View>
       <View>
-        <Button
-          title="追加" 
+        <TouchableOpacity
+          style={styles.addTaskButton}
           onPress={() => {
             const addTask = {
               id: 0,
@@ -62,7 +64,9 @@ const ProjectBox = () => {
               totalTime: 10,
             }
             setTaskList([...taskList, addTask]);
-          }}/>
+          }}>
+        <Icon icon={faCirclePlus} size={32} />
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -98,5 +102,10 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 12,
     paddingLeft: 24,
-  }
+  },
+  addTaskButton: {
+    alignItems: 'flex-end',
+    marginTop: 32,
+    marginRight: 38,
+  } 
 });

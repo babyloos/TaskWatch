@@ -30,7 +30,7 @@ export default App;
 
 const styles = StyleSheet.create({
   body: {
-    flex: 0.8,
+    flex: 1,
     backgroundColor: '#70c7ff',
   }
 });
