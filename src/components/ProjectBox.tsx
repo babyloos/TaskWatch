@@ -6,6 +6,9 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
+import DropDownMenu from './dropdownMenu';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
+import { faClock} from '@fortawesome/free-regular-svg-icons';
 
 type task = {
   id: number,
@@ -32,9 +35,15 @@ const ProjectBox = () => {
             data => {
               return (
                 <View style={styles.taskBox}>
-                  <Text>{data.name}</Text>
-                  <Text>{data.explanation}</Text>
-                  <Text>合計時間{data.totalTime}時間</Text>
+                  <View style={styles.infos}>
+                    <Text>{data.name}</Text>
+                    <Text>{data.explanation}</Text>
+                    <Text>合計時間{data.totalTime}時間</Text>
+                  </View>
+                  <View style={styles.menus}>
+                    <Icon icon={faClock} size={38} style={{marginRight: 18}} />
+                    <DropDownMenu/>
+                  </View>
                 </View>
               );
             }
@@ -53,7 +62,6 @@ const ProjectBox = () => {
               totalTime: 10,
             }
             setTaskList([...taskList, addTask]);
-            console.log(taskList);
           }}/>
       </View>
     </ScrollView>
@@ -72,11 +80,23 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   taskBox: {
+    flexDirection: 'row',
     backgroundColor: '#00FFFF',
     marginTop: 12,
     marginStart: 24,
     marginEnd: 32,
     borderRadius: 12,
     padding: 8,
+  },
+  infos: {
+    flex: 0.7,
+  },
+  menus: { 
+    flex: 0.3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 24,
   }
 });
