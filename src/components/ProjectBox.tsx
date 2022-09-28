@@ -29,10 +29,15 @@ const ProjectBox = () => {
         scrollViewRef?.current?.scrollTo({y: contentHeight});
       }}>
       <View style={styles.projectBox}>
-        <Text>プロジェクト1</Text>
-        <Text>説明文...</Text>
-        <Text>タスク数: 18</Text>
-        <Text>総作業時間: 20時間18分</Text>
+        <View style={[styles.infos, {flex: 1}]}>
+          <Text>プロジェクト1</Text>
+          <Text>説明文...</Text>
+          <Text>タスク数: 18</Text>
+          <Text>総作業時間: 20時間18分</Text>
+        </View>
+        <View style={[styles.menus, {flex: 0.1}]}>
+          <DropDownMenu/>
+        </View>
       </View>
       <View>
         {
@@ -79,6 +84,7 @@ export default ProjectBox;
 
 const styles = StyleSheet.create({
   projectBox: {
+    flexDirection: 'row',
     backgroundColor: '#FF0000',
     marginTop: 18,
     marginStart: 12,
@@ -105,6 +111,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 12,
     paddingLeft: 24,
+    paddingRight: 24,
   },
   addTaskButton: {
     alignItems: 'flex-end',
