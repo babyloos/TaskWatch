@@ -17,14 +17,17 @@ type task = {
   project_id: number,
   name: string, 
   explanation: string,
-  totalTime: 10,
+  totalTime: number,
 }
 
 const ProjectBox = () => {
-
   const [taskList, setTaskList] = useState<task[]>([]);
+  const scrollViewRef = React.useRef<ScrollView>(null);
   return (
-    <ScrollView>
+    <ScrollView ref={scrollViewRef}
+      onContentSizeChange={(contentWidth, contentHeight)=> {
+        scrollViewRef?.current?.scrollTo({y: contentHeight});
+      }}>
       <View style={styles.projectBox}>
         <Text>プロジェクト1</Text>
         <Text>説明文...</Text>
