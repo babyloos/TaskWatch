@@ -3,12 +3,14 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import ProjectBox from '../components/ProjectBox';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-const TaskListScreen = () => {
+const TaskListScreen = ({navigation}) => {
   return (
     <View style={styles.body}>
       <View style={styles.projectBoxContainer}>
-        <ProjectBox />
+        <ProjectBox navigation={navigation}/>
       </View>
       <TouchableOpacity 
         style={styles.addProjectButton}

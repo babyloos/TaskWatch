@@ -20,7 +20,7 @@ type task = {
   totalTime: number,
 }
 
-const ProjectBox = () => {
+const ProjectBox = ({navigation}) => {
   const [taskList, setTaskList] = useState<task[]>([]);
   const scrollViewRef = React.useRef<ScrollView>(null);
   return (
@@ -36,7 +36,10 @@ const ProjectBox = () => {
           <Text>総作業時間: 20時間18分</Text>
         </View>
         <View style={[styles.menus, {flex: 0.1}]}>
-          <DropDownMenu/>
+          <DropDownMenu 
+              editCallback={()=>navigation.navigate('ProjectEdit')}
+              deleteCallback={()=>console.log('delete')}
+          />
         </View>
       </View>
       <View>
@@ -52,7 +55,10 @@ const ProjectBox = () => {
                   </View>
                   <View style={styles.menus}>
                     <Icon icon={faClock} size={38} style={{marginRight: 18}} />
-                    <DropDownMenu/>
+                    <DropDownMenu 
+                        editCallback={()=>console.log('edit')}
+                        deleteCallback={()=>console.log('delete')}
+                    />
                   </View>
                 </View>
               );

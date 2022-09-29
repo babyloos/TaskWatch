@@ -1,9 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import TaskListScreen from './src/screens/TaskListScreen';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet} from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
+import TaskListScreen from './src/screens/TaskListScreen';
+import ProjectEditScreen from './src/screens/ProjectEditScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,14 +17,25 @@ const App = () => {
             name="TaskList"
             component={TaskListScreen}
             options={{ 
-              title: 'タスク一覧',
+              title: 'プロジェクト/タスク一覧',
               headerStyle: {
                 backgroundColor: '#61adf5',
               },
               contentStyle: styles.body,
             }}
           />
-        </Stack.Navigator>
+          <Stack.Screen 
+            name="ProjectEdit"
+            component={ProjectEditScreen}
+            options={{
+              title: 'プロジェクト編集',
+              headerStyle: {
+                backgroundColor: '#61adf5',
+              },
+              contentStyle: styles.body,
+            }}
+          />
+          </Stack.Navigator>
       </NavigationContainer>
     </MenuProvider>
   );
