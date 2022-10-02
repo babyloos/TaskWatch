@@ -25,9 +25,7 @@ const TaskListScreen = ({ navigation }) => {
         data={tasks}
         keyExtractor={(item) => item._id.toHexString()}
         renderItem = {({item}) => (
-          <View>
-            <Text>{item.name}</Text>
-          </View> 
+          <ProjectBox navigation={navigation} task={item}/>
         )}/>
       <TouchableOpacity
         style={styles.addProjectButton}

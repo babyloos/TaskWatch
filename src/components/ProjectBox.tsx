@@ -1,88 +1,34 @@
-import React, { useState, useEffect, isValidElement } from 'react';
+import React, { useState, useEffect, isValidElement, Component, useRef, useContext } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Button,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Task,
 } from 'react-native';
 import DropDownMenu from './dropdownMenu';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faClock} from '@fortawesome/free-regular-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { NavigationProp, NavigationState, StackNavigationState } from '@react-navigation/native';
+import {useTasks} from '../providers/TaskProvider';
 
-type task = {
-  id: number,
-  project_id: number,
-  name: string, 
-  explanation: string,
-  totalTime: number,
-}
-
-const ProjectBox = ({navigation}) => {
-  const [taskList, setTaskList] = useState<task[]>([]);
-  const scrollViewRef = React.useRef<ScrollView>(null);
+const ProjectBox = ({navigation, task}) => {
+  const {deleteTask} = useTasks();
   return (
-    <ScrollView ref={scrollViewRef}
-      onContentSizeChange={(contentWidth, contentHeight)=> {
-        scrollViewRef?.current?.scrollTo({y: contentHeight});
-      }}>
-      <View style={styles.projectBox}>
-        <View style={[styles.infos, {flex: 1}]}>
-          <Text>プロジェクト1</Text>
-          <Text>説明文...</Text>
-          <Text>タスク数: 18</Text>
-          <Text>総作業時間: 20時間18分</Text>
-        </View>
-        <View style={[styles.menus, {flex: 0.1}]}>
-          <DropDownMenu 
-              editCallback={()=>navigation.navigate('ProjectEdit')}
-              deleteCallback={()=>console.log('delete')}
-          />
-        </View>
+    <View style={styles.projectBox}>
+      <View style={[styles.infos, {flex: 1}]}>
+        <Text>プロジェクト名: {task.name}</Text>
+        <Text>説明: {task.decription}</Text>
       </View>
-      <View>
-        {
-          taskList.map(
-            data => {
-              return (
-                <View style={styles.taskBox}>
-                  <View style={styles.infos}>
-                    <Text>{data.name}</Text>
-                    <Text>{data.explanation}</Text>
-                    <Text>合計時間{data.totalTime}時間</Text>
-                  </View>
-                  <View style={styles.menus}>
-                    <Icon icon={faClock} size={38} style={{marginRight: 18}} />
-                    <DropDownMenu 
-                        editCallback={()=>console.log('edit')}
-                        deleteCallback={()=>console.log('delete')}
-                    />
-                  </View>
-                </View>
-              );
-            }
-          )
-        }
+      <View style={[styles.menus, {flex: 0.1}]}>
+        <DropDownMenu 
+          editCallback={()=>navigation.navigate('ProjectEdit')}
+          deleteCallback={()=>deleteTask(task)}/>
       </View>
-      <View>
-        <TouchableOpacity
-          style={styles.addTaskButton}
-          onPress={() => {
-            const addTask = {
-              id: 0,
-              project_id: 0,
-              name: 'タスク名',
-              explanation: '説明文...',
-              totalTime: 10,
-            }
-            setTaskList([...taskList, addTask]);
-          }}>
-        <Icon icon={faCirclePlus} size={32} />
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+    </View>
   );
 }
 
