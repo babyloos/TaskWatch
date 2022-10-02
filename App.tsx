@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet} from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
+import 'react-native-get-random-values'
 import { Realm, createRealmContext} from '@realm/react';
 
 import TaskListScreen from './src/screens/TaskListScreen';
