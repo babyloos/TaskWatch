@@ -7,6 +7,7 @@ import { Realm, createRealmContext} from '@realm/react';
 
 import TaskListScreen from './src/screens/TaskListScreen';
 import ProjectEditScreen from './src/screens/ProjectEditScreen';
+import {TasksProvider} from './src/providers/TaskProvider';
 
 const Stack = createNativeStackNavigator();
 const {RealmProvider, useRealm, useQuery} = createRealmContext()
@@ -14,7 +15,7 @@ const {RealmProvider, useRealm, useQuery} = createRealmContext()
 const App = () => {
   return (
     <MenuProvider>
-      <RealmProvider>
+      <TasksProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="TaskList">
             <Stack.Screen
@@ -41,7 +42,7 @@ const App = () => {
             />
             </Stack.Navigator>
         </NavigationContainer>
-      </RealmProvider>
+      </TasksProvider>
     </MenuProvider>
   );
 }

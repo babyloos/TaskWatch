@@ -4,19 +4,23 @@ import ProjectBox from '../components/ProjectBox';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationContext } from '@react-navigation/native';
 
-const TaskListScreen = ({navigation}) => {
+import { useTasks } from '../providers/TaskProvider';
+
+const TaskListScreen = ({ navigation }) => {
+  const { createTask, deleteTask, setIsTaskDone, tasks } = useTasks();
+
   return (
     <View style={styles.body}>
       <View style={styles.projectBoxContainer}>
-        <ProjectBox navigation={navigation}/>
+        <ProjectBox navigation={navigation} />
       </View>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.addProjectButton}
         onPress={() => console.log('add project')}>
         <Icon icon={faCirclePlus} size={62} />
-      </TouchableOpacity> 
+      </TouchableOpacity>
     </View>
   );
 }
