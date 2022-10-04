@@ -3,13 +3,9 @@ import { StyleSheet, View, TouchableOpacity, Text, TouchableWithoutFeedbackCompo
 import ProjectBox from '../components/ProjectBox';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer, NavigationContext } from '@react-navigation/native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { useTasks } from '../providers/TaskProvider';
-import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { create } from 'react-test-renderer';
 
 const TaskListScreen = ({ navigation }) => {
   const { createTask, deleteTask, setIsTaskDone, tasks } = useTasks();
@@ -23,7 +19,9 @@ const TaskListScreen = ({ navigation }) => {
         renderItem = {({item}) => (
           <TouchableOpacity 
             activeOpacity={1}
-            onPress={()=>{console.log('onPress')}}>
+            onPress={()=>{
+              navigation.navigate('ProjectDetail', {title: item.name});
+            }}>
             <ProjectBox navigation={navigation} task={item}/>
           </TouchableOpacity>
         )}
