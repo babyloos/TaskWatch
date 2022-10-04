@@ -7,7 +7,7 @@ import 'react-native-get-random-values'
 import { Realm, createRealmContext} from '@realm/react';
 
 import TaskListScreen from './src/screens/TaskListScreen';
-import ProjectEditScreen from './src/screens/ProjectEditScreen';
+import ProjectDetailScreen from './src/screens/ProjectDetailScreen';
 import {TasksProvider} from './src/providers/TaskProvider';
 
 const Stack = createNativeStackNavigator();
@@ -31,8 +31,8 @@ const App = () => {
               }}
             />
             <Stack.Screen 
-              name="ProjectEdit"
-              component={ProjectEditScreen}
+              name="ProjectDetail"
+              component={ProjectDetailScreen}
               options={({route})=> ({
                 title: route.params.title,
                 headerStyle: {

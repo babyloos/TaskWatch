@@ -6,7 +6,7 @@ import {
   Text,
 } from 'react-native';
 
-const ProjectEditScreen = () => {
+const ProjectDetailScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>ProjectEditScreen</Text>
@@ -14,4 +14,4 @@ const ProjectEditScreen = () => {
   );
 }
 
-export default ProjectEditScreen;
+export default ProjectDetailScreen;

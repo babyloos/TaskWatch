@@ -24,7 +24,7 @@ type PropType = {
 const ProjectBox = ({navigation, task}: PropType) => {
   const {deleteTask} = useTasks();
   const onPress = () => {
-    navigation.navigate('ProjectEdit', {title: task.name});
+    navigation.navigate('ProjectDetail', {title: task.name});
   }
 
   return (
