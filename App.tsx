@@ -23,7 +23,7 @@ const App = () => {
               name="TaskList"
               component={TaskListScreen}
               options={{ 
-                title: 'プロジェクト/タスク一覧',
+                title: 'プロジェクト一覧',
                 headerStyle: {
                   backgroundColor: '#61adf5',
                 },
