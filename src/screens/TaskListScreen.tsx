@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, TouchableWithoutFeedbackComponent, TouchableNativeFeedback } from 'react-native';
 import ProjectBox from '../components/ProjectBox';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, NavigationContext } from '@react-navigation/native';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { useTasks } from '../providers/TaskProvider';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { create } from 'react-test-renderer';
 
 const TaskListScreen = ({ navigation }) => {
@@ -15,18 +16,37 @@ const TaskListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.body}>
-      {/*
-      <View style={styles.projectBoxContainer}>
-        {/*<ProjectBox navigation={navigation} />
-      </View>
-      */}
-      <FlatList 
+      <SwipeListView
         style={styles.projectBoxContainer}
         data={tasks}
         keyExtractor={(item) => item._id.toHexString()}
         renderItem = {({item}) => (
-          <ProjectBox navigation={navigation} task={item}/>
-        )}/>
+          <TouchableOpacity 
+            activeOpacity={1}
+            onPress={()=>{console.log('onPress')}}>
+            <ProjectBox navigation={navigation} task={item}/>
+          </TouchableOpacity>
+        )}
+        renderHiddenItem={ (data, rowMap) => (
+          <View style={{
+            alignSelf: 'flex-end',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 18,
+            marginEnd: 32,
+            borderRadius: 12,
+            width: 50,
+            height: 50,
+            backgroundColor: '#00FF00',
+          }}>
+            <TouchableOpacity>
+              <Text>削除</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        rightOpenValue={-58}
+        disableRightSwipe={true}
+        />
       <TouchableOpacity
         style={styles.addProjectButton}
         onPress={() => {

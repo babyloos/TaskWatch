@@ -28,21 +28,12 @@ const ProjectBox = ({navigation, task}: PropType) => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.projectBox}>
         <View style={[styles.infos, {flex: 1}]}>
           <Text>プロジェクト名: {task.name}</Text>
           <Text>説明: {task.decription}</Text>
         </View>
-        <View style={[styles.menus, {flex: 0.1}]}>
-          {/*
-          <DropDownMenu 
-            editCallback={()=>navigation.navigate('ProjectEdit')}
-            deleteCallback={()=>deleteTask(task)}/>
-           */}
-        </View>
       </View>
-    </TouchableWithoutFeedback>
   );
 }
 
