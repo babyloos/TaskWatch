@@ -33,13 +33,13 @@ const App = () => {
             <Stack.Screen 
               name="ProjectEdit"
               component={ProjectEditScreen}
-              options={{
-                title: 'プロジェクト編集',
+              options={({route})=> ({
+                title: route.params.title,
                 headerStyle: {
                   backgroundColor: '#61adf5',
                 },
                 contentStyle: styles.body,
-              }}
+              })}
             />
             </Stack.Navigator>
         </NavigationContainer>

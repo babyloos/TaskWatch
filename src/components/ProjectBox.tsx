@@ -16,11 +16,17 @@ import { NavigationProp, NavigationState, StackNavigationState } from '@react-na
 import {useTasks} from '../providers/TaskProvider';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-const ProjectBox = ({navigation, task}) => {
+type PropType = {
+  navigation: NavigationState;
+  task: any;
+};
+
+const ProjectBox = ({navigation, task}: PropType) => {
   const {deleteTask} = useTasks();
   const onPress = () => {
-    navigation.navigate('ProjectEdit');
+    navigation.navigate('ProjectEdit', {title: task.name});
   }
+
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.projectBox}>

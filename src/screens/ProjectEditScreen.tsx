@@ -1,4 +1,5 @@
-import React from 'react';
+import { NavigationState } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
