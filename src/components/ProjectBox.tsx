@@ -43,36 +43,11 @@ const styles = StyleSheet.create({
   projectBox: {
     flexDirection: 'row',
     backgroundColor: '#FF0000',
+    height: 64,
     marginTop: 18,
     marginStart: 12,
     marginEnd: 32,
     borderRadius: 12,
     padding: 8,
   },
-  taskBox: {
-    flexDirection: 'row',
-    backgroundColor: '#00FFFF',
-    marginTop: 12,
-    marginStart: 24,
-    marginEnd: 32,
-    borderRadius: 12,
-    padding: 8,
-  },
-  infos: {
-    flex: 0.7,
-  },
-  menus: { 
-    flex: 0.3,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 12,
-    paddingBottom: 12,
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  addTaskButton: {
-    alignItems: 'flex-end',
-    marginTop: 32,
-    marginRight: 38,
-  } 
 });

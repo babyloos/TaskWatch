@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, PropsWithChildren, useContext } from 'react';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import { openRealm, BSON } from '../realm';
-import {ObjectId} from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 const TasksContext = React.createContext(null);
 
@@ -34,7 +34,7 @@ const TasksProvider = ({ children }) => {
     projectRealm.write(() => {
       projectRealm.create('Task', {
         _id: new BSON.ObjectId(),
-        name: newTaskName || '新しいタスク',
+        name: newTaskName || '新しいプロジェクト',
         isDone: false,
         createdAt: new Date(),
       });
@@ -58,6 +58,20 @@ const TasksProvider = ({ children }) => {
     });
   };
 
+  // サブタスクの新規作成
+  const createSubTask = (parentTask) => {
+    const projectRealm = realmRef.current;
+    let subTasks = parentTask.subTasks;
+    projectRealm.write(() => {
+      subTasks.push({
+        _id: new BSON.ObjectID(),
+        name: '新しいタスク',
+        isDone: false,
+        createdAt: new Date(),
+      });
+    });
+  }
+
   // useTasks フックで Task を操作できるようにする
   return (
     <TasksContext.Provider
@@ -66,8 +80,9 @@ const TasksProvider = ({ children }) => {
         deleteTask,
         setIsTaskDone,
         tasks,
+        createSubTask,
       }
-    }>
+      }>
       {children}
     </TasksContext.Provider>
   );
@@ -82,4 +97,4 @@ const useTasks = () => {
   return task;
 };
 
-export {TasksProvider, useTasks};
+export { TasksProvider, useTasks };
