@@ -18,7 +18,7 @@ const ProjectDetailScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.projectBox}>
-        <View style={[styles.infos, { flex: 1 }]}>
+        <View>
           <Text>プロジェクト名: {task.name}</Text>
           <Text>説明: {task.decription}</Text>
         </View>
@@ -28,10 +28,23 @@ const ProjectDetailScreen = (props) => {
         data={task.subTasks}
         keyExtractor={(item) => item._id.toHexString()}
         renderItem = {({item}) => (
-          <Text>item.name</Text>
+          <View style={styles.taskBox}>
+            <View>
+              <Text>タスク名: {item.name}</Text>
+              <Text>説明: {item.descriptioin}</Text>
+            </View>
+          </View>
         )}
-        
-        />
+        renderHiddenItem={ (data, rowMap) => (
+          <TouchableOpacity onPress={()=>{deleteTask(data.item)}}>
+            <View style={styles.swipeItem}>
+              <Text>削除</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        rightOpenValue={-58}
+        disableRightSwipe={true}
+      />
       <TouchableOpacity
         style={styles.addTaskButton}
         onPress={() => {
@@ -59,6 +72,28 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 8,
   },
+  taskBox: {
+    flexDirection: 'row',
+    backgroundColor: '#00FF00',
+    height: 64,
+    marginTop: 18,
+    marginStart: 48,
+    marginEnd: 32,
+    borderRadius: 12,
+    padding: 8,
+  },
+  swipeItem: {
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 18,
+    marginEnd: 32,
+    borderRadius: 12,
+    width: 50,
+    height: 64,
+    backgroundColor: '#00FF00',
+  },
+
   addTaskButton: {
     alignSelf: 'flex-end',
     marginTop: 16,
