@@ -26,21 +26,21 @@ const TaskListScreen = ({ navigation }) => {
           </TouchableOpacity>
         )}
         renderHiddenItem={ (data, rowMap) => (
-          <View style={{
-            alignSelf: 'flex-end',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 18,
-            marginEnd: 32,
-            borderRadius: 12,
-            width: 50,
-            height: 50,
-            backgroundColor: '#00FF00',
-          }}>
-            <TouchableOpacity>
-              <Text>削除</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={()=>{deleteTask(data.item)}}>
+            <View style={{
+              alignSelf: 'flex-end',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 18,
+              marginEnd: 32,
+              borderRadius: 12,
+              width: 50,
+              height: 50,
+              backgroundColor: '#00FF00',
+            }}>
+                <Text>削除</Text>
+            </View>
+          </TouchableOpacity>
         )}
         rightOpenValue={-58}
         disableRightSwipe={true}
