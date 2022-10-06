@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   projectBox: {
     flexDirection: 'row',
     backgroundColor: '#FF0000',
-    height: 64,
+    minHeight: 64,
     marginTop: 18,
     marginStart: 12,
     marginEnd: 32,
