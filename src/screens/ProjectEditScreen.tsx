@@ -20,7 +20,11 @@ const ProjectEditScreen = (props) => {
       headerRight: () => (
         <Button 
           color={'#FF0000'}
-          onPress={() => {updateProject(project, name, description);}} title="保存"
+          onPress={() => {
+            updateProject(project, name, description);
+            props.navigation.goBack();
+          }} 
+          title="保存"
         />
       ),
     });
@@ -36,7 +40,7 @@ const ProjectEditScreen = (props) => {
             setName(text);
           }}
           value={name}
-          style={[styles.textInput, {height: 24}]} 
+          style={[styles.textInput, {height: 36}]} 
         />
       </View>
       <View style={styles.projectNameContainer}>
@@ -75,5 +79,7 @@ const styles = StyleSheet.create({
   textInput: {
     width: 240,
     backgroundColor: '#FFFFFF',
+    padding: 12,
+    borderRadius: 8,
   },
 });
