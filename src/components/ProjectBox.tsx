@@ -1,20 +1,11 @@
-import React, { useState, useEffect, isValidElement, Component, useRef, useContext } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Button,
-  ScrollView,
-  TouchableOpacity,
-  Task,
 } from 'react-native';
-import DropDownMenu from './dropdownMenu';
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-import { faClock } from '@fortawesome/free-regular-svg-icons';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { NavigationProp, NavigationState, StackNavigationState } from '@react-navigation/native';
+import { NavigationState } from '@react-navigation/native';
 import { useProjects } from '../providers/TaskProvider';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 type PropType = {
   navigation: NavigationState;
@@ -22,16 +13,11 @@ type PropType = {
 };
 
 const ProjectBox = ({ navigation, project }: PropType) => {
-  const { deleteItem } = useProjects();
-  const onPress = () => {
-    navigation.navigate('ProjectDetail', { title: project.name });
-  }
-
   return (
     <View style={styles.projectBox}>
-      <View style={[styles.infos, { flex: 1 }]}>
+      <View>
         <Text>プロジェクト名: {project.name}</Text>
-        <Text>説明: {project.decription}</Text>
+        <Text>説明: {project.description}</Text>
       </View>
     </View>
   );
