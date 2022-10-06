@@ -19,7 +19,7 @@ const App = () => {
     <MenuProvider>
       <TasksProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="TaskList">
+          <Stack.Navigator initialRouteName="ProjectList">
             <Stack.Screen
               name="ProjectList"
               component={ProjectListScreen}
