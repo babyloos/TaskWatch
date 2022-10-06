@@ -7,7 +7,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { useProjects } from '../providers/TaskProvider';
 
-const TaskListScreen = ({ navigation }) => {
+const ProjectListScreen = ({ navigation }) => {
   const { createProject, deleteItem, projects} = useProjects();
 
   return (
@@ -46,7 +46,7 @@ const TaskListScreen = ({ navigation }) => {
   );
 }
 
-export default TaskListScreen;
+export default ProjectListScreen;
 
 const styles = StyleSheet.create({
   body: {

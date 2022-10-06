@@ -22,7 +22,7 @@ const ProjectDetailScreen = (props) => {
       <View style={styles.projectBox}>
         <View style={styles.infoArea}>
           <Text>プロジェクト名: {project.name}</Text>
-          <Text>説明: {project.decription}</Text>
+          <Text>説明: {project.description}</Text>
         </View>
         <View style={styles.editArea}>
           <TouchableOpacity onPress={()=>{props.navigation.navigate('ProjectEdit', {title: project.name, project: project})}}>

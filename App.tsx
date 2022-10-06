@@ -6,7 +6,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 import 'react-native-get-random-values'
 import { Realm, createRealmContext } from '@realm/react';
 
-import TaskListScreen from './src/screens/TaskListScreen';
+import ProjectListScreen from './src/screens/ProjectListScreen';
 import ProjectDetailScreen from './src/screens/ProjectDetailScreen';
 import { TasksProvider } from './src/providers/TaskProvider';
 import ProjectEditScreen from './src/screens/ProjectEditScreen';
@@ -21,8 +21,8 @@ const App = () => {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="TaskList">
             <Stack.Screen
-              name="TaskList"
-              component={TaskListScreen}
+              name="ProjectList"
+              component={ProjectListScreen}
               options={{
                 title: 'プロジェクト一覧',
                 headerStyle: {
