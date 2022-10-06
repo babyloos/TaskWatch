@@ -13,7 +13,7 @@ import { useProjects } from '../providers/TaskProvider';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectDetailScreen = (props) => {
-  const { createTask, deleteItem} = useProjects();
+  const { createTask, deleteItem } = useProjects();
   const project = props.route.params.project;
   const scrollViewRef = React.useRef<ScrollView>(null);
 
@@ -25,7 +25,7 @@ const ProjectDetailScreen = (props) => {
           <Text>説明: {project.decription}</Text>
         </View>
         <View style={styles.editArea}>
-          <TouchableOpacity onPress={()=>{props.navigation.navigate('ProjectEdit')}}>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate('ProjectEdit', {title: project.name, project: project})}}>
             <Icon icon={faPen} size={28} />
           </TouchableOpacity>
         </View>
