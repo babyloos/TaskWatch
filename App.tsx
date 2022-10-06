@@ -9,6 +9,7 @@ import { Realm, createRealmContext } from '@realm/react';
 import TaskListScreen from './src/screens/TaskListScreen';
 import ProjectDetailScreen from './src/screens/ProjectDetailScreen';
 import { TasksProvider } from './src/providers/TaskProvider';
+import ProjectEditScreen from './src/screens/ProjectEditScreen';
 
 const Stack = createNativeStackNavigator();
 const { RealmProvider, useRealm, useQuery } = createRealmContext()
@@ -40,6 +41,16 @@ const App = () => {
                 },
                 contentStyle: styles.body,
               })}
+            />
+            <Stack.Screen
+              name="ProjectEdit"
+              component={ProjectEditScreen}
+              options={{
+                headerStyle: {
+                  backgroundColor: '#61adf5',
+                },
+                contentStyle: styles.body,
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>

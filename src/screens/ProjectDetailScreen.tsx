@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { NavigationState } from '@react-navigation/native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faPen } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { useProjects } from '../providers/TaskProvider';
@@ -21,9 +20,14 @@ const ProjectDetailScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.projectBox}>
-        <View>
+        <View style={styles.infoArea}>
           <Text>プロジェクト名: {project.name}</Text>
           <Text>説明: {project.decription}</Text>
+        </View>
+        <View style={styles.editArea}>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate('ProjectEdit')}}>
+            <Icon icon={faPen} size={28} />
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView ref={scrollViewRef}
@@ -78,6 +82,14 @@ const styles = StyleSheet.create({
     marginEnd: 32,
     borderRadius: 12,
     padding: 8,
+  },
+  infoArea: {
+    flexDirection: 'column',
+    flex: 0.9,
+  },
+  editArea: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   taskBox: {
     flexDirection: 'row',
