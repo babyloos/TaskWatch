@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import DropDownMenu from './dropdownMenu';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-import { faClock} from '@fortawesome/free-regular-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { NavigationProp, NavigationState, StackNavigationState } from '@react-navigation/native';
-import {useTasks} from '../providers/TaskProvider';
+import { useProjects } from '../providers/TaskProvider';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 type PropType = {
@@ -21,19 +21,19 @@ type PropType = {
   task: any;
 };
 
-const ProjectBox = ({navigation, task}: PropType) => {
-  const {deleteTask} = useTasks();
+const ProjectBox = ({ navigation, project }: PropType) => {
+  const { deleteItem } = useProjects();
   const onPress = () => {
-    navigation.navigate('ProjectDetail', {title: task.name});
+    navigation.navigate('ProjectDetail', { title: project.name });
   }
 
   return (
-      <View style={styles.projectBox}>
-        <View style={[styles.infos, {flex: 1}]}>
-          <Text>プロジェクト名: {task.name}</Text>
-          <Text>説明: {task.decription}</Text>
-        </View>
+    <View style={styles.projectBox}>
+      <View style={[styles.infos, { flex: 1 }]}>
+        <Text>プロジェクト名: {project.name}</Text>
+        <Text>説明: {project.decription}</Text>
       </View>
+    </View>
   );
 }
 

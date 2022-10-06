@@ -5,28 +5,28 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-import { useTasks } from '../providers/TaskProvider';
+import { useProjects } from '../providers/TaskProvider';
 
 const TaskListScreen = ({ navigation }) => {
-  const { createTask, deleteTask, setIsTaskDone, tasks } = useTasks();
+  const { createProject, deleteItem, projects} = useProjects();
 
   return (
     <View style={styles.body}>
       <SwipeListView
         style={styles.projectBoxContainer}
-        data={tasks}
+        data={projects}
         keyExtractor={(item) => item._id.toHexString()}
         renderItem = {({item}) => (
           <TouchableOpacity 
             activeOpacity={1}
             onPress={()=>{
-              navigation.navigate('ProjectDetail', {title: item.name, task: item});
+              navigation.navigate('ProjectDetail', {title: item.name, project: item});
             }}>
-            <ProjectBox navigation={navigation} task={item}/>
+            <ProjectBox navigation={navigation} project={item}/>
           </TouchableOpacity>
         )}
         renderHiddenItem={ (data, rowMap) => (
-          <TouchableOpacity onPress={()=>{deleteTask(data.item)}}>
+          <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
             <View style={styles.swipeItem}>
               <Text>削除</Text>
             </View>
@@ -38,7 +38,7 @@ const TaskListScreen = ({ navigation }) => {
       <TouchableOpacity
         style={styles.addProjectButton}
         onPress={() => {
-          createTask();
+          createProject();
         }}>
         <Icon icon={faCirclePlus} size={62} />
       </TouchableOpacity>

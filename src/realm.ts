@@ -1,25 +1,24 @@
 // Taskの定義
-const taskSchema = {
-  name: 'Task',
+const projectSchema= {
+  name: 'Project',
   primaryKey: '_id',
   properties: {
     _id: 'objectId', // 'string' や 'int' でも OK
     name: 'string',
     description: 'string?', // ?をつけると optional
-    isDone: 'bool',
+    tasks: 'Task[]', // クラス名 + '[]' で1対多のリレーションを設定できる
     createdAt: 'date',
-    subTasks: 'SubTask[]', // クラス名 + '[]' で1対多のリレーションを設定できる
   },
 };
 
 // SubTaskの定義
-const subTaskSchema = {
-  name: 'SubTask',
+const taskSchema = {
+  name: 'Task',
   primaryKey: '_id',
   properties: {
     _id: 'objectId',
     name: 'string',
-    isDone: 'bool',
+    description: 'string?',
     createdAt: 'date',
   },
 };
@@ -27,8 +26,8 @@ const subTaskSchema = {
 // Realmの初期化
 export const openRealm = (): Realm => {
   const config = {
-    schema: [taskSchema, subTaskSchema],
-    schemaVersion: 1, // スキーマを変更したらインクリメントする(後述)
+    schema: [projectSchema, taskSchema],
+    schemaVersion: 3, // スキーマを変更したらインクリメントする(後述)
   };
 
   return new Realm(config);

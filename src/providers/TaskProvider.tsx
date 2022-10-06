@@ -2,22 +2,23 @@ import React, { useState, useEffect, useRef, PropsWithChildren, useContext } fro
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import { openRealm, BSON } from '../realm';
 import { ObjectId } from 'mongodb';
+import { Project } from '../models/Project';
 
-const TasksContext = React.createContext(null);
+const ProjectsContext = React.createContext(null);
 
 const TasksProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
   const realmRef = useRef(null);
   useEffect(() => {
     realmRef.current = openRealm();
 
-    const tasks = realmRef.current.objects('Task').sorted('createdAt', true);
-    setTasks(tasks);
+    const projects = realmRef.current.objects('Project').sorted('createdAt', true);
+    setProjects(projects);
 
-    // Task のデータが更新されたら setTasks する
-    tasks.addListener(() => {
-      const tasks = realmRef.current.objects('Task').sorted('createdAt', true);
-      setTasks(tasks);
+    // Project のデータが更新されたら setProjects する
+    projects.addListener(() => {
+      const projects = realmRef.current.objects('Project').sorted('createdAt', true);
+      setProjects(projects);
     });
 
     return () => {
@@ -28,42 +29,32 @@ const TasksProvider = ({ children }) => {
     };
   }, []);
 
-  // タスクの新規作成
-  const createTask = (newTaskName: string) => {
+  // プロジェクトの新規作成
+  const createProject = (newProjectName: string) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      projectRealm.create('Task', {
+      projectRealm.create('Project', {
         _id: new BSON.ObjectId(),
-        name: newTaskName || '新しいプロジェクト',
-        isDone: false,
+        name: newProjectName || '新しいプロジェクト',
         createdAt: new Date(),
       });
     });
   };
 
-  // タスクの isDone を更新する
-  const setIsTaskDone = (task, isDone) => {
-    const projectRealm = realmRef.current;
-
-    projectRealm.write(() => {
-      task.isDone = isDone;
-    });
-  };
-
-  // タスクを削除する
-  const deleteTask = (task) => {
+  // プロジェクトを削除する
+  const deleteItem = (project) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      projectRealm.delete(task);
+      projectRealm.delete(project);
     });
   };
 
   // サブタスクの新規作成
-  const createSubTask = (parentTask) => {
+  const createTask = (project: Project) => {
     const projectRealm = realmRef.current;
-    let subTasks = parentTask.subTasks;
+    let tasks = project.tasks;
     projectRealm.write(() => {
-      subTasks.push({
+      tasks.push({
         _id: new BSON.ObjectID(),
         name: '新しいタスク',
         isDone: false,
@@ -74,27 +65,25 @@ const TasksProvider = ({ children }) => {
 
   // useTasks フックで Task を操作できるようにする
   return (
-    <TasksContext.Provider
+    <ProjectsContext.Provider
       value={{
+        createProject,
+        deleteItem,
         createTask,
-        deleteTask,
-        setIsTaskDone,
-        tasks,
-        createSubTask,
-      }
-      }>
+        projects,
+      }}>
       {children}
-    </TasksContext.Provider>
+    </ProjectsContext.Provider>
   );
 };
 
-// Task を操作するための React Hook
-const useTasks = () => {
-  const task = useContext(TasksContext);
-  if (task == null) {
-    throw new Error('useTasks() called outside of a TasksProvider?');
+// Project を操作するための React Hook
+const useProjects = () => {
+  const project = useContext(ProjectsContext);
+  if (project == null) {
+    throw new Error('useProjects() called outside of a TasksProvider?');
   }
-  return task;
+  return project;
 };
 
-export { TasksProvider, useTasks };
+export { TasksProvider, useProjects};

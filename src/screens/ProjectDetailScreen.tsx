@@ -10,20 +10,20 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-import { useTasks } from '../providers/TaskProvider';
+import { useProjects } from '../providers/TaskProvider';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectDetailScreen = (props) => {
-  const { createSubTask, deleteTask } = useTasks();
-  const task = props.route.params.task;
+  const { createTask, deleteItem} = useProjects();
+  const project = props.route.params.project;
   const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (
     <View style={styles.container}>
       <View style={styles.projectBox}>
         <View>
-          <Text>プロジェクト名: {task.name}</Text>
-          <Text>説明: {task.decription}</Text>
+          <Text>プロジェクト名: {project.name}</Text>
+          <Text>説明: {project.decription}</Text>
         </View>
       </View>
       <ScrollView ref={scrollViewRef}
@@ -31,7 +31,7 @@ const ProjectDetailScreen = (props) => {
           scrollViewRef?.current?.scrollTo({y: contentHeight});
       }}>
         <SwipeListView
-          data={task.subTasks}
+          data={project.tasks}
           keyExtractor={(item) => item._id.toHexString()}
           renderItem = {({item}) => (
             <View style={styles.taskBox}>
@@ -42,7 +42,7 @@ const ProjectDetailScreen = (props) => {
             </View>
           )}
           renderHiddenItem={ (data, rowMap) => (
-            <TouchableOpacity onPress={()=>{deleteTask(data.item)}}>
+            <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
               <View style={styles.swipeItem}>
                 <Text>削除</Text>
               </View>
@@ -54,7 +54,7 @@ const ProjectDetailScreen = (props) => {
         <TouchableOpacity
           style={styles.addTaskButton}
           onPress={() => {
-            createSubTask(task);
+            createTask(project);
           }}>
           <Icon icon={faCirclePlus} size={34} />
         </TouchableOpacity>
