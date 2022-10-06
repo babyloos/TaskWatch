@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,10 +11,13 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { useTasks } from '../providers/TaskProvider';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectDetailScreen = (props) => {
-  const { createSubTask } = useTasks();
+  const { createSubTask, deleteTask } = useTasks();
   const task = props.route.params.task;
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
   return (
     <View style={styles.container}>
       <View style={styles.projectBox}>
@@ -23,35 +26,39 @@ const ProjectDetailScreen = (props) => {
           <Text>説明: {task.decription}</Text>
         </View>
       </View>
-      <SwipeListView
-        style={styles.projectBoxContainer}
-        data={task.subTasks}
-        keyExtractor={(item) => item._id.toHexString()}
-        renderItem = {({item}) => (
-          <View style={styles.taskBox}>
-            <View>
-              <Text>タスク名: {item.name}</Text>
-              <Text>説明: {item.descriptioin}</Text>
+      <ScrollView ref={scrollViewRef}
+        onContentSizeChange={(contentWidth, contentHeight)=> {
+          scrollViewRef?.current?.scrollTo({y: contentHeight});
+      }}>
+        <SwipeListView
+          data={task.subTasks}
+          keyExtractor={(item) => item._id.toHexString()}
+          renderItem = {({item}) => (
+            <View style={styles.taskBox}>
+              <View>
+                <Text>タスク名: {item.name}</Text>
+                <Text>説明: {item.descriptioin}</Text>
+              </View>
             </View>
-          </View>
-        )}
-        renderHiddenItem={ (data, rowMap) => (
-          <TouchableOpacity onPress={()=>{deleteTask(data.item)}}>
-            <View style={styles.swipeItem}>
-              <Text>削除</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        rightOpenValue={-58}
-        disableRightSwipe={true}
-      />
-      <TouchableOpacity
-        style={styles.addTaskButton}
-        onPress={() => {
-          createSubTask(task);
-        }}>
-        <Icon icon={faCirclePlus} size={34} />
-      </TouchableOpacity>
+          )}
+          renderHiddenItem={ (data, rowMap) => (
+            <TouchableOpacity onPress={()=>{deleteTask(data.item)}}>
+              <View style={styles.swipeItem}>
+                <Text>削除</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          rightOpenValue={-58}
+          disableRightSwipe={true}
+        />
+        <TouchableOpacity
+          style={styles.addTaskButton}
+          onPress={() => {
+            createSubTask(task);
+          }}>
+          <Icon icon={faCirclePlus} size={34} />
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
