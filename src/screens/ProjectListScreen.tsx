@@ -6,6 +6,7 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { useProjects } from '../providers/TaskProvider';
+import ProjectDelButton from '../components/ProjectDelButton';
 
 const ProjectListScreen = ({ navigation }) => {
   const { createProject, deleteItem, projects} = useProjects();
@@ -27,9 +28,7 @@ const ProjectListScreen = ({ navigation }) => {
         )}
         renderHiddenItem={(data, rowMap) => (
           <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
-            <View style={styles.swipeItem}>
-              <Text>削除</Text>
-            </View>
+            <ProjectDelButton text={'削除'}/>
           </TouchableOpacity>
         )}
         rightOpenValue={-102}
@@ -55,17 +54,6 @@ const styles = StyleSheet.create({
   },
   projectBoxContainer: {
     flex: 1,
-  },
-  swipeItem: {
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-    marginRight: 18,
-    borderRadius: 12,
-    width: 54,
-    height: 64,
-    backgroundColor: '#00FF00',
   },
   addProjectButton: {
     position: 'absolute',
