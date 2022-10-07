@@ -25,14 +25,14 @@ const ProjectListScreen = ({ navigation }) => {
             <ProjectBox navigation={navigation} project={item}/>
           </TouchableOpacity>
         )}
-        renderHiddenItem={ (data, rowMap) => (
+        renderHiddenItem={(data, rowMap) => (
           <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
             <View style={styles.swipeItem}>
               <Text>削除</Text>
             </View>
           </TouchableOpacity>
         )}
-        rightOpenValue={-58}
+        rightOpenValue={-102}
         disableRightSwipe={true}
         />
       <TouchableOpacity
@@ -51,6 +51,7 @@ export default ProjectListScreen;
 const styles = StyleSheet.create({
   body: {
     flex: 1,
+    alignItems: 'center',
   },
   projectBoxContainer: {
     flex: 1,
@@ -59,16 +60,16 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 18,
-    marginEnd: 32,
+    marginTop: 22,
+    marginRight: 18,
     borderRadius: 12,
-    width: 50,
+    width: 54,
     height: 64,
     backgroundColor: '#00FF00',
   },
   addProjectButton: {
     position: 'absolute',
-    bottom: 82,
-    right: 48,
+    bottom: 32,
+    right: 32,
   },
 });
