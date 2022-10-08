@@ -1,9 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Alert,
+} from 'react-native';
 import ProjectBox from '../components/ProjectBox';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import Dialog from "react-native-dialog";
 
 import { useProjects } from '../providers/TaskProvider';
 import ProjectDelButton from '../components/ProjectDelButton';
@@ -27,7 +34,22 @@ const ProjectListScreen = ({ navigation }) => {
           </TouchableOpacity>
         )}
         renderHiddenItem={(data, rowMap) => (
-          <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
+          <TouchableOpacity onPress={()=>{
+            Alert.alert(
+              data.item.name + ' を削除しますか？',
+              '',
+              [
+                {
+                  text: 'キャンセル',
+                },
+                {
+                  text: '削除',
+                  onPress: () => deleteItem(data.item),
+                }
+              ]
+            );
+            // deleteItem(data.item)
+          }}>
             <ProjectDelButton text={'削除'}/>
           </TouchableOpacity>
         )}
