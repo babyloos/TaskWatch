@@ -48,7 +48,6 @@ const ProjectListScreen = ({ navigation }) => {
                 }
               ]
             );
-            // deleteItem(data.item)
           }}>
             <ProjectDelButton text={'削除'}/>
           </TouchableOpacity>

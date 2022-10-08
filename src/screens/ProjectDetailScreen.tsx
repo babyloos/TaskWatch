@@ -11,6 +11,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import ProjectBox from '../components/ProjectBox';
+import TaskBox from '../components/TaskBox';
 import { useProjects } from '../providers/TaskProvider';
 
 const ProjectDetailScreen = (props) => {
@@ -29,12 +30,7 @@ const ProjectDetailScreen = (props) => {
           data={project.tasks}
           keyExtractor={(item) => item._id.toHexString()}
           renderItem = {({item}) => (
-            <View style={styles.taskBox}>
-              <View>
-                <Text>タスク名: {item.name}</Text>
-                <Text>説明: {item.descriptioin}</Text>
-              </View>
-            </View>
+            <TaskBox task={item}/>  
           )}
           renderHiddenItem={ (data, rowMap) => (
             <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
@@ -63,16 +59,6 @@ export default ProjectDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  taskBox: {
-    flexDirection: 'row',
-    backgroundColor: '#00FF00',
-    height: 64,
-    marginTop: 18,
-    marginStart: 48,
-    marginEnd: 32,
-    borderRadius: 12,
-    padding: 8,
   },
   swipeItem: {
     alignSelf: 'flex-end',
