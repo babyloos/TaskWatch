@@ -23,7 +23,7 @@ const ProjectEditScreen = (props) => {
           onPress={() => {
             updateProject(project, name, description);
             props.navigation.goBack();
-          }} 
+         }} 
           title="保存"
         />
       ),

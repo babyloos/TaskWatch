@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-import { faCirclePlus, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
-
-import { useProjects } from '../providers/TaskProvider';
 import { ScrollView } from 'react-native-gesture-handler';
+
+import ProjectBox from '../components/ProjectBox';
+import { useProjects } from '../providers/TaskProvider';
 
 const ProjectDetailScreen = (props) => {
   const { createTask, deleteItem } = useProjects();
@@ -19,17 +20,7 @@ const ProjectDetailScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.projectBox}>
-        <View style={styles.infoArea}>
-          <Text>プロジェクト名: {project.name}</Text>
-          <Text>説明: {project.description}</Text>
-        </View>
-        <View style={styles.editArea}>
-          <TouchableOpacity onPress={()=>{props.navigation.navigate('ProjectEdit', {title: project.name, project: project})}}>
-            <Icon icon={faPen} size={28} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <ProjectBox navigation={props.navigation} project={project} editable={true}/>
       <ScrollView ref={scrollViewRef}
         onContentSizeChange={(contentWidth, contentHeight)=> {
           scrollViewRef?.current?.scrollTo({y: contentHeight});
@@ -73,24 +64,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  projectBox: {
-    flexDirection: 'row',
-    backgroundColor: '#FF0000',
-    minHeight: 64,
-    marginTop: 18,
-    marginStart: 12,
-    marginEnd: 32,
-    borderRadius: 12,
-    padding: 8,
-  },
-  infoArea: {
-    flexDirection: 'column',
-    flex: 0.9,
-  },
-  editArea: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   taskBox: {
     flexDirection: 'row',
     backgroundColor: '#00FF00',
@@ -112,7 +85,6 @@ const styles = StyleSheet.create({
     height: 64,
     backgroundColor: '#00FF00',
   },
-
   addTaskButton: {
     alignSelf: 'flex-end',
     marginTop: 16,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,17 @@ import {
 } from 'react-native';
 import { NavigationState } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 type PropType = {
-  navigation: NavigationState;
-  task: any;
+  navigation?: NavigationState;
+  project: any;
+  editable?: boolean;
 };
 
-const ProjectBox = ({ navigation, project }: PropType) => {
+const ProjectBox = ({ navigation, project, editable}: PropType) => {
 
   const size = 12;
   const marginTop = 8;
@@ -40,16 +44,24 @@ const ProjectBox = ({ navigation, project }: PropType) => {
 
   return (
     <View style={[styles.projectBox, buttonCommonStyle, buttonOuterStyle]}>
-      <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle]}>
+      <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle, {}]}>
         <LinearGradient
           colors={gradColors}
           useAngle={true}
           angle={145}
           angleCenter={{ x: 0.5, y: 0.5 }}
           style={[styles.buttonFace, buttonFaceStyle]}>
-          <Text numberOfLines={1} ellipsizeMode={'tail'}>プロジェクト名: {project.name}</Text>
-          <Text numberOfLines={1} ellipsizeMode={'tail'}>説明: {project.description}</Text>
-          <Text>タスク数: </Text>
+           <View style={styles.infoArea}>
+              <Text numberOfLines={1} ellipsizeMode={'tail'}>プロジェクト名: {project.name}</Text>
+              <Text numberOfLines={1} ellipsizeMode={'tail'}>説明: {project.description}</Text>
+              <Text>タスク数: </Text>
+          </View>
+          <View 
+            style={[styles.editArea, {display: editable ? 'flex' : 'none'}]}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('ProjectEdit', {project: project})}}>
+              <Icon icon={faPen} size={28}/>
+            </TouchableOpacity>
+          </View>
         </LinearGradient>
       </View>
     </View>
@@ -75,5 +87,14 @@ const styles = StyleSheet.create({
   buttonFace: {
     padding: 12,
     borderRadius: 12,
-  }
+    flexDirection: 'row',
+  },
+  infoArea: {
+    flexDirection: 'column',
+    flex: 0.9,
+  },
+  editArea: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
