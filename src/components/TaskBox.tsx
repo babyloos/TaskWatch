@@ -9,7 +9,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from '../contants';
 
 const TaskBox = (task: any) => {
-
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
@@ -44,8 +43,8 @@ const TaskBox = (task: any) => {
             angle={145}
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
-            <Text>タスク名: {task.name}</Text>
-            <Text>説明: {task.descriptioin}</Text>
+            <Text>タスク名: {task.task.name}</Text>
+            <Text>説明: {task.task.descriptioin}</Text>
             <Text>合計時間: 10h</Text>
           </LinearGradient>
         </View>

@@ -1,4 +1,4 @@
-export default colors = {
+const colors = {
   main: '#70c7ff',
   taskBox: {
     main: '#2ecc8a',
@@ -10,3 +10,5 @@ export default colors = {
 };
 
 // ["#70c7ff", "#80daeb", "#67ddab", "#0b9b8a", "#909090"]
+
+export default colors;

@@ -42,10 +42,10 @@ const TasksProvider = ({ children }) => {
   };
 
   // プロジェクトを削除する
-  const deleteItem = (project) => {
+  const deleteItem = (item) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      projectRealm.delete(project);
+      projectRealm.delete(item);
     });
   };
 
@@ -70,7 +70,7 @@ const TasksProvider = ({ children }) => {
         createdAt: new Date(),
       });
     });
-  }
+  };
 
   // useTasks フックで Task を操作できるようにする
   return (

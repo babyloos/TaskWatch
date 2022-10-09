@@ -13,10 +13,10 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import Dialog from "react-native-dialog";
 
 import { useProjects } from '../providers/TaskProvider';
-import ProjectDelButton from '../components/ProjectDelButton';
+import DelButton from '../components/DelButton';
 
 const ProjectListScreen = ({ navigation }) => {
-  const { createProject, deleteItem, projects} = useProjects();
+  const { createProject, deleteItem, projects } = useProjects();
 
   return (
     <View style={styles.body}>
@@ -24,17 +24,17 @@ const ProjectListScreen = ({ navigation }) => {
         style={styles.projectBoxContainer}
         data={projects}
         keyExtractor={(item) => item._id.toHexString()}
-        renderItem = {({item}) => (
-          <TouchableOpacity 
+        renderItem={({ item }) => (
+          <TouchableOpacity
             activeOpacity={1}
-            onPress={()=>{
-              navigation.navigate('ProjectDetail', {title: item.name, project: item});
+            onPress={() => {
+              navigation.navigate('ProjectDetail', { title: item.name, project: item });
             }}>
-            <ProjectBox navigation={navigation} project={item}/>
+            <ProjectBox navigation={navigation} project={item} />
           </TouchableOpacity>
         )}
         renderHiddenItem={(data, rowMap) => (
-          <TouchableOpacity onPress={()=>{
+          <TouchableOpacity onPress={() => {
             Alert.alert(
               data.item.name + ' を削除しますか？',
               '',
@@ -49,12 +49,12 @@ const ProjectListScreen = ({ navigation }) => {
               ]
             );
           }}>
-            <ProjectDelButton text={'削除'}/>
+          <DelButton text={'削除'} />
           </TouchableOpacity>
         )}
         rightOpenValue={-102}
         disableRightSwipe={true}
-        />
+      />
       <TouchableOpacity
         style={styles.addProjectButton}
         onPress={() => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
@@ -13,6 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ProjectBox from '../components/ProjectBox';
 import TaskBox from '../components/TaskBox';
 import { useProjects } from '../providers/TaskProvider';
+import DelButton from '../components/DelButton';
 
 const ProjectDetailScreen = (props) => {
   const { createTask, deleteItem } = useProjects();
@@ -21,25 +22,38 @@ const ProjectDetailScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <ProjectBox navigation={props.navigation} project={project} editable={true}/>
+      <ProjectBox navigation={props.navigation} project={project} editable={true} />
       <ScrollView ref={scrollViewRef}
-        onContentSizeChange={(contentWidth, contentHeight)=> {
-          scrollViewRef?.current?.scrollTo({y: contentHeight});
-      }}>
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          scrollViewRef?.current?.scrollTo({ y: contentHeight });
+        }}>
         <SwipeListView
           data={project.tasks}
           keyExtractor={(item) => item._id.toHexString()}
-          renderItem = {({item}) => (
-            <TaskBox task={item}/>  
+          renderItem={({ item }) => (
+            <TaskBox task={item} />
           )}
-          renderHiddenItem={ (data, rowMap) => (
-            <TouchableOpacity onPress={()=>{deleteItem(data.item)}}>
-              <View style={styles.swipeItem}>
-                <Text>削除</Text>
-              </View>
+          renderHiddenItem={(data, rowMap) => (
+            <TouchableOpacity onPress={
+              () => {
+                Alert.alert(
+                  data.item.name + ' を削除しますか？',
+                  '',
+                  [
+                    {
+                      text: 'キャンセル',
+                    },
+                    {
+                      text: '削除',
+                      onPress: () => deleteItem(data.item),
+                    }
+                  ]
+                );
+              }}>
+              <DelButton text={'削除'} />
             </TouchableOpacity>
           )}
-          rightOpenValue={-58}
+          rightOpenValue={-102}
           disableRightSwipe={true}
         />
         <TouchableOpacity
