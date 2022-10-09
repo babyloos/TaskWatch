@@ -14,47 +14,54 @@ import Dialog from "react-native-dialog";
 
 import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectListScreen = ({ navigation }) => {
   const { createProject, deleteItem, projects } = useProjects();
+  const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (
     <View style={styles.body}>
-      <SwipeListView
-        style={styles.projectBoxContainer}
-        data={projects}
-        keyExtractor={(item) => item._id.toHexString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => {
-              navigation.navigate('ProjectDetail', { title: item.name, project: item });
+      <ScrollView ref={scrollViewRef}
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          scrollViewRef?.current?.scrollTo({ y: contentHeight });
+        }}>
+        <SwipeListView
+          style={styles.projectBoxContainer}
+          data={projects}
+          keyExtractor={(item) => item._id.toHexString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => {
+                navigation.navigate('ProjectDetail', { title: item.name, project: item });
+              }}>
+              <ProjectBox navigation={navigation} project={item} />
+            </TouchableOpacity>
+          )}
+          renderHiddenItem={(data, rowMap) => (
+            <TouchableOpacity onPress={() => {
+              Alert.alert(
+                data.item.name + ' を削除しますか？',
+                '',
+                [
+                  {
+                    text: 'キャンセル',
+                  },
+                  {
+                    text: '削除',
+                    onPress: () => deleteItem(data.item),
+                  }
+                ]
+              );
             }}>
-            <ProjectBox navigation={navigation} project={item} />
-          </TouchableOpacity>
-        )}
-        renderHiddenItem={(data, rowMap) => (
-          <TouchableOpacity onPress={() => {
-            Alert.alert(
-              data.item.name + ' を削除しますか？',
-              '',
-              [
-                {
-                  text: 'キャンセル',
-                },
-                {
-                  text: '削除',
-                  onPress: () => deleteItem(data.item),
-                }
-              ]
-            );
-          }}>
-          <DelButton text={'削除'} />
-          </TouchableOpacity>
-        )}
-        rightOpenValue={-102}
-        disableRightSwipe={true}
-      />
+            <DelButton text={'削除'} />
+            </TouchableOpacity>
+          )}
+          rightOpenValue={-102}
+          disableRightSwipe={true}
+        />
+      </ScrollView>
       <TouchableOpacity
         style={styles.addProjectButton}
         onPress={() => {
