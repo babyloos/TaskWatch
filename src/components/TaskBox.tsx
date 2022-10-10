@@ -70,8 +70,8 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
                 }}
               >
                 <Text>タスク名: {task.name}</Text>
-                <Text>説明: {task.description}</Text>
-                <Text>合計時間: 10h</Text>
+                <Text numberOfLines={isDetail ? undefined : 1}>説明: {task.description}</Text>
+                <Text numberOfLines={isDetail ? undefined : 1}>合計時間: 10h</Text>
               </TouchableOpacity>
             </View>
             <View

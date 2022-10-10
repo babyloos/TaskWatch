@@ -13,10 +13,10 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 type PropType = {
   navigation?: NavigationState;
   project: any;
-  editable?: boolean;
+  isDetail?: boolean;
 };
 
-const ProjectBox = ({ navigation, project, editable }: PropType) => {
+const ProjectBox = ({ navigation, project, isDetail }: PropType) => {
 
   const size = 12;
   const marginTop = 8;
@@ -52,12 +52,12 @@ const ProjectBox = ({ navigation, project, editable }: PropType) => {
           angleCenter={{ x: 0.5, y: 0.5 }}
           style={[styles.buttonFace, buttonFaceStyle]}>
           <View style={styles.infoArea}>
-            <Text numberOfLines={1} ellipsizeMode={'tail'}>プロジェクト名: {project.name}</Text>
-            <Text numberOfLines={1} ellipsizeMode={'tail'}>説明: {project.description}</Text>
+            <Text numberOfLines={isDetail ? undefined : 1}>プロジェクト名: {project.name}</Text>
+            <Text numberOfLines={isDetail ? undefined : 1}>説明: {project.description}</Text>
             <Text>タスク数: </Text>
           </View>
           <View
-            style={[styles.editArea, { display: editable ? 'flex' : 'none' }]}>
+            style={[styles.editArea, { display: isDetail ? 'flex' : 'none' }]}>
             <TouchableOpacity onPress={() => { navigation.navigate('ProjectEdit', { project: project }) }}>
               <Icon icon={faPen} size={28} />
             </TouchableOpacity>
@@ -91,10 +91,11 @@ const styles = StyleSheet.create({
   },
   infoArea: {
     flexDirection: 'column',
-    flex: 0.9,
+    flex: 1,
   },
   editArea: {
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 8,
   },
 });

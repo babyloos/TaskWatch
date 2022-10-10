@@ -22,7 +22,7 @@ const ProjectDetailScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <ProjectBox navigation={props.navigation} project={project} editable={true} />
+      <ProjectBox navigation={props.navigation} project={project} isDetail={true} />
       <ScrollView ref={scrollViewRef}
         onContentSizeChange={(contentWidth, contentHeight) => {
           scrollViewRef?.current?.scrollTo({ y: contentHeight });
