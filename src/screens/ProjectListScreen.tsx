@@ -55,7 +55,7 @@ const ProjectListScreen = ({ navigation }) => {
                 ]
               );
             }}>
-            <DelButton text={'削除'} />
+              <DelButton text={'削除'} />
             </TouchableOpacity>
           )}
           rightOpenValue={-102}

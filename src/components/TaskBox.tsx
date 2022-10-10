@@ -84,7 +84,7 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
               </View>
               <View style={{ display: showWatch ? 'flex' : 'none'}}>
                 <TouchableOpacity
-                  onPress={() => { navigation.navigate('Timer', { task: task }) }}>
+                  onPress={() => { navigation.navigate('Timer', { title: task.name, task: task }) }}>
                   <Icon icon={faClock} size={32} />
                 </TouchableOpacity>
               </View>
