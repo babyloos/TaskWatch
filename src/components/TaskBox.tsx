@@ -63,9 +63,16 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
             <View style={styles.infoArea}>
-              <Text>タスク名: {task.name}</Text>
-              <Text>説明: {task.description}</Text>
-              <Text>合計時間: 10h</Text>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => {
+                  navigation.navigate('TaskDetail', {title: task.name, task: task})
+                }}
+              >
+                <Text>タスク名: {task.name}</Text>
+                <Text>説明: {task.description}</Text>
+                <Text>合計時間: 10h</Text>
+              </TouchableOpacity>
             </View>
             <View
               style={[styles.editArea, { display: editable || showWatch ? 'flex' : 'none' }]}>
@@ -75,9 +82,9 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
                   <Icon icon={faPen} size={28} />
                 </TouchableOpacity>
               </View>
-              <View style={{ display: showWatch ? 'flex' : 'none' }}>
+              <View style={{ display: showWatch ? 'flex' : 'none'}}>
                 <TouchableOpacity
-                  onPress={() => { navigation.navigate('TaskEdit', { task: task }) }}>
+                  onPress={() => { navigation.navigate('Timer', { task: task }) }}>
                   <Icon icon={faClock} size={32} />
                 </TouchableOpacity>
               </View>

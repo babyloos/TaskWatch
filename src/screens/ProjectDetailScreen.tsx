@@ -31,13 +31,7 @@ const ProjectDetailScreen = (props) => {
           data={project.tasks}
           keyExtractor={(item) => item._id.toHexString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => {
-                props.navigation.navigate('TaskDetail', { title: item.name, task: item });
-              }}>
-              <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={true}/>
-            </TouchableOpacity>
+            <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={true}/>
           )}
           renderHiddenItem={(data, rowMap) => (
             <TouchableOpacity onPress={
@@ -94,6 +88,7 @@ const styles = StyleSheet.create({
   addTaskButton: {
     alignSelf: 'flex-end',
     marginTop: 16,
+    marginBottom: 16,
     marginRight: 32,
   }
 });

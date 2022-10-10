@@ -12,6 +12,7 @@ import { TasksProvider } from './src/providers/TaskProvider';
 import ProjectEditScreen from './src/screens/ProjectEditScreen';
 import TaskDetailScreen from './src/screens/TaskDetailScreen';
 import TaskEditScreen from './src/screens/TaskEditScreen';
+import TimerScreen from './src/screens/TimerScreen';
 
 const Stack = createNativeStackNavigator();
 const { RealmProvider, useRealm, useQuery } = createRealmContext()
@@ -71,6 +72,17 @@ const App = () => {
               component={TaskEditScreen}
               options={({ route }) => ({
                 title: route.params.title + ' - 編集',
+                headerStyle: {
+                  backgroundColor: '#61adf5',
+                },
+                contentStyle: styles.body,
+              })}
+            />
+            <Stack.Screen
+              name="Timer"
+              component={TimerScreen}
+              options={({ route }) => ({
+                title: route.params.title,
                 headerStyle: {
                   backgroundColor: '#61adf5',
                 },
