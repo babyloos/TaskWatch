@@ -12,12 +12,12 @@ const TasksProvider = ({ children }) => {
   useEffect(() => {
     realmRef.current = openRealm();
 
-    const projects = realmRef.current.objects('Project').sorted('createdAt', true);
+    const projects = realmRef.current.objects('Project').sorted('createdAt', false);
     setProjects(projects);
 
     // Project のデータが更新されたら setProjects する
     projects.addListener(() => {
-      const projects = realmRef.current.objects('Project').sorted('createdAt', true);
+      const projects = realmRef.current.objects('Project').sorted('createdAt', false);
       setProjects(projects);
     });
 
