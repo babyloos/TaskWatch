@@ -1,0 +1,52 @@
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { ScrollView } from 'react-native-gesture-handler';
+
+import ProjectBox from '../components/ProjectBox';
+import TaskBox from '../components/TaskBox';
+import { useProjects } from '../providers/TaskProvider';
+import DelButton from '../components/DelButton';
+
+const TaskDetailScreen = (props: any) => {
+  const { createTask, deleteItem } = useProjects();
+  const task = props.route.params.project;
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
+  return (
+    <View style={styles.container}>
+      <TaskBox navigation={props.navigation} task={task} editable={true} />
+    </View>
+  );
+}
+
+export default TaskDetailScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  swipeItem: {
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 18,
+    marginEnd: 32,
+    borderRadius: 12,
+    width: 50,
+    height: 64,
+    backgroundColor: '#00FF00',
+  },
+  addTaskButton: {
+    alignSelf: 'flex-end',
+    marginTop: 16,
+    marginRight: 32,
+  }
+});

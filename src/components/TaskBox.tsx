@@ -5,8 +5,15 @@ import {
   StyleSheet,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { NavigationState } from '@react-navigation/native';
 
 import colors from '../contants';
+
+type PropType = {
+  navigation?: NavigationState;
+  task: any;
+  editable?: boolean;
+};
 
 const TaskBox = (task: any) => {
   const size = 12;
@@ -43,8 +50,8 @@ const TaskBox = (task: any) => {
             angle={145}
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
-            <Text>タスク名: {task.task.name}</Text>
-            <Text>説明: {task.task.descriptioin}</Text>
+            <Text>タスク名: {task.name}</Text>
+            <Text>説明: {task.descriptioin}</Text>
             <Text>合計時間: 10h</Text>
           </LinearGradient>
         </View>

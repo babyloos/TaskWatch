@@ -10,6 +10,7 @@ import ProjectListScreen from './src/screens/ProjectListScreen';
 import ProjectDetailScreen from './src/screens/ProjectDetailScreen';
 import { TasksProvider } from './src/providers/TaskProvider';
 import ProjectEditScreen from './src/screens/ProjectEditScreen';
+import TaskDetailScreen from './src/screens/TaskDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const { RealmProvider, useRealm, useQuery } = createRealmContext()
@@ -53,10 +54,21 @@ const App = () => {
                 contentStyle: styles.body,
               })}
             />
+            <Stack.Screen
+              name="TaskDetail"
+              component={TaskDetailScreen}
+              options={({ route }) => ({
+                title: route.params.title,
+                headerStyle: {
+                  backgroundColor: '#61adf5',
+                },
+                contentStyle: styles.body,
+              })}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </TasksProvider>
-    </MenuProvider>
+    </MenuProvider >
   );
 }
 
