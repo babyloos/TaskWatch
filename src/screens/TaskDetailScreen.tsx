@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import ProjectBox from '../components/ProjectBox';
 import TaskBox from '../components/TaskBox';
+import WorkBox from '../components/WorkBox';
 import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
 
@@ -23,6 +24,13 @@ const TaskDetailScreen = (props: any) => {
   return (
     <View style={styles.container}>
       <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true}/>
+      <SwipeListView 
+          data={task.works}
+          keyExtractor={(item) => item._id.toHexString()}
+          renderItem={({ item }) => (
+            <WorkBox navigation={props.navigation} work={item}/>
+          )}
+      />
     </View>
   );
 };

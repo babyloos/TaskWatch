@@ -1,5 +1,5 @@
-// Taskの定義
-const projectSchema= {
+// Projectの定義
+const projectSchema = {
   name: 'Project',
   primaryKey: '_id',
   properties: {
@@ -19,6 +19,19 @@ const taskSchema = {
     _id: 'objectId',
     name: 'string',
     description: 'string?',
+    works: 'Work[]',
+    createdAt: 'date',
+  },
+};
+
+// Workの定義
+const workSchema = {
+  name: 'Work',
+  primaryKey: '_id',
+  properties: {
+    _id: 'objectId',
+    startTime: 'date',
+    endTime: 'date',
     createdAt: 'date',
   },
 };
@@ -26,11 +39,11 @@ const taskSchema = {
 // Realmの初期化
 export const openRealm = (): Realm => {
   const config = {
-    schema: [projectSchema, taskSchema],
-    schemaVersion: 3, // スキーマを変更したらインクリメントする(後述)
+    schema: [projectSchema, taskSchema, workSchema],
+    schemaVersion: 5, // スキーマを変更したらインクリメントする
   };
 
   return new Realm(config);
 };
 
-export {BSON} from 'realm';
+export { BSON } from 'realm';

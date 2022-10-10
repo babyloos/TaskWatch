@@ -14,12 +14,11 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 type PropType = {
   navigation?: NavigationState;
-  task: any;
+  work: any;
   editable?: boolean;
-  isDetail: any;
 };
 
-const TaskBox = ({ navigation, task, editable, isDetail = false }: PropType) => {
+const TaskBox = ({ navigation, work, editable}: PropType) => {
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
@@ -44,32 +43,24 @@ const TaskBox = ({ navigation, task, editable, isDetail = false }: PropType) => 
     padding: size,
   };
 
-  const alignItems = isDetail ? 'center' : 'flex-end';
-  const marginRight = isDetail ? 0 : 12;
-  const width = isDetail ? '95%' : '80%';
-  const marginLeft = isDetail ? 0 : 8;
-
   return (
-    <View style={{ alignItems: alignItems, marginRight: marginRight }}>
+    <View>
       <View style={[styles.boxOuter, buttonCommonStyle, buttonOuterStyle]}>
-        <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle, { width: width, marginLeft: marginLeft }]}>
+        <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle]}>
           <LinearGradient
             colors={gradColors}
             useAngle={true}
             angle={145}
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
-            <View style={styles.infoArea}>
-              <Text>タスク名: {task.name}</Text>
-              <Text>説明: {task.description}</Text>
-              <Text>合計時間: 10h</Text>
-            </View>
-            <View
-              style={[styles.editArea, { display: editable ? 'flex' : 'none' }]}>
-              <TouchableOpacity onPress={() => { navigation.navigate('TaskEdit', { task: task }) }}>
-                <Icon icon={faPen} size={28} />
-              </TouchableOpacity>
-            </View>
+          <View style={styles.infoArea}>
+            <Text>開始: 2022/08/01 14:00 ~ 2022/08/01 15:00</Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => { navigation.navigate('WorkEdit', { work: work}) }}>
+              <Icon icon={faPen} size={28} />
+            </TouchableOpacity>
+           </View>
           </LinearGradient>
         </View>
       </View>

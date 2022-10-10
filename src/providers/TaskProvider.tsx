@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, PropsWithChildren, useContext } fro
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import { openRealm, BSON } from '../realm';
 import { ObjectId } from 'mongodb';
-import { Project } from '../models/Project';
 
 const ProjectsContext = React.createContext(null);
 
@@ -67,8 +66,8 @@ const TasksProvider = ({ children }) => {
     });
   };
 
-  // サブタスクの新規作成
-  const createTask = (project: Project) => {
+  // タスクの新規作成
+  const createTask = (project) => {
     const projectRealm = realmRef.current;
     let tasks = project.tasks;
     projectRealm.write(() => {
@@ -76,6 +75,18 @@ const TasksProvider = ({ children }) => {
         _id: new BSON.ObjectID(),
         name: '新しいタスク',
         isDone: false,
+        createdAt: new Date(),
+      });
+    });
+  };
+
+  // ワークの新規作成
+  const createWork = (task) => {
+    const projectRealm = realmRef.current;
+    let works = task.works;
+    projectRealm.write(() => {
+      works.push({
+        _id: new BSON.ObjectID(),
         createdAt: new Date(),
       });
     });
@@ -90,6 +101,7 @@ const TasksProvider = ({ children }) => {
         updateProject,
         createTask,
         updateTask,
+        createWork,
         projects,
       }}>
       {children}
