@@ -13,9 +13,10 @@ type PropType = {
   navigation?: NavigationState;
   task: any;
   editable?: boolean;
+  isDetail: any;
 };
 
-const TaskBox = (task: any) => {
+const TaskBox = ({ navigation, task, editable, isDetail=false}) => {
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
@@ -40,10 +41,15 @@ const TaskBox = (task: any) => {
     padding: size,
   };
 
+  const alignItems = isDetail ? 'center' : 'flex-end';
+  const marginRight = isDetail ? 0 : 12;
+  const width = isDetail ? '95%' : '80%';
+  const marginLeft = isDetail ? 0 : 8;
+
   return (
-    <View style={{ alignItems: "flex-end", marginRight: 12 }}>
+    <View style={{ alignItems: alignItems, marginRight: marginRight}}>
       <View style={[styles.boxOuter, buttonCommonStyle, buttonOuterStyle]}>
-        <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle]}>
+        <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle, {width: width, marginLeft: marginLeft}]}>
           <LinearGradient
             colors={gradColors}
             useAngle={true}

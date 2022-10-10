@@ -17,15 +17,15 @@ import DelButton from '../components/DelButton';
 
 const TaskDetailScreen = (props: any) => {
   const { createTask, deleteItem } = useProjects();
-  const task = props.route.params.project;
+  const task = props.route.params.task;
   const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (
     <View style={styles.container}>
-      <TaskBox navigation={props.navigation} task={task} editable={true} />
+      <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true}/>
     </View>
   );
-}
+};
 
 export default TaskDetailScreen;
 
