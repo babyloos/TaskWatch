@@ -11,15 +11,18 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 
 import colors from '../contants';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+
 
 type PropType = {
   navigation?: NavigationState;
   task: any;
   editable?: boolean;
-  isDetail: any;
+  isDetail?: boolean;
+  showWatch?: boolean;
 };
 
-const TaskBox = ({ navigation, task, editable, isDetail = false }: PropType) => {
+const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = false }: PropType) => {
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
@@ -65,15 +68,24 @@ const TaskBox = ({ navigation, task, editable, isDetail = false }: PropType) => 
               <Text>合計時間: 10h</Text>
             </View>
             <View
-              style={[styles.editArea, { display: editable ? 'flex' : 'none' }]}>
-              <TouchableOpacity onPress={() => { navigation.navigate('TaskEdit', { task: task }) }}>
-                <Icon icon={faPen} size={28} />
-              </TouchableOpacity>
+              style={[styles.editArea, { display: editable || showWatch ? 'flex' : 'none' }]}>
+              <View style={{ display: editable ? 'flex' : 'none' }}>
+                <TouchableOpacity
+                  onPress={() => { navigation.navigate('TaskEdit', { task: task }) }}>
+                  <Icon icon={faPen} size={28} />
+                </TouchableOpacity>
+              </View>
+              <View style={{ display: showWatch ? 'flex' : 'none' }}>
+                <TouchableOpacity
+                  onPress={() => { navigation.navigate('TaskEdit', { task: task }) }}>
+                  <Icon icon={faClock} size={32} />
+                </TouchableOpacity>
+              </View>
             </View>
           </LinearGradient>
         </View>
-      </View>
-    </View>
+      </View >
+    </View >
   );
 };
 
