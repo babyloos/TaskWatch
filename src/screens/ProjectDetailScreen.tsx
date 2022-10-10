@@ -36,7 +36,7 @@ const ProjectDetailScreen = (props) => {
               onPress={() => {
                 props.navigation.navigate('TaskDetail', { title: item.name, task: item });
               }}>
-              <TaskBox navigation={props.navigation} task={item} editable={true}/>
+              <TaskBox navigation={props.navigation} task={item} editable={false} />
             </TouchableOpacity>
           )}
           renderHiddenItem={(data, rowMap) => (

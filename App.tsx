@@ -11,6 +11,7 @@ import ProjectDetailScreen from './src/screens/ProjectDetailScreen';
 import { TasksProvider } from './src/providers/TaskProvider';
 import ProjectEditScreen from './src/screens/ProjectEditScreen';
 import TaskDetailScreen from './src/screens/TaskDetailScreen';
+import TaskEditScreen from './src/screens/TaskEditScreen';
 
 const Stack = createNativeStackNavigator();
 const { RealmProvider, useRealm, useQuery } = createRealmContext()
@@ -65,6 +66,18 @@ const App = () => {
                 contentStyle: styles.body,
               })}
             />
+            <Stack.Screen
+              name="TaskEdit"
+              component={TaskEditScreen}
+              options={({ route }) => ({
+                title: route.params.title + ' - 編集',
+                headerStyle: {
+                  backgroundColor: '#61adf5',
+                },
+                contentStyle: styles.body,
+              })}
+            />
+
           </Stack.Navigator>
         </NavigationContainer>
       </TasksProvider>

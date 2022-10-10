@@ -58,6 +58,15 @@ const TasksProvider = ({ children }) => {
     });
   };
 
+  // タスクの更新
+  const updateTask = (task, name, description) => {
+    const projectRealm = realmRef.current;
+    projectRealm.write(() => {
+      task.name = name;
+      task.description = description;
+    });
+  };
+
   // サブタスクの新規作成
   const createTask = (project: Project) => {
     const projectRealm = realmRef.current;
@@ -80,6 +89,7 @@ const TasksProvider = ({ children }) => {
         deleteItem,
         updateProject,
         createTask,
+        updateTask,
         projects,
       }}>
       {children}

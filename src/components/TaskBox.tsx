@@ -6,8 +6,11 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationState } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 
 import colors from '../contants';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 type PropType = {
   navigation?: NavigationState;
@@ -56,9 +59,17 @@ const TaskBox = ({ navigation, task, editable, isDetail=false}) => {
             angle={145}
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
+          <View style={styles.infoArea}>
             <Text>タスク名: {task.name}</Text>
-            <Text>説明: {task.descriptioin}</Text>
+            <Text>説明: {task.description}</Text>
             <Text>合計時間: 10h</Text>
+          </View>
+          <View
+            style={[styles.editArea, { display: editable ? 'flex' : 'none' }]}>
+            <TouchableOpacity onPress={() => { navigation.navigate('TaskEdit', { task: task}) }}>
+              <Icon icon={faPen} size={28} />
+            </TouchableOpacity>
+           </View>
           </LinearGradient>
         </View>
       </View>
@@ -85,14 +96,15 @@ const styles = StyleSheet.create({
   buttonFace: {
     padding: 12,
     borderRadius: 12,
-    flexDirection: 'column',
+    flexDirection: 'row',
   },
   infoArea: {
+    flex: 1,
     flexDirection: 'column',
-    flex: 0.9,
   },
   editArea: {
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 8,
   },
 });
