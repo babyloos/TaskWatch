@@ -13,7 +13,6 @@ import colors from '../contants';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 
-
 type PropType = {
   navigation?: NavigationState;
   task: any;
