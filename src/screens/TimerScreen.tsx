@@ -62,7 +62,9 @@ const TimerScreen = ({navigation, task}: PropType) => {
           if (intervalId == null) {
             resetWatch()
           }
-        }}>
+        }}
+          activeOpacity={intervalId != null}
+        >
           <Text style={[styles.button, {color: intervalId ? 'gray' : 'red'}]}>リセット</Text>
         </TouchableOpacity>
         <Text style={[styles.button, {marginTop: 32, color: 'blue'}]}>保存</Text>
