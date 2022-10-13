@@ -13,6 +13,7 @@ import { faPauseCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import WatchDisplay from '../components/WatchDisplay';
+import { useProjects } from '../providers/TaskProvider';
 
 type PropType = {
   navigation: NavigationState;
@@ -20,6 +21,7 @@ type PropType = {
 };
 
 const TimerScreen = ({navigation, task}: PropType) => {
+  const { updateWork } = useProjects();
   const [time, setTime] = useState(0)
   const intervalId = useRef(null)
   const [inActionTimer, setInActionTimer] = useState(false)
@@ -40,7 +42,7 @@ const TimerScreen = ({navigation, task}: PropType) => {
     if (nextAppState === 'inactive') {
       // TODO
       // inactive移行時に経過時間を保存
-      stopWatch()
+      stopWatch(true)
     } else if (nextAppState === 'active') {
       // 保存していたタイマを読み出し
     }
@@ -53,13 +55,17 @@ const TimerScreen = ({navigation, task}: PropType) => {
     }, 1000)
     console.log('start: ' + intervalId.current)
     setInActionTimer(true)
+    
   }
 
-  const stopWatch = () => {
+  const stopWatch = (pause: boolean) => {
     console.log('stop: ' + intervalId.current)
     clearInterval(intervalId.current)
     intervalId.current = null
     setInActionTimer(false)
+    if (pause) {
+      updateWork(work, new Date())
+    }
   }
 
   const resetWatch = () => {
@@ -76,7 +82,7 @@ const TimerScreen = ({navigation, task}: PropType) => {
           if (intervalId.current == null) {
             startWatch()
           } else {
-            stopWatch()
+            stopWatch(false)
           }
         }}>
           <Icon icon={faPlayCircle} size={102} style={{display: inActionTimer ? 'none' : 'flex'}}/>
