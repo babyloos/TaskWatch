@@ -23,13 +23,13 @@ const TaskDetailScreen = (props: any) => {
 
   return (
     <View style={styles.container}>
-      <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true}/>
-      <SwipeListView 
-          data={task.works}
-          keyExtractor={(item) => item._id.toHexString()}
-          renderItem={({ item }) => (
-            <WorkBox navigation={props.navigation} work={item}/>
-          )}
+      <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true} showWatch={true}/>
+      <SwipeListView
+        data={task.works}
+        keyExtractor={(item) => item._id.toHexString()}
+        renderItem={({ item }) => (
+          <WorkBox navigation={props.navigation} work={item} />
+        )}
       />
     </View>
   );

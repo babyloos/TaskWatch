@@ -81,7 +81,7 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
                   <Icon icon={faPen} size={28} />
                 </TouchableOpacity>
               </View>
-              <View style={{ display: showWatch ? 'flex' : 'none'}}>
+              <View style={{ display: showWatch ? 'flex' : 'none', marginTop: 24}}>
                 <TouchableOpacity
                   onPress={() => { navigation.navigate('Timer', { title: task.name, task: task }) }}>
                   <Icon icon={faClock} size={32} />
@@ -124,5 +124,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 8,
+    margin: 8,
+    flex: 0.1,
   },
 });
