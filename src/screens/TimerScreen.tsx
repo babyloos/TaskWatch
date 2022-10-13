@@ -1,12 +1,12 @@
-import {useState} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { NavigationState } from '@react-navigation/native';
 import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
+  AppState,
 } from 'react-native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faPauseCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
@@ -20,20 +20,46 @@ type PropType = {
 };
 
 const TimerScreen = ({navigation, task}: PropType) => {
-  const [time, setTime] = useState(0);
-  const [intervalId, setIntervalId] = useState(null);
+  const [time, setTime] = useState(0)
+  const intervalId = useRef(null)
+  const [inActionTimer, setInActionTimer] = useState(false)
+  const [appState, setAppState] = useState(AppState.currentState)
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', _handleAppStateChange)
+
+    return () => {
+      subscription.remove()
+    }
+   }, [])
+
+  const _handleAppStateChange = (nextAppState: any) => {
+    setAppState(nextAppState)
+
+    // ここをactiveやinactiveに変えることでそれぞれの状態の時に発火できる
+    if (nextAppState === 'inactive') {
+      // TODO
+      // inactive移行時に経過時間を保存
+      stopWatch()
+    } else if (nextAppState === 'active') {
+      // 保存していたタイマを読み出し
+    }
+  }
 
   const startWatch = () => {
-    const startTime = new Date().getTime();
-    const id = setInterval(() => {
+    const startTime = new Date().getTime()
+    intervalId.current = setInterval(()=>{
       setTime(new Date().getTime() - startTime + time)
-    }, 10);
-    setIntervalId(id);
+    }, 1000)
+    console.log('start: ' + intervalId.current)
+    setInActionTimer(true)
   }
 
   const stopWatch = () => {
-    clearInterval(intervalId)
-    setIntervalId(null)
+    console.log('stop: ' + intervalId.current)
+    clearInterval(intervalId.current)
+    intervalId.current = null
+    setInActionTimer(false)
   }
 
   const resetWatch = () => {
@@ -47,25 +73,25 @@ const TimerScreen = ({navigation, task}: PropType) => {
       </View>
       <View style={styles.play}>
         <TouchableWithoutFeedback onPress={() => {
-          if (intervalId == null) {
+          if (intervalId.current == null) {
             startWatch()
           } else {
             stopWatch()
           }
         }}>
-          <Icon icon={faPlayCircle} size={102} style={{display: intervalId ? 'none' : 'flex'}}/>
-          <Icon icon={faPauseCircle} size={102} style={{display: intervalId ? 'flex' : 'none'}}/>
+          <Icon icon={faPlayCircle} size={102} style={{display: inActionTimer ? 'none' : 'flex'}}/>
+          <Icon icon={faPauseCircle} size={102} style={{display: inActionTimer ? 'flex' : 'none'}}/>
         </TouchableWithoutFeedback>
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity onPress={()=>{
-          if (intervalId == null) {
+          if (intervalId.current == null) {
             resetWatch()
           }
         }}
-          activeOpacity={intervalId != null}
+          activeOpacity={intervalId.current != null}
         >
-          <Text style={[styles.button, {color: intervalId ? 'gray' : 'red'}]}>リセット</Text>
+          <Text style={[styles.button, {color: intervalId.current ? 'gray' : 'red'}]}>リセット</Text>
         </TouchableOpacity>
         <Text style={[styles.button, {marginTop: 32, color: 'blue'}]}>保存</Text>
       </View>
