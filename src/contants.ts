@@ -6,6 +6,13 @@ const colors = {
     grad2: '#29b87c',
     shadow1: '#70c7ff',
     shadow2: '#5293d0',
+  },
+  workBox: {
+    main: '#b8c7c1',
+    grad1: '#c5d5cf',
+    grad2: '#a6b3ae',
+    shadow1: '#70c7ff',
+    shadow2: '#5293d0',
   }
 };
 

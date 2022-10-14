@@ -22,7 +22,7 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
-  const gradColors = [colors.taskBox.grad1, colors.taskBox.grad2];
+  const gradColors = [colors.workBox.grad1, colors.workBox.grad2];
 
   const buttonCommonStyle = {
     borderRadius: size,
@@ -35,7 +35,7 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
   };
   const buttonInnerStyle = {
     shadowOffset: { width: -size / 4, height: -size / 4 },
-    width: '80%',
+    width: '90%',
     marginLeft: 8,
   };
   const buttonFaceStyle = {
@@ -44,7 +44,7 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
   };
 
   return (
-    <View>
+    <View style={{alignItems: 'flex-end', marginRight: 12}}>
       <View style={[styles.boxOuter, buttonCommonStyle, buttonOuterStyle]}>
         <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle]}>
           <LinearGradient
@@ -54,9 +54,10 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
           <View style={styles.infoArea}>
-            <Text>開始: 2022/08/01 14:00 ~ 2022/08/01 15:00</Text>
+            <Text>2022/08/01 14:00 ~ 2022/08/01 15:00</Text>
+            <Text style={{marginTop: 8}}>作業時間: 1h</Text>
           </View>
-          <View>
+          <View style={styles.editArea}>
             <TouchableOpacity onPress={() => { navigation.navigate('WorkEdit', { work: work}) }}>
               <Icon icon={faPen} size={28} />
             </TouchableOpacity>
@@ -76,12 +77,12 @@ const styles = StyleSheet.create({
     minHeight: 64,
     borderRadius: 12,
     padding: 8,
-    shadowColor: colors.taskBox.shadow2,
+    shadowColor: colors.workBox.shadow2,
     shadowOpacity: 1.0,
   },
   boxInner: {
-    backgroundColor: colors.taskBox.main,
-    shadowColor: colors.taskBox.shadow1,
+    backgroundColor: colors.workBox.main,
+    shadowColor: colors.workBox.shadow1,
     shadowOpacity: 0.5,
   },
   buttonFace: {

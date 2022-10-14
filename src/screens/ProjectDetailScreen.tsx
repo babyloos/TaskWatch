@@ -74,17 +74,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  swipeItem: {
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 18,
-    marginEnd: 32,
-    borderRadius: 12,
-    width: 50,
-    height: 64,
-    backgroundColor: '#00FF00',
-  },
   addTaskButton: {
     alignSelf: 'flex-end',
     marginTop: 16,

@@ -4,31 +4,54 @@ import {
   View,
   Alert,
   TouchableOpacity,
+  Text,
 } from 'react-native';
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import ProjectBox from '../components/ProjectBox';
 import TaskBox from '../components/TaskBox';
 import WorkBox from '../components/WorkBox';
-import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
+import { useProjects } from '../providers/TaskProvider';
 
 const TaskDetailScreen = (props: any) => {
+  const { deleteItem } = useProjects();
   const task = props.route.params.task;
-  const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (
     <View style={styles.container}>
       <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true} showWatch={true}/>
+      <View style={{marginLeft: 18}}>
+        <Text>作業履歴</Text>
+      </View>
       <SwipeListView
         data={task.works}
         keyExtractor={(item) => item._id.toHexString()}
         renderItem={({ item }) => (
           <WorkBox navigation={props.navigation} work={item} />
         )}
+        renderHiddenItem={(data, rowMap) => (
+          <TouchableOpacity onPress={
+            () => {
+              Alert.alert(
+                '作業記録を削除しますか？',
+                '',
+                [
+                  {
+                    text: 'キャンセル',
+                  },
+                  {
+                    text: '削除',
+                    onPress: () => deleteItem(data.item),
+                  }
+                ]
+              );
+            }}>
+            <DelButton text={'削除'} />
+          </TouchableOpacity>
+        )}
+        rightOpenValue={-102}
+        disableRightSwipe={true}
       />
     </View>
   );
@@ -39,17 +62,6 @@ export default TaskDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  swipeItem: {
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 18,
-    marginEnd: 32,
-    borderRadius: 12,
-    width: 50,
-    height: 64,
-    backgroundColor: '#00FF00',
   },
   addTaskButton: {
     alignSelf: 'flex-end',
