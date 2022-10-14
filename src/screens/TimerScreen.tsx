@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavigationState } from '@react-navigation/native';
 import React from 'react';
 import {
@@ -20,12 +20,14 @@ type PropType = {
   task: any;
 };
 
-const TimerScreen = ({navigation, task}: PropType) => {
+const TimerScreen = ({ navigation, work }: PropType) => {
   const { updateWork } = useProjects();
   const [time, setTime] = useState(0)
   const intervalId = useRef(null)
   const [inActionTimer, setInActionTimer] = useState(false)
   const [appState, setAppState] = useState(AppState.currentState)
+
+  // workが存在しなければ作成する
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', _handleAppStateChange)
@@ -33,7 +35,7 @@ const TimerScreen = ({navigation, task}: PropType) => {
     return () => {
       subscription.remove()
     }
-   }, [])
+  }, [])
 
   const _handleAppStateChange = (nextAppState: any) => {
     setAppState(nextAppState)
@@ -50,12 +52,11 @@ const TimerScreen = ({navigation, task}: PropType) => {
 
   const startWatch = () => {
     const startTime = new Date().getTime()
-    intervalId.current = setInterval(()=>{
+    intervalId.current = setInterval(() => {
       setTime(new Date().getTime() - startTime + time)
     }, 1000)
     console.log('start: ' + intervalId.current)
     setInActionTimer(true)
-    
   }
 
   const stopWatch = (pause: boolean) => {
@@ -63,9 +64,6 @@ const TimerScreen = ({navigation, task}: PropType) => {
     clearInterval(intervalId.current)
     intervalId.current = null
     setInActionTimer(false)
-    if (pause) {
-      updateWork(work, new Date())
-    }
   }
 
   const resetWatch = () => {
@@ -75,7 +73,7 @@ const TimerScreen = ({navigation, task}: PropType) => {
   return (
     <View style={styles.container}>
       <View style={styles.timerContainer}>
-        <WatchDisplay time={time}/>
+        <WatchDisplay time={time} />
       </View>
       <View style={styles.play}>
         <TouchableWithoutFeedback onPress={() => {
@@ -85,25 +83,25 @@ const TimerScreen = ({navigation, task}: PropType) => {
             stopWatch(false)
           }
         }}>
-          <Icon icon={faPlayCircle} size={102} style={{display: inActionTimer ? 'none' : 'flex'}}/>
-          <Icon icon={faPauseCircle} size={102} style={{display: inActionTimer ? 'flex' : 'none'}}/>
+          <Icon icon={faPlayCircle} size={102} style={{ display: inActionTimer ? 'none' : 'flex' }} />
+          <Icon icon={faPauseCircle} size={102} style={{ display: inActionTimer ? 'flex' : 'none' }} />
         </TouchableWithoutFeedback>
       </View>
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={()=>{
+        <TouchableOpacity onPress={() => {
           if (intervalId.current == null) {
             resetWatch()
           }
         }}
           activeOpacity={intervalId.current != null}
         >
-          <Text style={[styles.button, {color: intervalId.current ? 'gray' : 'red'}]}>リセット</Text>
+          <Text style={[styles.button, { color: intervalId.current ? 'gray' : 'red' }]}>リセット</Text>
         </TouchableOpacity>
-        <Text style={[styles.button, {marginTop: 32, color: 'blue'}]}>保存</Text>
+        <Text style={[styles.button, { marginTop: 32, color: 'blue' }]}>保存</Text>
       </View>
       <View style={styles.exps}>
-        <Text style={{color: 'gray'}}>リセットボタンでタイマーのリセット</Text>
-        <Text style={{color: 'gray'}}>
+        <Text style={{ color: 'gray' }}>リセットボタンでタイマーのリセット</Text>
+        <Text style={{ color: 'gray' }}>
           保存ボタンを押すと経過時間が保存され、タイマーがリセットされます。
         </Text>
       </View>
@@ -122,7 +120,7 @@ const styles = StyleSheet.create({
   timerContainer: {
     marginTop: 32,
   },
-    play: {
+  play: {
     marginTop: 48,
   },
   buttons: {

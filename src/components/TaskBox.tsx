@@ -8,10 +8,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import { NavigationState } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-
-import colors from '../contants';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+
+import colors from '../contants';
+import { useProjects } from '../providers/TaskProvider';
 
 type PropType = {
   navigation?: NavigationState;
@@ -22,6 +23,7 @@ type PropType = {
 };
 
 const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = false }: PropType) => {
+  const { createWork, getResentWork } = useProjects();
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
@@ -83,7 +85,12 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
               </View>
               <View style={{ display: showWatch ? 'flex' : 'none', marginTop: 24}}>
                 <TouchableOpacity
-                  onPress={() => { navigation.navigate('Timer', { title: task.name, task: task }) }}>
+                  onPress={() => { 
+                    createWork(task)
+                    const work = getResentWork()
+                    console.log(work)
+                    navigation.navigate('Timer', { title: task.name, work: work}) 
+                  }}>
                   <Icon icon={faClock} size={32} />
                 </TouchableOpacity>
               </View>

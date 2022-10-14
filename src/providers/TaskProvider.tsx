@@ -81,18 +81,28 @@ const TasksProvider = ({ children }) => {
   };
 
   // ワークの新規作成
-  const createWork = (task) => {
+  const createWork = (task: any) => {
     const projectRealm = realmRef.current;
     let works = task.works;
-    projectRealm.write(() => {
+    const ret = projectRealm.write(() => {
       works.push({
         _id: new BSON.ObjectID(),
+        startTime: null,
+        endTime: null,
+        pauseTime: null,
+        workTime: null,
         inActive: false,
-        startTime: new Date(),
         createdAt: new Date(),
       });
     });
+    console.log(ret)
   };
+
+  // 最後に追加したワークを取得する
+  const getResentWork = () => {
+    const resentWork = realmRef.current.objects('Work').sorted('createdAt', false)[0]
+    return resentWork
+  }
 
   // ワークの更新
   const updateWork = (work: any, startTime: Date, endTime: Date, pauseTime: Date) => {
@@ -113,6 +123,7 @@ const TasksProvider = ({ children }) => {
         updateTask,
         createWork,
         updateWork,
+        getResentWork,
         projects,
       }}>
       {children}

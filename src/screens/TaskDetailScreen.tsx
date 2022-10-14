@@ -17,7 +17,6 @@ import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
 
 const TaskDetailScreen = (props: any) => {
-  const { createTask, deleteItem } = useProjects();
   const task = props.route.params.task;
   const scrollViewRef = React.useRef<ScrollView>(null);
 

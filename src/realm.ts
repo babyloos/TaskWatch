@@ -30,11 +30,11 @@ const workSchema = {
   primaryKey: '_id',
   properties: {
     _id: 'objectId',
-    startTime: 'date',
+    startTime: 'date?',
     inActive: 'bool',
-    endTime: 'date',
-    pauseTime: 'date',
-    workTime: 'int',
+    endTime: 'date?',
+    pauseTime: 'date?',
+    workTime: 'int?',
     createdAt: 'date',
   },
 };
@@ -43,7 +43,7 @@ const workSchema = {
 export const openRealm = (): Realm => {
   const config = {
     schema: [projectSchema, taskSchema, workSchema],
-    schemaVersion: 10, // スキーマを変更したらインクリメントする
+    schemaVersion: 11, // スキーマを変更したらインクリメントする
   };
 
   return new Realm(config);
