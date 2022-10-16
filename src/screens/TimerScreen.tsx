@@ -23,9 +23,6 @@ const TimerScreen = (props) => {
   const [inActionTimer, setInActionTimer] = useState(false)
   const [appState, setAppState] = useState(AppState.currentState)
 
-  console.log('ref work:')
-  console.log(work)
-
   // workが存在しなければ作成する
 
   useEffect(() => {
@@ -54,8 +51,8 @@ const TimerScreen = (props) => {
     intervalId.current = setInterval(() => {
       setTime(new Date().getTime() - startTime + time)
     }, 1000)
-    updateWork(work, new Date(), null, null, null, null)
     setInActionTimer(true)
+    updateWork(work, new Date(), null, true, null, null)
   }
 
   const stopWatch = (pause: boolean) => {
@@ -63,10 +60,17 @@ const TimerScreen = (props) => {
     clearInterval(intervalId.current)
     intervalId.current = null
     setInActionTimer(false)
+    updateWork(work, null, null, false, null, null)
   }
 
   const resetWatch = () => {
     setTime(0)
+  }
+
+  const saveWatch = () => {
+    updateWork(work, null, new Date(), null, null, null)
+    console.log('endTime')
+    console.log(work)
   }
 
   return (
@@ -96,7 +100,15 @@ const TimerScreen = (props) => {
         >
           <Text style={[styles.button, { color: intervalId.current ? 'gray' : 'red' }]}>リセット</Text>
         </TouchableOpacity>
-        <Text style={[styles.button, { marginTop: 32, color: 'blue' }]}>保存</Text>
+        <TouchableOpacity onPress={() => {
+          if (intervalId.current == null) {
+            saveWatch() 
+          }
+        }}
+          activeOpacity={intervalId.current != null}
+        >
+          <Text style={[styles.button, { marginTop: 32, color: intervalId.current ? 'gray' : 'blue' }]}>保存</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.exps}>
         <Text style={{ color: 'gray' }}>リセットボタンでタイマーのリセット</Text>

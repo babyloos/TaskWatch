@@ -108,10 +108,10 @@ const TasksProvider = ({ children }) => {
     const projectRealm = realmRef.current
     projectRealm.write(() => {
       work.startTime = startTime ?? work.startTime;
-      // work.endTime = endTime ?? work.endTime;
-      // work.inActive = inActive ?? work.inActive;
-      // work.pauseTime = pauseTime ?? work.pauseTime;
-      // work.workTime = workTime ?? work.workTime;
+      work.endTime = endTime ?? work.endTime;
+      work.inActive = inActive ?? work.inActive;
+      work.pauseTime = pauseTime ?? work.pauseTime;
+      work.workTime = workTime ?? work.workTime;
     })
   }
 
