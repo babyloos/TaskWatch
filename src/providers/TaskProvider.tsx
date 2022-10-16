@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, PropsWithChildren, useContext } from 'react';
-import { Float } from 'react-native/Libraries/Types/CodegenTypes';
+import { Float, Int32 } from 'react-native/Libraries/Types/CodegenTypes';
 import { openRealm, BSON } from '../realm';
 import { ObjectId } from 'mongodb';
 
@@ -84,7 +84,7 @@ const TasksProvider = ({ children }) => {
   const createWork = (task: any) => {
     const projectRealm = realmRef.current;
     let works = task.works;
-    const ret = projectRealm.write(() => {
+    projectRealm.write(() => {
       works.push({
         _id: new BSON.ObjectID(),
         startTime: null,
@@ -95,20 +95,23 @@ const TasksProvider = ({ children }) => {
         createdAt: new Date(),
       });
     });
-    console.log(ret)
   };
 
   // 最後に追加したワークを取得する
   const getResentWork = () => {
-    const resentWork = realmRef.current.objects('Work').sorted('createdAt', false)[0]
+    const resentWork = realmRef.current.objects('Work').sorted('createdAt', true)[0]
     return resentWork
   }
 
   // ワークの更新
-  const updateWork = (work: any, startTime: Date, endTime: Date, pauseTime: Date) => {
+  const updateWork = (work: any, startTime?: Date, endTime?: Date, inActive?: boolean, pauseTime?: Date, workTime?: Int32) => {
     const projectRealm = realmRef.current
     projectRealm.write(() => {
-      work.pauseTime = pauseTime;
+      work.startTime = startTime ?? work.startTime;
+      // work.endTime = endTime ?? work.endTime;
+      // work.inActive = inActive ?? work.inActive;
+      // work.pauseTime = pauseTime ?? work.pauseTime;
+      // work.workTime = workTime ?? work.workTime;
     })
   }
 

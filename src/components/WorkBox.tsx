@@ -54,8 +54,7 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
           <View style={styles.infoArea}>
-            <Text>2022/08/01 14:00 ~ 2022/08/01 15:00</Text>
-            <Text style={{marginTop: 8}}>作業時間: 1h</Text>
+            <Text>{work.startTime?.toString() ?? 'null'}</Text>
           </View>
           <View style={styles.editArea}>
             <TouchableOpacity onPress={() => { navigation.navigate('WorkEdit', { work: work}) }}>

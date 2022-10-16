@@ -15,17 +15,16 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import WatchDisplay from '../components/WatchDisplay';
 import { useProjects } from '../providers/TaskProvider';
 
-type PropType = {
-  navigation: NavigationState;
-  task: any;
-};
-
-const TimerScreen = ({ navigation, work }: PropType) => {
+const TimerScreen = (props) => {
+  const work = props.route.params.work
   const { updateWork } = useProjects();
   const [time, setTime] = useState(0)
   const intervalId = useRef(null)
   const [inActionTimer, setInActionTimer] = useState(false)
   const [appState, setAppState] = useState(AppState.currentState)
+
+  console.log('ref work:')
+  console.log(work)
 
   // workが存在しなければ作成する
 
@@ -55,7 +54,7 @@ const TimerScreen = ({ navigation, work }: PropType) => {
     intervalId.current = setInterval(() => {
       setTime(new Date().getTime() - startTime + time)
     }, 1000)
-    console.log('start: ' + intervalId.current)
+    updateWork(work, new Date(), null, null, null, null)
     setInActionTimer(true)
   }
 
