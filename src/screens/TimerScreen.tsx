@@ -87,7 +87,8 @@ const TimerScreen = (props) => {
   }
 
   const saveWatch = () => {
-    updateWork(work, null, new Date(), null, null, null)
+    updateWork(work, null, new Date(), null, null, null, true)
+    props.navigation.goBack()
   }
 
   return (
@@ -130,7 +131,7 @@ const TimerScreen = (props) => {
       <View style={styles.exps}>
         <Text style={{ color: 'gray' }}>リセットボタンでタイマーのリセット</Text>
         <Text style={{ color: 'gray' }}>
-          保存ボタンを押すと経過時間が保存され、タイマーがリセットされます。
+          保存ボタンを押すと経過時間が保存され、タスク詳細画面へ戻ります。
         </Text>
       </View>
     </View>
