@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { NavigationState } from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -20,10 +19,8 @@ const TimerScreen = (props) => {
   const { updateWork } = useProjects();
   const [time, setTime] = useState(0)
   const intervalId = useRef(null)
-  const [inActionTimer, setInActionTimer] = useState(false)
+  const [inActionTimer, setInActionTimer] = useState<boolean>(false)
   const [appState, setAppState] = useState(AppState.currentState)
-
-  // workが存在しなければ作成する
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', _handleAppStateChange)
@@ -33,44 +30,61 @@ const TimerScreen = (props) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (appState === 'inactive') {
+      // バックグランドへ移行
+      stopWatch(false) 
+    } else if (appState === 'active') {
+      // アクティブ状態へ移行
+      if (work.inActive) {
+        // workTime計算
+        const workTime = work.workTime + (new Date() - work.pauseTime)
+        // タイマー再始動
+        startWatch(workTime)
+      }
+    }
+  }, [appState])
+
   const _handleAppStateChange = (nextAppState: any) => {
     setAppState(nextAppState)
-
-    // ここをactiveやinactiveに変えることでそれぞれの状態の時に発火できる
-    if (nextAppState === 'inactive') {
-      // TODO
-      // inactive移行時に経過時間を保存
-      stopWatch(true)
-    } else if (nextAppState === 'active') {
-      // 保存していたタイマを読み出し
-    }
+    return
   }
 
-  const startWatch = () => {
-    const startTime = new Date().getTime()
+  const onPressStartWatch = () => {
+    const now = new Date()
+    startWatch(time)
+    updateWork(work, now, null, true, null, null)
+  }
+
+  const startWatch = (initTime) => {
+    const startTime = new Date()
     intervalId.current = setInterval(() => {
-      setTime(new Date().getTime() - startTime + time)
+      const nowTime = (new Date().getTime() - startTime.getTime() + initTime)
+      setTime(nowTime)
     }, 1000)
     setInActionTimer(true)
-    updateWork(work, new Date(), null, true, null, null)
   }
 
-  const stopWatch = (pause: boolean) => {
-    console.log('stop: ' + intervalId.current)
+  const stopWatch = (onPressButton: boolean) => {
     clearInterval(intervalId.current)
     intervalId.current = null
-    setInActionTimer(false)
-    updateWork(work, null, null, false, null, null)
+    if (onPressButton) {
+      // ボタン押下による停止
+      setInActionTimer(false)
+      updateWork(work, null, null, inActionTimer, null, null)
+    } else {
+      // バックグラウンド移行による停止
+      updateWork(work, null, null, inActionTimer, new Date(), time)
+    }
   }
 
   const resetWatch = () => {
     setTime(0)
+    updateWork(work, null, null, false, null, null)
   }
 
   const saveWatch = () => {
     updateWork(work, null, new Date(), null, null, null)
-    console.log('endTime')
-    console.log(work)
   }
 
   return (
@@ -80,10 +94,10 @@ const TimerScreen = (props) => {
       </View>
       <View style={styles.play}>
         <TouchableWithoutFeedback onPress={() => {
-          if (intervalId.current == null) {
-            startWatch()
+          if (!inActionTimer) {
+            onPressStartWatch()
           } else {
-            stopWatch(false)
+            stopWatch(true)
           }
         }}>
           <Icon icon={faPlayCircle} size={102} style={{ display: inActionTimer ? 'none' : 'flex' }} />
@@ -92,22 +106,22 @@ const TimerScreen = (props) => {
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity onPress={() => {
-          if (intervalId.current == null) {
+          if (!inActionTimer) {
             resetWatch()
           }
         }}
           activeOpacity={intervalId.current != null}
         >
-          <Text style={[styles.button, { color: intervalId.current ? 'gray' : 'red' }]}>リセット</Text>
+          <Text style={[styles.button, { color: inActionTimer ? 'gray' : 'red' }]}>リセット</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
-          if (intervalId.current == null) {
+          if (!inActionTimer) {
             saveWatch() 
           }
         }}
           activeOpacity={intervalId.current != null}
         >
-          <Text style={[styles.button, { marginTop: 32, color: intervalId.current ? 'gray' : 'blue' }]}>保存</Text>
+          <Text style={[styles.button, { marginTop: 32, color: inActionTimer ? 'gray' : 'blue' }]}>保存</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.exps}>

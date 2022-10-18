@@ -113,6 +113,7 @@ const TasksProvider = ({ children }) => {
       work.pauseTime = pauseTime ?? work.pauseTime;
       work.workTime = workTime ?? work.workTime;
     })
+    console.log('updateWork: ' + work.inActive)
   }
 
   // useTasks フックで Task を操作できるようにする
