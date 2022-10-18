@@ -45,6 +45,10 @@ const TimerScreen = (props) => {
     }
   }, [appState])
 
+  useEffect(() => {
+    updateWork(work, null, null, inActionTimer, null, null)
+  }, [inActionTimer])
+
   const _handleAppStateChange = (nextAppState: any) => {
     setAppState(nextAppState)
     return
@@ -71,10 +75,9 @@ const TimerScreen = (props) => {
     if (onPressButton) {
       // ボタン押下による停止
       setInActionTimer(false)
-      updateWork(work, null, null, inActionTimer, null, null)
     } else {
       // バックグラウンド移行による停止
-      updateWork(work, null, null, inActionTimer, new Date(), time)
+      updateWork(work, null, null, null, new Date(), time)
     }
   }
 
