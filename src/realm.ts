@@ -35,6 +35,7 @@ const workSchema = {
     endTime: 'date?',
     pauseTime: 'date?',
     workTime: 'int?',
+    isSaved: 'bool',
     createdAt: 'date',
   },
 };
@@ -43,7 +44,7 @@ const workSchema = {
 export const openRealm = (): Realm => {
   const config = {
     schema: [projectSchema, taskSchema, workSchema],
-    schemaVersion: 11, // スキーマを変更したらインクリメントする
+    schemaVersion: 12, // スキーマを変更したらインクリメントする
   };
 
   return new Realm(config);

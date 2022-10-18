@@ -22,7 +22,7 @@ const ProjectListScreen = ({ navigation }) => {
 
   const work = getActiveWork()
   if (work) {
-    // タイマ動作中のworkがあればタイマ画面へ遷移する
+    // 未保存のworkがあればタイマ画面へ遷移する
     navigation.navigate('Timer', { work: work });
   }
 

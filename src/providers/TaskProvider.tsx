@@ -92,6 +92,7 @@ const TasksProvider = ({ children }) => {
         pauseTime: null,
         workTime: null,
         inActive: false,
+        isSaved: false,
         createdAt: new Date(),
       });
     });
@@ -104,7 +105,7 @@ const TasksProvider = ({ children }) => {
   }
 
   // ワークの更新
-  const updateWork = (work: any, startTime?: Date, endTime?: Date, inActive?: boolean, pauseTime?: Date, workTime?: Int32) => {
+  const updateWork = (work: any, startTime?: Date, endTime?: Date, inActive?: boolean, pauseTime?: Date, workTime?: Int32, isSaved?: boolean) => {
     const projectRealm = realmRef.current
     projectRealm.write(() => {
       work.startTime = startTime ?? work.startTime;
@@ -112,12 +113,13 @@ const TasksProvider = ({ children }) => {
       work.inActive = inActive ?? work.inActive;
       work.pauseTime = pauseTime ?? work.pauseTime;
       work.workTime = workTime ?? work.workTime;
+      work.isSaved = isSaved ?? work.isSaved;
     })
   }
 
-  // タイマ作動中のworkを取得
+  // 未保存のworkを取得
   const getActiveWork = () => {
-    const work = realmRef.current?.objects('Work').filtered('inActive == true')[0]
+    const work = realmRef.current?.objects('Work').filtered('isSaved == false')[0]
     return work
   }
 
