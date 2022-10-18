@@ -17,9 +17,9 @@ import { useProjects } from '../providers/TaskProvider';
 const TimerScreen = (props) => {
   const work = props.route.params.work
   const { updateWork } = useProjects();
-  const [time, setTime] = useState(0)
+  const [time, setTime] = useState(work.workTime)
   const intervalId = useRef(null)
-  const [inActionTimer, setInActionTimer] = useState<boolean>(false)
+  const [inActionTimer, setInActionTimer] = useState<boolean>(work.inActive)
   const [appState, setAppState] = useState(AppState.currentState)
 
   useEffect(() => {

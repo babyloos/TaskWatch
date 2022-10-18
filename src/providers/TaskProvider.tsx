@@ -115,6 +115,12 @@ const TasksProvider = ({ children }) => {
     })
   }
 
+  // タイマ作動中のworkを取得
+  const getActiveWork = () => {
+    const work = realmRef.current?.objects('Work').filtered('inActive == true')[0]
+    return work
+  }
+
   // useTasks フックで Task を操作できるようにする
   return (
     <ProjectsContext.Provider
@@ -127,6 +133,7 @@ const TasksProvider = ({ children }) => {
         createWork,
         updateWork,
         getResentWork,
+        getActiveWork,
         projects,
       }}>
       {children}

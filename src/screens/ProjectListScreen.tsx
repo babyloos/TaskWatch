@@ -17,8 +17,14 @@ import DelButton from '../components/DelButton';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectListScreen = ({ navigation }) => {
-  const { createProject, deleteItem, projects } = useProjects();
+  const { projects, createProject, deleteItem, getActiveWork } = useProjects();
   const scrollViewRef = React.useRef<ScrollView>(null);
+
+  const work = getActiveWork()
+  if (work) {
+    // タイマ動作中のworkがあればタイマ画面へ遷移する
+    navigation.navigate('Timer', { work: work });
+  }
 
   return (
     <View style={styles.body}>
