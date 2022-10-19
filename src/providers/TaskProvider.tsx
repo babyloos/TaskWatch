@@ -32,8 +32,9 @@ const TasksProvider = ({ children }) => {
   const createProject = (newProjectName: string) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
+      const id = new BSON.ObjectId()
       projectRealm.create('Project', {
-        _id: new BSON.ObjectId(),
+        _id: id,
         name: newProjectName || '新しいプロジェクト',
         createdAt: new Date(),
       });
@@ -126,7 +127,7 @@ const TasksProvider = ({ children }) => {
   // endTimeがnullのworkを削除
   const delNullWorks = (task: any) => {
     const nullWorks = task.works.filtered('endTime == null')
-    nullWorks.forEach((work: object)=>{
+    nullWorks.forEach((work: object) => {
       deleteItem(work)
     })
   }

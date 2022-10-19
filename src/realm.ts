@@ -44,7 +44,7 @@ const workSchema = {
 export const openRealm = (): Realm => {
   const config = {
     schema: [projectSchema, taskSchema, workSchema],
-    schemaVersion: 12, // スキーマを変更したらインクリメントする
+    schemaVersion: 16, // スキーマを変更したらインクリメントする
   };
 
   return new Realm(config);
