@@ -91,7 +91,6 @@ const App = () => {
                 gestureEnabled: false,
               })}
             />
-
           </Stack.Navigator>
         </NavigationContainer>
       </TasksProvider>

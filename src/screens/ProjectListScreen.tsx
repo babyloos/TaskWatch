@@ -35,7 +35,7 @@ const ProjectListScreen = ({ navigation }) => {
         <SwipeListView
           style={styles.projectBoxContainer}
           data={projects}
-          keyExtractor={(item) => item._id.toHexString()}
+          keyExtractor={(item) => item._id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
               activeOpacity={1}
