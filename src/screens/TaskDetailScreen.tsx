@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useIsFocused } from '@react-navigation/native'
 
 import TaskBox from '../components/TaskBox';
 import WorkBox from '../components/WorkBox';
@@ -15,8 +16,16 @@ import DelButton from '../components/DelButton';
 import { useProjects } from '../providers/TaskProvider';
 
 const TaskDetailScreen = (props: any) => {
-  const { deleteItem } = useProjects();
+  const { deleteItem, delNullWorks } = useProjects();
   const task = props.route.params.task;
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    // endTimeの入っていないタスクを削除する
+    if (isFocused) {
+      delNullWorks(task)
+    }
+  }, [isFocused])
 
   return (
     <View style={styles.container}>

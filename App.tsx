@@ -1,7 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  Button,
+} from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import 'react-native-get-random-values'
 import { Realm, createRealmContext } from '@realm/react';
@@ -88,6 +91,7 @@ const App = () => {
                   backgroundColor: '#61adf5',
                 },
                 contentStyle: styles.body,
+                gestureEnabled: false,
               })}
             />
 

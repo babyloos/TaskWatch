@@ -6,6 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   AppState,
+  Button,
+  Alert,
 } from 'react-native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faPauseCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +23,7 @@ const TimerScreen = (props) => {
   const intervalId = useRef(null)
   const [inActionTimer, setInActionTimer] = useState<boolean>(work.inActive)
   const [appState, setAppState] = useState(AppState.currentState)
+  const [isStarted, setIsStarted] = useState(false)
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', _handleAppStateChange)
@@ -47,7 +50,40 @@ const TimerScreen = (props) => {
 
   useEffect(() => {
     updateWork(work, null, null, inActionTimer, null, null)
+    if (inActionTimer) {
+      setIsStarted(true)
+    }
   }, [inActionTimer])
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerLeft: () => (
+        <Button 
+          title="戻る" 
+          onPress={()=>{
+            if (!work.isSaved && isStarted) {
+              Alert.alert(
+                '作業履歴が保存されていません',
+                '保存せずに戻りますか？',
+                [
+                  {text: 'いいえ', style: 'destructive', onPress: ()=>{
+                    // 戻らない
+                  }},
+                  {text: 'はい', style: 'cancel', onPress: ()=>{
+                    // 保存せずにもどる
+                    props.navigation.goBack()
+                  }}
+                ]
+              ) 
+            } else {
+              // 作業が開始されていないので保存せず戻る
+              props.navigation.goBack()
+            }
+          }}
+          />
+      ),
+    })
+  }, [props.navigation, work.isSaved, isStarted]);
 
   const _handleAppStateChange = (nextAppState: any) => {
     setAppState(nextAppState)
@@ -67,6 +103,7 @@ const TimerScreen = (props) => {
       setTime(nowTime)
     }, 1000)
     setInActionTimer(true)
+    setIsStarted(true)
   }
 
   const stopWatch = (onPressButton: boolean) => {
@@ -75,6 +112,7 @@ const TimerScreen = (props) => {
     if (onPressButton) {
       // ボタン押下による停止
       setInActionTimer(false)
+      updateWork(work, null, null, null, null, time)
     } else {
       // バックグラウンド移行による停止
       updateWork(work, null, null, null, new Date(), time)
@@ -87,8 +125,8 @@ const TimerScreen = (props) => {
   }
 
   const saveWatch = () => {
-    updateWork(work, null, new Date(), null, null, null, true)
-    props.navigation.goBack()
+    updateWork(work, null, new Date(), null, null, time, true)
+    // props.navigation.goBack()
   }
 
   return (
@@ -110,22 +148,22 @@ const TimerScreen = (props) => {
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity onPress={() => {
-          if (!inActionTimer) {
+          if (!inActionTimer && isStarted) {
             resetWatch()
           }
         }}
           activeOpacity={intervalId.current != null}
         >
-          <Text style={[styles.button, { color: inActionTimer ? 'gray' : 'red' }]}>リセット</Text>
+          <Text style={[styles.button, { color: !inActionTimer && isStarted ? 'red' : 'gray' }]}>リセット</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
-          if (!inActionTimer) {
+          if (!inActionTimer && isStarted) {
             saveWatch() 
           }
         }}
-          activeOpacity={intervalId.current != null}
+          activeOpacity={intervalId.current != null && isStarted}
         >
-          <Text style={[styles.button, { marginTop: 32, color: inActionTimer ? 'gray' : 'blue' }]}>保存</Text>
+          <Text style={[styles.button, { marginTop: 32, color: !inActionTimer && isStarted ? 'blue' : 'gray' }]}>保存</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.exps}>

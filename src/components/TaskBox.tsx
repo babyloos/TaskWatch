@@ -67,7 +67,7 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => {
-                  navigation.navigate('TaskDetail', {title: task.name, task: task})
+                  navigation.navigate('TaskDetail', { title: task.name, task: task })
                 }}
               >
                 <Text>タスク名: {task.name}</Text>
@@ -83,13 +83,13 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
                   <Icon icon={faPen} size={28} />
                 </TouchableOpacity>
               </View>
-              <View style={{ display: showWatch ? 'flex' : 'none', marginTop: 24}}>
+              <View style={{ display: showWatch ? 'flex' : 'none', marginTop: 24 }}>
                 <TouchableOpacity
-                  onPress={() => { 
+                  onPress={() => {
                     createWork(task)
                     const work = getResentWork()
                     console.log(work)
-                    navigation.navigate('Timer', { title: task.name, work: work}) 
+                    navigation.navigate('Timer', { title: task.name, work: work })
                   }}>
                   <Icon icon={faClock} size={32} />
                 </TouchableOpacity>

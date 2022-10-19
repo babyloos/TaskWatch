@@ -123,6 +123,14 @@ const TasksProvider = ({ children }) => {
     return work
   }
 
+  // endTimeがnullのworkを削除
+  const delNullWorks = (task: any) => {
+    const nullWorks = task.works.filtered('endTime == null')
+    nullWorks.forEach((work: object)=>{
+      deleteItem(work)
+    })
+  }
+
   // useTasks フックで Task を操作できるようにする
   return (
     <ProjectsContext.Provider
@@ -136,6 +144,7 @@ const TasksProvider = ({ children }) => {
         updateWork,
         getResentWork,
         getActiveWork,
+        delNullWorks,
         projects,
       }}>
       {children}
