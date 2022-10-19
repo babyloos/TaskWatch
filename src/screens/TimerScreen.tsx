@@ -36,7 +36,7 @@ const TimerScreen = (props) => {
   useEffect(() => {
     if (appState === 'inactive') {
       // バックグランドへ移行
-      stopWatch(false) 
+      stopWatch(false)
     } else if (appState === 'active') {
       // アクティブ状態へ移行
       if (work.inActive) {
@@ -58,29 +58,33 @@ const TimerScreen = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
-        <Button 
-          title="戻る" 
-          onPress={()=>{
+        <Button
+          title="戻る"
+          onPress={() => {
             if (!work.isSaved && isStarted) {
               Alert.alert(
                 '作業履歴が保存されていません',
                 '保存せずに戻りますか？',
                 [
-                  {text: 'いいえ', style: 'destructive', onPress: ()=>{
-                    // 戻らない
-                  }},
-                  {text: 'はい', style: 'cancel', onPress: ()=>{
-                    // 保存せずにもどる
-                    props.navigation.goBack()
-                  }}
+                  {
+                    text: 'いいえ', style: 'destructive', onPress: () => {
+                      // 戻らない
+                    }
+                  },
+                  {
+                    text: 'はい', style: 'cancel', onPress: () => {
+                      // 保存せずにもどる
+                      props.navigation.goBack()
+                    }
+                  }
                 ]
-              ) 
+              )
             } else {
               // 作業が開始されていないので保存せず戻る
               props.navigation.goBack()
             }
           }}
-          />
+        />
       ),
     })
   }, [props.navigation, work.isSaved, isStarted]);
@@ -158,7 +162,7 @@ const TimerScreen = (props) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           if (!inActionTimer && isStarted) {
-            saveWatch() 
+            saveWatch()
           }
         }}
           activeOpacity={intervalId.current != null && isStarted}

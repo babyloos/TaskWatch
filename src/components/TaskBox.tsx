@@ -88,7 +88,6 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
                   onPress={() => {
                     createWork(task)
                     const work = getResentWork()
-                    console.log(work)
                     navigation.navigate('Timer', { title: task.name, work: work })
                   }}>
                   <Icon icon={faClock} size={32} />

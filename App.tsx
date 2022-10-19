@@ -16,11 +16,8 @@ import ProjectEditScreen from './src/screens/ProjectEditScreen';
 import TaskDetailScreen from './src/screens/TaskDetailScreen';
 import TaskEditScreen from './src/screens/TaskEditScreen';
 import TimerScreen from './src/screens/TimerScreen';
-// import { useProjects } from './src/providers/TaskProvider';
-import { useProjects } from './src/providers/TaskProvider';
 
 const Stack = createNativeStackNavigator();
-const { RealmProvider, useRealm, useQuery } = createRealmContext()
 const App = () => {
   return (
     <MenuProvider>
