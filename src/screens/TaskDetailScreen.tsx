@@ -27,6 +27,12 @@ const TaskDetailScreen = (props: any) => {
     }
   }, [isFocused])
 
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: task.name
+    }) 
+  }, [task.name])
+
   return (
     <View style={styles.container}>
       <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true} showWatch={true}/>
