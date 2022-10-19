@@ -18,7 +18,7 @@ import { useProjects } from '../providers/TaskProvider';
 
 const TimerScreen = (props) => {
   const work = props.route.params.work
-  const { updateWork } = useProjects();
+  const { updateWork, getTaskSpecifyWork } = useProjects();
   const [time, setTime] = useState(work.workTime)
   const intervalId = useRef(null)
   const [inActionTimer, setInActionTimer] = useState<boolean>(work.inActive)
@@ -59,7 +59,7 @@ const TimerScreen = (props) => {
     props.navigation.setOptions({
       headerLeft: () => (
         <Button
-          title="戻る"
+          title="< 戻る"
           onPress={() => {
             if (!work.isSaved && isStarted) {
               Alert.alert(
@@ -88,6 +88,13 @@ const TimerScreen = (props) => {
       ),
     })
   }, [props.navigation, work.isSaved, isStarted]);
+
+  useEffect(() => {
+    const task = getTaskSpecifyWork(work)
+    props.navigation.setOptions({
+      title: task.name
+    })
+  }, [])
 
   const _handleAppStateChange = (nextAppState: any) => {
     setAppState(nextAppState)

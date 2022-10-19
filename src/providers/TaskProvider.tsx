@@ -132,6 +132,17 @@ const TasksProvider = ({ children }) => {
     })
   }
 
+  // 指定のworkを保持するTaskを取得する
+  const getTaskSpecifyWork = (work: any) => {
+    const tasks = realmRef.current.objects('Task')
+    for (var i=0; i<tasks.length; i++) {
+      if (tasks[i].works.indexOf(work) !== -1) {
+        return tasks[i]
+      }
+    }
+    return null
+  }
+
   // useTasks フックで Task を操作できるようにする
   return (
     <ProjectsContext.Provider
@@ -146,6 +157,7 @@ const TasksProvider = ({ children }) => {
         getResentWork,
         getActiveWork,
         delNullWorks,
+        getTaskSpecifyWork,
         projects,
       }}>
       {children}
