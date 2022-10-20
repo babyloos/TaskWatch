@@ -1,4 +1,8 @@
 {
   "name": "TaskWatch",
-  "displayName": "TaskWatch"
+  "displayName": "TaskWatch",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
+    "ios_app_id": "ca-app-pub-1479927029413242~2253752616"
+  }
 }

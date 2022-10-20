@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   StyleSheet,
   Button,
+  View,
+  Text,
 } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import 'react-native-get-random-values'
 import { Realm, createRealmContext } from '@realm/react';
+import mobileAds, { MaxAdContentRating, BannerAdSize, BannerAd, TestIds } from 'react-native-google-mobile-ads';
 
 import ProjectListScreen from './src/screens/ProjectListScreen';
 import ProjectDetailScreen from './src/screens/ProjectDetailScreen';
@@ -19,6 +22,36 @@ import TimerScreen from './src/screens/TimerScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
+  const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+
+  // 広告用設定
+  useEffect(() => {
+    mobileAds()
+      .setRequestConfiguration({
+        // Update all future requests suitable for parental guidance
+        maxAdContentRating: MaxAdContentRating.PG,
+
+        // Indicates that you want your content treated as child-directed for purposes of COPPA.
+        tagForChildDirectedTreatment: true,
+
+        // Indicates that you want the ad request to be handled in a
+        // manner suitable for users under the age of consent.
+        tagForUnderAgeOfConsent: true,
+
+        // An array of test device IDs to allow.
+        testDeviceIdentifiers: ['EMULATOR'],
+      })
+      .then(() => {
+        // Request config successfully set!
+    })
+
+    mobileAds()
+      .initialize()
+      .then(adapterStatuses => {
+        // Initialization complete!
+      });
+  }, []);
+
   return (
     <MenuProvider>
       <TasksProvider>
@@ -93,6 +126,13 @@ const App = () => {
             />
           </Stack.Navigator>
         </NavigationContainer>
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.ADAPTIVE_BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+        />
       </TasksProvider>
     </MenuProvider >
   );
@@ -102,7 +142,7 @@ export default App;
 
 const styles = StyleSheet.create({
   body: {
-    flex: 0.9,
+    flex: 1,
     backgroundColor: '#70c7ff',
   }
 });
