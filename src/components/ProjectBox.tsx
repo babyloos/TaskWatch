@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ type PropType = {
 };
 
 const ProjectBox = ({ navigation, project, isDetail }: PropType) => {
+  const [taskCount, setTaskCount] = useState(0)
 
   const size = 12;
   const marginTop = 8;
@@ -42,6 +43,11 @@ const ProjectBox = ({ navigation, project, isDetail }: PropType) => {
     padding: size,
   };
 
+  useEffect(() => {
+    const count = project.tasks.length 
+    setTaskCount(count)
+  }, [project.tasks])
+
   return (
     <View style={[styles.boxOuter, buttonCommonStyle, buttonOuterStyle]}>
       <View style={[styles.boxInner, buttonCommonStyle, buttonInnerStyle]}>
@@ -54,7 +60,7 @@ const ProjectBox = ({ navigation, project, isDetail }: PropType) => {
           <View style={styles.infoArea}>
             <Text numberOfLines={isDetail ? undefined : 1}>プロジェクト名: {project.name}</Text>
             <Text numberOfLines={isDetail ? undefined : 1}>説明: {project.description}</Text>
-            <Text>タスク数: </Text>
+            <Text>タスク数: {taskCount}</Text>
           </View>
           <View
             style={[styles.editArea, { display: isDetail ? 'flex' : 'none' }]}>
