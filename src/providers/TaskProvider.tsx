@@ -86,14 +86,9 @@ const TasksProvider = ({ children }) => {
   // msで返す
   const getTaskTotalTime = (task: any): number => {
     var totalTime = 0
-    for (var i=0; i<task.works.length; i++) {
+    for (var i = 0; i < task.works.length; i++) {
       totalTime += task.works[i].workTime
     }
-    /*
-    task.works.forEach((work: any) => {
-      totalTime += work.workTime
-    })
-    */
     return totalTime
   }
 
@@ -144,10 +139,8 @@ const TasksProvider = ({ children }) => {
   // endTimeがnullのworkを削除
   const delNullWorks = (task: any) => {
     const nullWorks = task.works.filtered('endTime == null')
-    if (nullWorks.length > 0) {
-      nullWorks.forEach((work: object) => {
-        deleteItem(work)
-      })
+    for (var i = 0; i < nullWorks.length; i++) {
+      deleteItem(nullWorks[i])
     }
   }
 

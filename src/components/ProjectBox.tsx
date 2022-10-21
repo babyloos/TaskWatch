@@ -44,7 +44,7 @@ const ProjectBox = ({ navigation, project, isDetail }: PropType) => {
   };
 
   useEffect(() => {
-    const count = project.tasks.length 
+    const count = project.tasks.length
     setTaskCount(count)
   }, [project.tasks])
 
