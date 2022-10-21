@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -23,11 +23,12 @@ type PropType = {
 };
 
 const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = false }: PropType) => {
-  const { createWork, getResentWork } = useProjects();
+  const { createWork, getResentWork, getTaskTotalTime } = useProjects();
   const size = 12;
   const marginTop = 8;
   const marginBottom = 8;
   const gradColors = [colors.taskBox.grad1, colors.taskBox.grad2];
+  const [totalTime, setTotalTime] = useState(0)
 
   const buttonCommonStyle = {
     borderRadius: size,
@@ -53,6 +54,11 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
   const width = isDetail ? '95%' : '80%';
   const marginLeft = isDetail ? 0 : 8;
 
+  useEffect(() => {
+    const time = getTaskTotalTime(task) / 60 / 1000
+    setTotalTime(time)
+  }, [task.works])
+
   return (
     <View style={{ alignItems: alignItems, marginRight: marginRight }}>
       <View style={[styles.boxOuter, buttonCommonStyle, buttonOuterStyle]}>
@@ -72,7 +78,7 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
               >
                 <Text>タスク名: {task.name}</Text>
                 <Text numberOfLines={isDetail ? undefined : 1}>説明: {task.description}</Text>
-                <Text numberOfLines={isDetail ? undefined : 1}>合計時間: 10h</Text>
+                <Text numberOfLines={isDetail ? undefined : 1}>合計時間: {totalTime}h</Text>
               </TouchableOpacity>
             </View>
             <View

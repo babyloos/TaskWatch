@@ -3,7 +3,7 @@ const projectSchema = {
   name: 'Project',
   primaryKey: '_id',
   properties: {
-    _id: 'objectId', // 'string' や 'int' でも OK
+    _id: 'int', // 'string' や 'int' でも OK
     name: 'string',
     description: 'string?', // ?をつけると optional
     tasks: 'Task[]', // クラス名 + '[]' で1対多のリレーションを設定できる
@@ -16,7 +16,7 @@ const taskSchema = {
   name: 'Task',
   primaryKey: '_id',
   properties: {
-    _id: 'objectId',
+    _id: 'int',
     name: 'string',
     description: 'string?',
     works: 'Work[]',
@@ -29,7 +29,7 @@ const workSchema = {
   name: 'Work',
   primaryKey: '_id',
   properties: {
-    _id: 'objectId',
+    _id: 'int',
     startTime: 'date?',
     inActive: 'bool',
     endTime: 'date?',
@@ -44,7 +44,7 @@ const workSchema = {
 export const openRealm = (): Realm => {
   const config = {
     schema: [projectSchema, taskSchema, workSchema],
-    schemaVersion: 16, // スキーマを変更したらインクリメントする
+    schemaVersion: 20, // スキーマを変更したらインクリメントする
   };
 
   return new Realm(config);

@@ -32,7 +32,7 @@ const TasksProvider = ({ children }) => {
   const createProject = (newProjectName: string) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      const id = new BSON.ObjectId()
+      const id = Math.floor(Math.random() * 999999)
       projectRealm.create('Project', {
         _id: id,
         name: newProjectName || '新しいプロジェクト',
@@ -71,9 +71,10 @@ const TasksProvider = ({ children }) => {
   const createTask = (project) => {
     const projectRealm = realmRef.current;
     let tasks = project.tasks;
+    const id = Math.floor(Math.random() * 999999)
     projectRealm.write(() => {
       tasks.push({
-        _id: new BSON.ObjectID(),
+        _id: id,
         name: '新しいタスク',
         isDone: false,
         createdAt: new Date(),
@@ -81,13 +82,29 @@ const TasksProvider = ({ children }) => {
     });
   };
 
+  // 指定したtaskの合計作業時間を取得する
+  // msで返す
+  const getTaskTotalTime = (task: any): number => {
+    var totalTime = 0
+    for (var i=0; i<task.works.length; i++) {
+      totalTime += task.works[i].workTime
+    }
+    /*
+    task.works.forEach((work: any) => {
+      totalTime += work.workTime
+    })
+    */
+    return totalTime
+  }
+
   // ワークの新規作成
   const createWork = (task: any) => {
     const projectRealm = realmRef.current;
     let works = task.works;
+    const id = Math.floor(Math.random() * 999999)
     projectRealm.write(() => {
       works.push({
-        _id: new BSON.ObjectID(),
+        _id: id,
         startTime: null,
         endTime: null,
         pauseTime: null,
@@ -127,15 +144,17 @@ const TasksProvider = ({ children }) => {
   // endTimeがnullのworkを削除
   const delNullWorks = (task: any) => {
     const nullWorks = task.works.filtered('endTime == null')
-    nullWorks.forEach((work: object) => {
-      deleteItem(work)
-    })
+    if (nullWorks.length > 0) {
+      nullWorks.forEach((work: object) => {
+        deleteItem(work)
+      })
+    }
   }
 
   // 指定のworkを保持するTaskを取得する
   const getTaskSpecifyWork = (work: any) => {
     const tasks = realmRef.current.objects('Task')
-    for (var i=0; i<tasks.length; i++) {
+    for (var i = 0; i < tasks.length; i++) {
       if (tasks[i].works.indexOf(work) !== -1) {
         return tasks[i]
       }
@@ -152,6 +171,7 @@ const TasksProvider = ({ children }) => {
         updateProject,
         createTask,
         updateTask,
+        getTaskTotalTime,
         createWork,
         updateWork,
         getResentWork,

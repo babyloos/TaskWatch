@@ -29,7 +29,7 @@ const ProjectDetailScreen = (props) => {
         }}>
         <SwipeListView
           data={project.tasks}
-          keyExtractor={(item) => item._id.toHexString()}
+          keyExtractor={(item) => item._id.toString()}
           renderItem={({ item }) => (
             <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={false} />
           )}

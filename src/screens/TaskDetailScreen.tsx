@@ -7,7 +7,6 @@ import {
   Text,
 } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/native'
 
 import TaskBox from '../components/TaskBox';
@@ -30,18 +29,18 @@ const TaskDetailScreen = (props: any) => {
   useEffect(() => {
     props.navigation.setOptions({
       title: task.name
-    }) 
+    })
   }, [task.name])
 
   return (
     <View style={styles.container}>
-      <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true} showWatch={true}/>
-      <View style={{marginLeft: 18}}>
+      <TaskBox navigation={props.navigation} task={task} editable={true} isDetail={true} showWatch={true} />
+      <View style={{ marginLeft: 18 }}>
         <Text>作業履歴</Text>
       </View>
       <SwipeListView
         data={task.works}
-        keyExtractor={(item) => item._id.toHexString()}
+        keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
           <WorkBox navigation={props.navigation} work={item} />
         )}
