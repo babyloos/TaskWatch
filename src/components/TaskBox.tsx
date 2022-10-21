@@ -13,6 +13,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 
 import colors from '../contants';
 import { useProjects } from '../providers/TaskProvider';
+import { toDispTime } from '../utils/utils'
 
 type PropType = {
   navigation?: NavigationState;
@@ -54,12 +55,6 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
   const width = isDetail ? '95%' : '80%';
   const marginLeft = isDetail ? 0 : 8;
 
-  const toDispTotalTime = (time: number): string => {
-    const hour = Math.floor(time / 1000 / 3600)
-    const minute = Math.ceil(time / 1000 % 3600 / 60)
-    return hour + '時間' + minute + '分'
-  }
-
   useEffect(() => {
     const time = getTaskTotalTime(task) / 60 / 1000
     setTotalTime(time)
@@ -84,7 +79,7 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
               >
                 <Text numberOfLines={isDetail ? undefined : 1} style={{ fontWeight: 'bold', fontSize: 18 }}>{task.name}</Text>
                 <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>{task.description}</Text>
-                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>合計時間: {toDispTotalTime(totalTime)}</Text>
+                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>合計時間: {toDispTime(totalTime)}</Text>
               </TouchableOpacity>
             </View>
             <View

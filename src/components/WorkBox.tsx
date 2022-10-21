@@ -11,6 +11,7 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 
 import colors from '../contants';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { toDispTime } from '../utils/utils'
 
 type PropType = {
   navigation?: NavigationState;
@@ -43,6 +44,18 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
     padding: size,
   };
 
+  const getDateFormated = (date: Date): string => {
+    if (!date) {
+      return ''
+    }
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const day = date.getDay()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    return year + '年' + month + '月' + day + '日' + ' ' + hour + '時' + minute + '分'
+  }
+
   return (
     <View style={{alignItems: 'flex-end', marginRight: 12}}>
       <View style={[styles.boxOuter, buttonCommonStyle, buttonOuterStyle]}>
@@ -54,7 +67,9 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
           <View style={styles.infoArea}>
-            <Text>{work.startTime?.toString() ?? 'null'}</Text>
+            <Text>開始: {getDateFormated(work.startTime)}</Text>
+            <Text>終了: {getDateFormated(work.endTime)}</Text>
+            <Text>作業時間: {toDispTime(work.workTime)}</Text>
           </View>
           <View style={styles.editArea}>
             <TouchableOpacity onPress={() => { navigation.navigate('WorkEdit', { work: work}) }}>
