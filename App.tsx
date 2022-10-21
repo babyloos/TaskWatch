@@ -4,8 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import {
   StyleSheet,
   Button,
-  View,
-  Text,
 } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import 'react-native-get-random-values'
