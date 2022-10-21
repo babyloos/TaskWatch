@@ -96,9 +96,12 @@ const TasksProvider = ({ children }) => {
     const projectRealm = realmRef.current;
     let works = task.works;
     const id = Math.floor(Math.random() * 999999)
+    const latestWork = realmRef.current.objects('Work').sorted('no', true)[0];
+    var number = latestWork ? latestWork.no + 1 : 1
     projectRealm.write(() => {
       works.push({
         _id: id,
+        no: number,
         startTime: null,
         endTime: null,
         pauseTime: null,

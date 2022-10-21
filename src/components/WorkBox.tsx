@@ -67,6 +67,7 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
           <View style={styles.infoArea}>
+            <Text>No.:         {(work.no)}</Text>
             <Text>開始:        {getDateFormated(work.startTime)}</Text>
             <Text>終了:        {getDateFormated(work.endTime)}</Text>
             <Text>作業時間: {toDispTime(work.workTime)}</Text>
