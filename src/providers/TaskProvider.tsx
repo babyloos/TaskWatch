@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, PropsWithChildren, useContext } from 'react';
-import { Float, Int32 } from 'react-native/Libraries/Types/CodegenTypes';
+import { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
 import { openRealm, BSON } from '../realm';
-import { ObjectId } from 'mongodb';
 
 const ProjectsContext = React.createContext(null);
 

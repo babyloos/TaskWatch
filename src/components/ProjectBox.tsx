@@ -58,9 +58,9 @@ const ProjectBox = ({ navigation, project, isDetail }: PropType) => {
           angleCenter={{ x: 0.5, y: 0.5 }}
           style={[styles.buttonFace, buttonFaceStyle]}>
           <View style={styles.infoArea}>
-            <Text numberOfLines={isDetail ? undefined : 1}>プロジェクト名: {project.name}</Text>
-            <Text numberOfLines={isDetail ? undefined : 1}>説明: {project.description}</Text>
-            <Text>タスク数: {taskCount}</Text>
+            <Text numberOfLines={isDetail ? undefined : 1} style={{fontWeight: 'bold', fontSize: 18}}>{project.name}</Text>
+            <Text numberOfLines={isDetail ? undefined : 1} style={{fontSize: 16, marginTop: 6}}>{project.description}</Text>
+            <Text style={{fontSize: 16, marginTop: 6}}>タスク数: {taskCount}</Text>
           </View>
           <View
             style={[styles.editArea, { display: isDetail ? 'flex' : 'none' }]}>

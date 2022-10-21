@@ -76,9 +76,9 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
                   navigation.navigate('TaskDetail', { title: task.name, task: task })
                 }}
               >
-                <Text>タスク名: {task.name}</Text>
-                <Text numberOfLines={isDetail ? undefined : 1}>説明: {task.description}</Text>
-                <Text numberOfLines={isDetail ? undefined : 1}>合計時間: {totalTime}h</Text>
+                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontWeight: 'bold', fontSize: 18 }}>{task.name}</Text>
+                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>{task.description}</Text>
+                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>合計時間: {totalTime}h</Text>
               </TouchableOpacity>
             </View>
             <View
