@@ -11,7 +11,7 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 
 import colors from '../contants';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { toDispTime } from '../utils/utils'
+import { toDispTime, getDateFormated } from '../utils/utils'
 
 type PropType = {
   navigation?: NavigationState;
@@ -43,18 +43,6 @@ const TaskBox = ({ navigation, work, editable}: PropType) => {
     borderRadius: size,
     padding: size,
   };
-
-  const getDateFormated = (date: Date): string => {
-    if (!date) {
-      return ''
-    }
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const day = date.getDay()
-    const hour = date.getHours()
-    const minute = date.getMinutes()
-    return year + '年' + month + '月' + day + '日' + ' ' + hour + '時' + minute + '分'
-  }
 
   return (
     <View style={{alignItems: 'flex-end', marginRight: 12}}>

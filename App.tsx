@@ -17,6 +17,7 @@ import ProjectEditScreen from './src/screens/ProjectEditScreen';
 import TaskDetailScreen from './src/screens/TaskDetailScreen';
 import TaskEditScreen from './src/screens/TaskEditScreen';
 import TimerScreen from './src/screens/TimerScreen';
+import WorkEditScreen from './src/screens/WorkEditScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -41,7 +42,7 @@ const App = () => {
       })
       .then(() => {
         // Request config successfully set!
-    })
+      })
 
     mobileAds()
       .initialize()
@@ -104,6 +105,17 @@ const App = () => {
               component={TaskEditScreen}
               options={({ route }) => ({
                 title: route.params.title + ' - 編集',
+                headerStyle: {
+                  backgroundColor: '#61adf5',
+                },
+                contentStyle: styles.body,
+              })}
+            />
+            <Stack.Screen
+              name="WorkEdit"
+              component={WorkEditScreen}
+              options={({ route }) => ({
+                title: '作業履歴 - 編集',
                 headerStyle: {
                   backgroundColor: '#61adf5',
                 },
