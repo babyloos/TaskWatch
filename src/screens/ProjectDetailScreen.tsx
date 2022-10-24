@@ -16,8 +16,8 @@ import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
 
 const ProjectDetailScreen = (props) => {
-  const { createTask, deleteItem } = useProjects();
-  const project = props.route.params.project;
+  const { createTask, deleteItem } = useProjects()
+  const project = props.route.params.project
   var listRef = React.useRef(null)
 
   return (
@@ -34,7 +34,14 @@ const ProjectDetailScreen = (props) => {
         data={project.tasks}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
-          <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={false} />
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              props.navigation.navigate('TaskDetail', { title: item.name, task: item})
+            }}
+          >
+            <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={false} />
+          </TouchableOpacity>
         )}
         renderHiddenItem={(data, rowMap) => (
           <TouchableOpacity onPress={

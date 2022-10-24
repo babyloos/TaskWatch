@@ -71,16 +71,9 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
             angleCenter={{ x: 0.5, y: 0.5 }}
             style={[styles.buttonFace, buttonFaceStyle]}>
             <View style={styles.infoArea}>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={() => {
-                  navigation.navigate('TaskDetail', { title: task.name, task: task })
-                }}
-              >
-                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontWeight: 'bold', fontSize: 18 }}>{task.name}</Text>
-                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>{task.description}</Text>
-                <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>合計時間: {toDispTime(totalTime)}</Text>
-              </TouchableOpacity>
+              <Text numberOfLines={isDetail ? undefined : 1} style={{ fontWeight: 'bold', fontSize: 18 }}>{task.name}</Text>
+              <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>{task.description}</Text>
+              <Text numberOfLines={isDetail ? undefined : 1} style={{ fontSize: 16, marginTop: 6 }}>合計時間: {toDispTime(totalTime)}</Text>
             </View>
             <View
               style={[styles.editArea, { display: editable || showWatch ? 'flex' : 'none' }]}>

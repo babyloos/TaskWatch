@@ -40,7 +40,7 @@ const ProjectListScreen = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={1}
               onPress={() => {
-                navigation.navigate('ProjectDetail', { title: item.name, project: item });
+                navigation.navigate('ProjectDetail', { navigation: navigation, title: item.name, project: item });
               }}>
               <ProjectBox navigation={navigation} project={item} />
             </TouchableOpacity>
