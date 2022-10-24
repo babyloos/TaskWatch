@@ -8,7 +8,6 @@ import {
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { ScrollView } from 'react-native-gesture-handler';
 
 import ProjectBox from '../components/ProjectBox';
 import TaskBox from '../components/TaskBox';
@@ -24,8 +23,8 @@ const ProjectDetailScreen = (props) => {
     <View style={styles.container}>
       <ProjectBox navigation={props.navigation} project={project} isDetail={true} />
       <SwipeListView
-        listViewRef={(ref)=>{listRef.current = ref}}
-        onContentSizeChange = {(width, height) => {
+        listViewRef={(ref) => { listRef.current = ref }}
+        onContentSizeChange={(width, height) => {
           listRef?.current?.scrollToOffset({
             animated: true,
             offset: height
@@ -37,7 +36,7 @@ const ProjectDetailScreen = (props) => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              props.navigation.navigate('TaskDetail', { title: item.name, task: item})
+              props.navigation.navigate('TaskDetail', { title: item.name, task: item })
             }}
           >
             <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={false} />

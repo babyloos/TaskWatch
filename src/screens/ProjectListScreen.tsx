@@ -18,7 +18,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectListScreen = ({ navigation }) => {
   const { projects, createProject, deleteItem, getActiveWork } = useProjects();
-  const scrollViewRef = React.useRef<ScrollView>(null);
+  var listRef = React.useRef(null)
 
   const work = getActiveWork()
   if (work) {
@@ -28,54 +28,56 @@ const ProjectListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.body}>
-      <ScrollView ref={scrollViewRef}
-        onContentSizeChange={(contentWidth, contentHeight) => {
-          scrollViewRef?.current?.scrollTo({ y: contentHeight });
-        }}>
-        <SwipeListView
-          style={styles.projectBoxContainer}
-          data={projects}
-          keyExtractor={(item) => item._id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => {
-                navigation.navigate('ProjectDetail', { navigation: navigation, title: item.name, project: item });
-              }}>
-              <ProjectBox navigation={navigation} project={item} />
-            </TouchableOpacity>
-          )}
-          renderHiddenItem={(data, rowMap) => (
-            <TouchableOpacity onPress={() => {
-              Alert.alert(
-                data.item.name + ' を削除しますか？',
-                '',
-                [
-                  {
-                    text: 'キャンセル',
-                  },
-                  {
-                    text: '削除',
-                    onPress: () => deleteItem(data.item),
-                  }
-                ]
-              );
+      <SwipeListView
+        listViewRef={(ref) => { listRef.current = ref }}
+        onContentSizeChange={(width, height) => {
+          listRef?.current?.scrollToOffset({
+            animated: true,
+            offset: height,
+          })
+        }}
+        style={styles.projectBoxContainer}
+        data={projects}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              navigation.navigate('ProjectDetail', { navigation: navigation, title: item.name, project: item });
             }}>
-              <DelButton text={'削除'} />
-            </TouchableOpacity>
-          )}
-          rightOpenValue={-102}
-          disableRightSwipe={true}
-        />
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.addProjectButton}
-        onPress={() => {
-          createProject();
-        }}>
-        <Icon icon={faCirclePlus} size={62} />
-      </TouchableOpacity>
-    </View>
+            <ProjectBox navigation={navigation} project={item} />
+          </TouchableOpacity>
+        )}
+        renderHiddenItem={(data, rowMap) => (
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+              data.item.name + ' を削除しますか？',
+              '',
+              [
+                {
+                  text: 'キャンセル',
+                },
+                {
+                  text: '削除',
+                  onPress: () => deleteItem(data.item),
+                }
+              ]
+            );
+          }}>
+            <DelButton text={'削除'} />
+          </TouchableOpacity>
+        )}
+        rightOpenValue={-102}
+        disableRightSwipe={true}
+      />
+    <TouchableOpacity
+      style={styles.addProjectButton}
+      onPress={() => {
+        createProject();
+      }}>
+      <Icon icon={faCirclePlus} size={62} />
+    </TouchableOpacity>
+  </View>
   );
 }
 
