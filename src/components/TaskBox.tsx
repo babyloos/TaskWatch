@@ -56,7 +56,7 @@ const TaskBox = ({ navigation, task, editable, isDetail = false, showWatch = fal
   const marginLeft = isDetail ? 0 : 8;
 
   useEffect(() => {
-    const time = getTaskTotalTime(task) / 60 / 1000
+    const time = getTaskTotalTime(task)
     setTotalTime(time)
   }, [task.works])
 
