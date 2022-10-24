@@ -34,8 +34,8 @@ export const getDateFormated = (date: Date): string => {
     return ''
   }
   const year = date.getFullYear()
-  const month = date.getMonth()
-  const day = date.getDay()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
   const hour = date.getHours()
   const minute = date.getMinutes()
   return year + '年' + month + '月' + day + '日' + ' ' + hour + '時' + minute + '分'

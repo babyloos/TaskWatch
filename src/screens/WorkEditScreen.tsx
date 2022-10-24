@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   Keyboard,
+  Button,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
@@ -14,19 +15,19 @@ import { useProjects } from '../providers/TaskProvider'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { getDateFormated, toDispTime, toDispHour, toDispMinute } from '../utils/utils'
 
-const WorkEditScreen = (props) => {
-  // const { updateTask } = useProjects();
-  // const task = props.route.params.task;
+const WorkEditScreen = (props: any) => {
+  const { updateWork } = useProjects();
   const work = props.route.params.work
-  // const [isShowDatePicker, setIsShowDatePicker] = useState(false)
   const [startDateTime, setStartDateTime] = useState(work.startTime)
   const [endDateTime, setEndDateTime] = useState(work.endTime)
-  const [workTime, setWorkTime] = useState(work.workTime)
-  // const [name, setName] = useState(task.name); 
-  // const [description, setDescription] = useState(task.description); 
-  
+  const [workTime] = useState(work.workTime)
+  const [workTimeHour, setWorkTimeHour] = useState(parseInt(toDispHour(workTime)))
+  const [workTimeMinute, setWorkTimeMinute] = useState(parseInt(toDispMinute(workTime)))
+
   const onChangeStartDate = (event: any, date: Date) => {
-    setStartDateTime(date)
+    const settedDateTime = startDateTime
+    settedDateTime.setDate(date.getDate())
+    setStartDateTime(settedDateTime)
   }
 
   const onChangeStartTime = (event: any, time: Date) => {
@@ -35,25 +36,47 @@ const WorkEditScreen = (props) => {
     setStartDateTime(settedDateTime)
   }
 
-  // TODO: setEndDateTime
+  const onChangeEndDate = (event: any, date: Date) => {
+    const settedDateTime = endDateTime
+    settedDateTime.setDate(date.getDate())
+    setEndDateTime(settedDateTime)
+  }
 
-  /*
+  const onChangeEndTime = (event: any, time: Date) => {
+    const settedDateTime = endDateTime 
+    settedDateTime.setTime(time.getTime())
+    setEndDateTime(settedDateTime)
+  }
+
+  const onChangeWorkHour = (input: string) => {
+    const inputNum = parseInt(input.replace(/[^0-9]/g, ''), 10)
+    setWorkTimeHour(inputNum)
+  }
+
+  const onChangeWorkMinute = (input: string) => {
+    const inputNum = parseInt(input.replace(/[^0-9]/g, ''), 10)
+    setWorkTimeMinute(inputNum)
+  }
+
+  const saveWork = () => {
+    const workTime = workTimeHour * 3600 * 1000 + workTimeMinute * 60 * 1000 
+    updateWork(work, startDateTime, endDateTime, null, null, workTime, null);
+  }
+
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <Button 
           color={'#FF0000'}
           onPress={() => {
-            updateTask(task, name, description);
+            saveWork()
             props.navigation.goBack();
          }} 
           title="保存"
         />
       ),
     });
-    props.navigation.setOptions({title: name + ' - ' + '編集'});
-  }, [updateTask, props.navigation, name, description]);
-  */
+  })
 
   return (
     <TouchableWithoutFeedback 
@@ -93,7 +116,7 @@ const WorkEditScreen = (props) => {
               value={endDateTime}
               locale='ja-JP'
               is24Hour={true}
-              onChange={() => {console.log('changed')}}
+              onChange={onChangeEndDate}
               />
             <DateTimePicker
               style={styles.dateTimePickerTime}
@@ -101,7 +124,7 @@ const WorkEditScreen = (props) => {
               value={endDateTime}
               locale='ja-JP'
               is24Hour={true}
-              onChange={() => {console.log('changed')}}
+              onChange={onChangeEndTime}
               />
           </View>
         </View>
@@ -112,10 +135,10 @@ const WorkEditScreen = (props) => {
           <View style={styles.timeInputContainer}>
             <TextInput
               style={styles.workTimeInput}
-              keyboardType='numeric'
+              keyboardType='decimal-pad'
               placeholder={toDispHour(workTime)}
-              onChange={()=>{console.log('onChange')}}
-              value={workTime}
+              placeholderTextColor='#808080'
+              onChangeText={(input: string) => {onChangeWorkHour(input)}}
               />
             <Text style={styles.workTimeUnit}>時間</Text>
           </View>
@@ -124,7 +147,8 @@ const WorkEditScreen = (props) => {
               style={styles.workTimeInput}
               keyboardType='decimal-pad'
               placeholder={toDispMinute(workTime)}
-              value={workTime}
+              placeholderTextColor='#808080'
+              onChangeText={(input: string) => {onChangeWorkMinute(input)}}
               />
             <Text style={styles.workTimeUnit}>分</Text>
           </View>
@@ -138,6 +162,8 @@ export default WorkEditScreen;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: '40%',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     margin: 24,
