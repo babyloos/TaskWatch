@@ -18,17 +18,22 @@ const ProjectDetailScreen = (props) => {
   const { createTask, deleteItem } = useProjects()
   const project = props.route.params.project
   var listRef = React.useRef(null)
+  const [isUpdateListView, setIsUpdateListView] = React.useState(false)
+
+  const scrollView = () => {
+    listRef?.current?.scrollToEnd()
+    setIsUpdateListView(false)
+  }
 
   return (
     <View style={styles.container}>
       <ProjectBox navigation={props.navigation} project={project} isDetail={true} />
       <SwipeListView
         listViewRef={(ref) => { listRef.current = ref }}
-        onContentSizeChange={(width, height) => {
-          listRef?.current?.scrollToOffset({
-            animated: true,
-            offset: height
-          })
+        onContentSizeChange={(width: number, height: number) => {
+          if (isUpdateListView) {
+            scrollView()
+          }
         }}
         data={project.tasks}
         keyExtractor={(item) => item._id.toString()}
@@ -69,6 +74,8 @@ const ProjectDetailScreen = (props) => {
         style={styles.addTaskButton}
         onPress={() => {
           createTask(project);
+          scrollView()
+          setIsUpdateListView(true)
         }}>
         <Icon icon={faCirclePlus} size={34} />
       </TouchableOpacity>

@@ -3,38 +3,40 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Text,
   Alert,
 } from 'react-native';
 import ProjectBox from '../components/ProjectBox';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import Dialog from "react-native-dialog";
 
 import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const ProjectListScreen = ({ navigation }) => {
   const { projects, createProject, deleteItem, getActiveWork } = useProjects();
   var listRef = React.useRef(null)
-
   const work = getActiveWork()
+  const [isUpdateListView, setIsUpdateListView] = React.useState(false)
+
   if (work) {
     // 未保存のworkがあればタイマ画面へ遷移する
     navigation.navigate('Timer', { work: work });
+  }
+
+  const scrollView = () => {
+    listRef?.current?.scrollToEnd()
+    setIsUpdateListView(false)
   }
 
   return (
     <View style={styles.body}>
       <SwipeListView
         listViewRef={(ref) => { listRef.current = ref }}
-        onContentSizeChange={(width, height) => {
-          listRef?.current?.scrollToOffset({
-            animated: true,
-            offset: height,
-          })
+        onContentSizeChange = {(width: number, height: number)=>{
+          if (isUpdateListView) {
+            scrollView()
+          }
         }}
         style={styles.projectBoxContainer}
         data={projects}
@@ -70,14 +72,16 @@ const ProjectListScreen = ({ navigation }) => {
         rightOpenValue={-102}
         disableRightSwipe={true}
       />
-    <TouchableOpacity
-      style={styles.addProjectButton}
-      onPress={() => {
-        createProject();
-      }}>
-      <Icon icon={faCirclePlus} size={62} />
-    </TouchableOpacity>
-  </View>
+      <TouchableOpacity
+        style={styles.addProjectButton}
+        onPress={() => {
+          createProject()
+          scrollView()
+          setIsUpdateListView(true)
+        }}>
+        <Icon icon={faCirclePlus} size={62} />
+      </TouchableOpacity>
+    </View>
   );
 }
 
