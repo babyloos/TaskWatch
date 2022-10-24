@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const ProjectDelButton = (props: any) => {
 
   const size = 12;
-  const marginTop = 8;
+  const marginTop = 18;
   const marginBottom = 8;
   const gradColors = ['#ff0000', '#d90000'];
 
