@@ -13,11 +13,11 @@ const WatchDisplay = ({ time }: any) => {
 
   return (
     <View style={styles.displayContainer}>
-      <Text style={styles.timer}>{formatDisplay(Math.floor(time / (60 * 60 * 1000)))}</Text>
+      <Text style={styles.timer}>{formatDisplay(Math.floor(time / (3600 * 1000)))}</Text>
       <Text style={styles.colon}>:</Text>
-      <Text style={styles.timer}>{formatDisplay(Math.floor(time / (60 * 1000)))}</Text>
+      <Text style={styles.timer}>{formatDisplay(Math.floor((time / 1000 % 3600) / 60))}</Text>
       <Text style={styles.colon}>:</Text>
-      <Text style={styles.timer}>{formatDisplay(Math.floor(time / (1000)) % 60)}</Text>
+      <Text style={styles.timer}>{formatDisplay(Math.floor(time / 1000 % 60))}</Text>
     </View>
   )
 }
