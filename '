@@ -18,19 +18,21 @@ import DelButton from '../components/DelButton';
 const ProjectDetailScreen = (props) => {
   const { createTask, deleteItem } = useProjects();
   const project = props.route.params.project;
-  var listRef = React.useRef(null)
+  // const scrollViewRef = React.useRef<ListView>(null);
+  var listRef = React.useRef<SwipeListView<unknown>>(null)
+
+  Reacrt.useEffect(() => {
+    listRef?.current?.scrollToOffset({
+      animated: true,
+      offset: 100,
+    })
+  })
 
   return (
     <View style={styles.container}>
       <ProjectBox navigation={props.navigation} project={project} isDetail={true} />
       <SwipeListView
-        listViewRef={(ref)=>{listRef.current = ref}}
-        onContentSizeChange = {(width, height) => {
-          listRef?.current?.scrollToOffset({
-            animated: true,
-            offset: height
-          })
-        }}
+        ref = {listRef}
         data={project.tasks}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
