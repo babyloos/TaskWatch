@@ -91,10 +91,14 @@ const TimerScreen = (props) => {
 
   useEffect(() => {
     const task = getTaskSpecifyWork(work)
+    var title = task.name
+    if (!work.isSaved && isStarted) {
+      title += '(未保存)'
+    }
     props.navigation.setOptions({
-      title: task.name
+      title: title
     })
-  }, [])
+  }, [work.isSaved, isStarted])
 
   const _handleAppStateChange = (nextAppState: any) => {
     setAppState(nextAppState)
@@ -104,7 +108,7 @@ const TimerScreen = (props) => {
   const onPressStartWatch = () => {
     const now = new Date()
     startWatch(time)
-    updateWork(work, now, null, true, null, null)
+    updateWork(work, now, null, true, null, null, false)
   }
 
   const startWatch = (initTime) => {
@@ -132,7 +136,7 @@ const TimerScreen = (props) => {
 
   const resetWatch = () => {
     setTime(0)
-    updateWork(work, null, null, false, null, null)
+    updateWork(work, null, null, false, null, null, false)
   }
 
   const saveWatch = () => {
