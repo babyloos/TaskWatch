@@ -3,11 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   StyleSheet,
-  Button,
 } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import 'react-native-get-random-values'
-import { Realm, createRealmContext } from '@realm/react';
 import mobileAds, { MaxAdContentRating, BannerAdSize, BannerAd, TestIds } from 'react-native-google-mobile-ads';
 
 import ProjectListScreen from './src/screens/ProjectListScreen';
@@ -18,6 +16,7 @@ import TaskDetailScreen from './src/screens/TaskDetailScreen';
 import TaskEditScreen from './src/screens/TaskEditScreen';
 import TimerScreen from './src/screens/TimerScreen';
 import WorkEditScreen from './src/screens/WorkEditScreen';
+import AggregationScreen from './src/screens/AggregationScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -134,6 +133,19 @@ const App = () => {
                 gestureEnabled: false,
               })}
             />
+            <Stack.Screen
+              name="Aggregation"
+              component={AggregationScreen}
+              options={({ route }) => ({
+                title: '集計',
+                headerStyle: {
+                  backgroundColor: '#61adf5',
+                },
+                contentStyle: styles.body,
+                gestureEnabled: false,
+              })}
+            />
+
           </Stack.Navigator>
         </NavigationContainer>
         <BannerAd

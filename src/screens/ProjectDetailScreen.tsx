@@ -4,6 +4,7 @@ import {
   View,
   Alert,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +20,19 @@ const ProjectDetailScreen = (props) => {
   const project = props.route.params.project
   var listRef = React.useRef(null)
   const [isUpdateListView, setIsUpdateListView] = React.useState(false)
+
+  React.useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <Button 
+          onPress={() => {
+            props.navigation.navigate('Aggregation');
+         }} 
+          title="集計"
+        />
+      ),
+    });
+  }, []);
 
   const scrollView = () => {
     listRef?.current?.scrollToEnd()

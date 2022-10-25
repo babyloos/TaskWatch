@@ -431,6 +431,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
+  - RNCPicker (2.4.8):
+    - React-Core
   - RNDateTimePicker (6.5.2):
     - React-Core
   - RNGestureHandler (2.6.1):
@@ -543,6 +545,7 @@ DEPENDENCIES:
   - RealmJS (from `../node_modules/realm`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
@@ -655,6 +658,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
@@ -731,6 +736,7 @@ SPEC CHECKSUMS:
   RealmJS: 1a0478d2c2d98da875057b716c69c8d03eef2b3a
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
+  RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
   RNDateTimePicker: 3f32aa2247836c12618d346113e5e82ea60ddd9c
   RNGestureHandler: 28ad20bf02257791f7f137b31beef34b9549f54b
   RNGoogleMobileAds: 7401e996d3774acd620a4d843d2545bf54f13567
