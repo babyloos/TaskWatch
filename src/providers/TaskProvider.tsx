@@ -91,6 +91,35 @@ const TasksProvider = ({ children }) => {
     return totalTime
   }
 
+  // 指定したプロジェクト内タスクの最小開始日時を取得する
+  const getMinStartDate = (task: any): Date | null => {
+    const works = task.works
+    if (works.length == 0) {
+      return null
+    }
+    var minDate = new Date('3000-1-1 00:00:00')
+    for (var i=0; i<works.length; i++) {
+      if (works[i].startTime < minDate) {
+        minDate = works[i].startTime
+      }
+    }
+    return minDate
+  }
+
+  const getMaxEndDate = (task: any): Date | null => {
+    const works = task.works
+    if (works.length == 0) {
+      return null
+    }
+    var maxDate = new Date('1970-1-1 00:00:00')
+    for (var i=0; i<works.length; i++) {
+      if (works[i].endTime > maxDate) {
+        maxDate = works[i].endTime
+      }
+    }
+    return maxDate
+  }
+
   // ワークの新規作成
   const createWork = (task: any) => {
     const projectRealm = realmRef.current;
@@ -173,6 +202,8 @@ const TasksProvider = ({ children }) => {
         getActiveWork,
         delNullWorks,
         getTaskSpecifyWork,
+        getMinStartDate,
+        getMaxEndDate,
         projects,
       }}>
       {children}

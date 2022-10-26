@@ -8,12 +8,10 @@ import {
   Button,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
-import { faCalendar, faCalendarDay, faCalendarDays, faClock } from '@fortawesome/free-regular-svg-icons'
 
 import { useProjects } from '../providers/TaskProvider'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { getDateFormated, toDispTime, toDispHour, toDispMinute } from '../utils/utils'
+import { toDispHour, toDispMinute } from '../utils/utils'
 
 const WorkEditScreen = (props: any) => {
   const { updateWork } = useProjects();
@@ -43,7 +41,7 @@ const WorkEditScreen = (props: any) => {
   }
 
   const onChangeEndTime = (event: any, time: Date) => {
-    const settedDateTime = endDateTime 
+    const settedDateTime = endDateTime
     settedDateTime.setTime(time.getTime())
     setEndDateTime(settedDateTime)
   }
@@ -59,19 +57,19 @@ const WorkEditScreen = (props: any) => {
   }
 
   const saveWork = () => {
-    const workTime = workTimeHour * 3600 * 1000 + workTimeMinute * 60 * 1000 
+    const workTime = workTimeHour * 3600 * 1000 + workTimeMinute * 60 * 1000
     updateWork(work, startDateTime, endDateTime, null, null, workTime, null);
   }
 
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <Button 
+        <Button
           color={'#FF0000'}
           onPress={() => {
             saveWork()
             props.navigation.goBack();
-         }} 
+          }}
           title="保存"
         />
       ),
@@ -79,9 +77,9 @@ const WorkEditScreen = (props: any) => {
   })
 
   return (
-    <TouchableWithoutFeedback 
+    <TouchableWithoutFeedback
       style={styles.container}
-      onPress={() => {Keyboard.dismiss()}}
+      onPress={() => { Keyboard.dismiss() }}
     >
       <View style={styles.dateInputContainer}>
         <Text style={styles.timeName}>開始時刻</Text>
@@ -94,7 +92,7 @@ const WorkEditScreen = (props: any) => {
               locale='ja-JP'
               is24Hour={true}
               onChange={onChangeStartDate}
-              />
+            />
             <DateTimePicker
               style={styles.dateTimePickerTime}
               mode='time'
@@ -102,7 +100,7 @@ const WorkEditScreen = (props: any) => {
               locale='ja-JP'
               is24Hour={true}
               onChange={onChangeStartTime}
-              />
+            />
           </View>
         </View>
       </View>
@@ -117,7 +115,7 @@ const WorkEditScreen = (props: any) => {
               locale='ja-JP'
               is24Hour={true}
               onChange={onChangeEndDate}
-              />
+            />
             <DateTimePicker
               style={styles.dateTimePickerTime}
               mode='time'
@@ -125,7 +123,7 @@ const WorkEditScreen = (props: any) => {
               locale='ja-JP'
               is24Hour={true}
               onChange={onChangeEndTime}
-              />
+            />
           </View>
         </View>
       </View>
@@ -138,18 +136,18 @@ const WorkEditScreen = (props: any) => {
               keyboardType='decimal-pad'
               placeholder={toDispHour(workTime)}
               placeholderTextColor='#808080'
-              onChangeText={(input: string) => {onChangeWorkHour(input)}}
-              />
+              onChangeText={(input: string) => { onChangeWorkHour(input) }}
+            />
             <Text style={styles.workTimeUnit}>時間</Text>
           </View>
-          <View style={[styles.timeInputContainer, {marginLeft: -20}]}>
+          <View style={[styles.timeInputContainer, { marginLeft: -20 }]}>
             <TextInput
               style={styles.workTimeInput}
               keyboardType='decimal-pad'
               placeholder={toDispMinute(workTime)}
               placeholderTextColor='#808080'
-              onChangeText={(input: string) => {onChangeWorkMinute(input)}}
-              />
+              onChangeText={(input: string) => { onChangeWorkMinute(input) }}
+            />
             <Text style={styles.workTimeUnit}>分</Text>
           </View>
         </View>
