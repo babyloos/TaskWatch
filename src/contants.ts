@@ -13,7 +13,11 @@ const colors = {
     grad2: '#a6b3ae',
     shadow1: '#70c7ff',
     shadow2: '#5293d0',
-  }
+  },
+  selector: {
+    project: '#5293d0',
+    task: '#29b87c',
+  },
 };
 
 // ["#70c7ff", "#80daeb", "#67ddab", "#0b9b8a", "#909090"]
