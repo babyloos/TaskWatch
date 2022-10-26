@@ -4,26 +4,24 @@ import {
   View,
   Text,
 } from 'react-native';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import PickerModal from '../components/PickerModal';
 import { useProjects } from '../providers/TaskProvider';
 
-const AggregationScreen = ({props}) => {
-  const { projects } = useProjects()
-  const [isShowPicker, setIsShowPicker] = useState(false)
-  const [selectedProject, setSelectedProjcet] = useState('プロジェクト名')
-  const [projectList, setProjectList] = useState(['プロジェクト1', 'プロジェクト2'])
-
-  /*
-  useEffect(()=>{
-    let pList = []
+const AggregationScreen = () => {
+  const getProjectNameList = (projects: any): Array<string> => {
+    let result = new Array<string>()
     for (var i=0; i<projects.length; i++) {
-      pList.push(projects[i].name)
+      result.push(projects[i].name)
     }
-    projectList = pList
-  }, [projectList, projects])
-  */
+    return result
+  }
+
+  const { projects } = useProjects()
+  const projectList = getProjectNameList(projects)
+  const [isShowPicker, setIsShowPicker] = useState(false)
+  const [selectedProject, setSelectedProjcet] = useState(0)
 
   return (
     <View style={styles.body}>
@@ -34,7 +32,7 @@ const AggregationScreen = ({props}) => {
             <TouchableOpacity onPress={() => {
               setIsShowPicker(true)
             }}>
-              <Text style={styles.selectedItem}>{selectedProject}</Text>
+              <Text style={styles.selectedItem}>{projectList[selectedProject]}</Text>
             </TouchableOpacity>
           </View>
         </View>
