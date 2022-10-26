@@ -19,6 +19,14 @@ const AggregationScreen = () => {
     return result
   }
 
+  const getTaskNameList = (project: any): Array<string> => {
+    let result = new Array<string>()
+    for (var i=0; i<project.tasks.length; i++) {
+      result.push(project.tasks[i].name)
+    }
+    return result
+  }
+
   // Projects
   const { projects } = useProjects()
   const projectList = getProjectNameList(projects)
@@ -26,9 +34,15 @@ const AggregationScreen = () => {
   const [selectedProject, setSelectedProjcet] = useState(0)
 
   // Tasks
-  const [taskList, setTaskList] = useState(projects[selectedProject].tasks[0])
-  const [isSHowTaskPicker, setIsShowTaskPicker] = useState(false)
+  const [taskList, setTaskList] = useState([''])
+  const [isShowTaskPicker, setIsShowTaskPicker] = useState(false)
   const [selectedTask, setSelectedTask] = useState(0)
+
+  useEffect(() => {
+    const project = projects[selectedProject]
+    setTaskList(getTaskNameList(project)) 
+    setSelectedTask(0)
+  }, [selectedProject])
 
   return (
     <View style={styles.body}>
@@ -56,19 +70,21 @@ const AggregationScreen = () => {
           <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>タスク</Text></View>
           <View style={styles.specifyItemValue}>
             <TouchableOpacity onPress={() => {
-              setIsShowProjectPicker(true)
+              if (taskList.length > 0) {
+                setIsShowTaskPicker(true)
+              }
             }}>
               <Text 
                 numberOfLines={1}
-                style={styles.selectedItem}>{projectList[selectedProject]}</Text>
+                style={styles.selectedItem}>{!taskList[selectedTask] ? 'タスクなし' : taskList[selectedTask]}</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <PickerModal
-        isShowPicker={isShowProjectPicker} setIsShowPicker={setIsShowProjectPicker}
-        selectedItem={selectedProject} setSelectedItem={setSelectedProjcet}
-        items={projectList}
+        isShowPicker={isShowTaskPicker} setIsShowPicker={setIsShowTaskPicker}
+        selectedItem={selectedTask} setSelectedItem={setSelectedTask}
+        items={taskList}
       />
     </View>
   )
