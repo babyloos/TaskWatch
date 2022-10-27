@@ -93,6 +93,9 @@ const TasksProvider = ({ children }) => {
 
   // 指定したプロジェクト内タスクの最小開始日時を取得する
   const getMinStartDate = (task: any): Date | null => {
+    if (!task) {
+      return null
+    }
     const works = task.works
     if (works.length == 0) {
       return null
@@ -107,6 +110,9 @@ const TasksProvider = ({ children }) => {
   }
 
   const getMaxEndDate = (task: any): Date | null => {
+    if (!task) {
+      return null
+    }
     const works = task.works
     if (works.length == 0) {
       return null

@@ -61,7 +61,7 @@ const AggregationScreen = () => {
     if (maxDate) {
       setEndDate(maxDate)
     }
-  }, [selectedTask])
+  }, [selectedTask, selectedProject])
 
   return (
     <View style={styles.body}>
