@@ -24,10 +24,10 @@ const ProjectDetailScreen = (props) => {
   React.useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <Button 
+        <Button
           onPress={() => {
-            props.navigation.navigate('Aggregation');
-         }} 
+            props.navigation.navigate('Aggregation', { project: project, task: null });
+          }}
           title="集計"
         />
       ),

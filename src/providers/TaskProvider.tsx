@@ -40,7 +40,12 @@ const TasksProvider = ({ children }) => {
     });
   };
 
-  // プロジェクトを削除する
+  const getProjectFromName = (name: string) => {
+    const project = realmRef.current.objects('Project').filtered('name', name)[0]
+    return project
+  }
+
+  // プロジェクト等を削除する
   const deleteItem = (item) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {

@@ -11,7 +11,12 @@ import PickerModal from '../components/PickerModal'
 import { useProjects } from '../providers/TaskProvider'
 import colors from '../contants'
 
-const AggregationScreen = () => {
+const AggregationScreen = (props) => {
+
+  // props
+  const project = props.route.params.project
+  const task = props.route.params.task
+
   const { getMinStartDate, getMaxEndDate } = useProjects()
   const getProjectNameList = (projects: any): Array<string> => {
     let result = new Array<string>()
@@ -34,6 +39,25 @@ const AggregationScreen = () => {
   const projectList = getProjectNameList(projects)
   const [isShowProjectPicker, setIsShowProjectPicker] = useState(false)
   const [selectedProject, setSelectedProjcet] = useState(0)
+
+  useEffect(() => {
+    if (project) {
+      const projectName = project.name
+      for (var i=0; i<projects.length; i++) {
+        if (projects[i].name === projectName) {
+          setSelectedProjcet(i)
+        }
+      }
+    }
+    if (task) {
+      const taskName = task.name
+      for (var i=0; i<project.tasks.length; i++) {
+        if (project.tasks[i].name === taskName) {
+          setSelectedTask(i)
+        }
+      }
+    }
+  }, [project, task])
 
   // Tasks
   const [taskList, setTaskList] = useState([''])
