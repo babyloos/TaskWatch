@@ -10,6 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import PickerModal from '../components/PickerModal'
 import { useProjects } from '../providers/TaskProvider'
 import colors from '../contants'
+import { toDispTime } from '../utils/utils'
 
 const AggregationScreen = (props) => {
 
@@ -63,6 +64,7 @@ const AggregationScreen = (props) => {
   const [taskList, setTaskList] = useState([''])
   const [isShowTaskPicker, setIsShowTaskPicker] = useState(false)
   const [selectedTask, setSelectedTask] = useState(0)
+  const [totalWorkTime, setTotalWorkTime] = useState(0)
 
   // period
   const [startDate, setStartDate] = useState(new Date)
@@ -86,6 +88,61 @@ const AggregationScreen = (props) => {
       setEndDate(maxDate)
     }
   }, [selectedTask, selectedProject])
+
+  useEffect(() => {
+    updateTotalTime()
+  }, [selectedTask, selectedProject, startDate, endDate])
+
+  const updateTotalTime = () => {
+    const project = projects[selectedProject]
+    const task = project.tasks[selectedTask]
+    var totalTime = 0 
+    if (task) {
+      totalTime = calcTotalTaskTime(task, startDate, endDate)
+    }
+    setTotalWorkTime(totalTime)
+  }
+
+  const calcTotalTaskTime = (task: any, startTime: Date, endTime: Date): number => {
+    const works = task.works
+    var totalTime = 0       // ms
+    for (var i=0; i<works.length; i++) {
+      const work = works[i]
+      if (work.startTime >= startTime && work.endTime <= endTime) {
+        totalTime += work.workTime
+      }
+    }
+    return totalTime
+  }
+
+  // update aggregation period
+  const onChangeStartDate = (event: any, date: Date) => {
+    const settedDate = startDate
+    settedDate.setDate(date.getDate())
+    setStartDate(settedDate)
+    updateTotalTime()
+  }
+
+  const onChangeStartTime = (event: any, time: Date) => {
+    const settedDate = startDate
+    settedDate.setTime(time.getTime())
+    setStartDate(settedDate)
+    updateTotalTime()
+  }
+
+  const onChangeEndDate = (event: any, date: Date) => {
+    const settedDate = endDate
+    settedDate.setDate(date.getDate())
+    setStartDate(settedDate)
+    updateTotalTime()
+  }
+
+  const onChangeEndTime = (event: any, time: Date) => {
+    const settedDate = endDate
+    settedDate.setTime(time.getTime())
+    setStartDate(settedDate)
+    updateTotalTime()
+  }
 
   return (
     <View style={styles.body}>
@@ -145,7 +202,7 @@ const AggregationScreen = (props) => {
                 value={startDate}
                 locale='ja-JP'
                 is24Hour={true}
-                onChange={()=>{console.log('change date')}}
+                onChange={onChangeStartDate}
               />
               <DateTimePicker
                 style={styles.dateTimePickerDate}
@@ -153,7 +210,7 @@ const AggregationScreen = (props) => {
                 value={startDate}
                 locale='ja-JP'
                 is24Hour={true}
-                onChange={()=>{console.log('change date')}}
+                onChange={onChangeStartTime}
               />
             </View>
         </View>
@@ -166,7 +223,7 @@ const AggregationScreen = (props) => {
                 value={endDate}
                 locale='ja-JP'
                 is24Hour={true}
-                onChange={()=>{console.log('change date')}}
+                onChange={onChangeEndDate}
               />
               <DateTimePicker
                 style={styles.dateTimePickerDate}
@@ -174,9 +231,13 @@ const AggregationScreen = (props) => {
                 value={endDate}
                 locale='ja-JP'
                 is24Hour={true}
-                onChange={()=>{console.log('change date')}}
+                onChange={onChangeEndTime}
               />
             </View>
+        </View>
+        <View style={styles.totalWorkTimeContainer}>
+          <Text style={styles.totalWorkTimeName}>総作業時間</Text>
+          <Text style={styles.totalWorkTimeValue}>{toDispTime(totalWorkTime)}</Text>
         </View>
       </View>
     </View>
@@ -221,4 +282,19 @@ const styles = StyleSheet.create({
   dateTimePickerDate: {
     width: '50%',
   },
+  totalWorkTimeContainer: {
+    marginTop: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  totalWorkTimeName: {
+    fontSize: 24,
+    width: '50%',
+    textAlign: 'center',
+  },
+  totalWorkTimeValue: {
+    fontSize: 24,
+    width: '50%',
+    textAlign: 'center',
+  }
 });
