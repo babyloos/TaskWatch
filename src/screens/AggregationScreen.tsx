@@ -3,9 +3,11 @@ import {
   StyleSheet,
   View,
   Text,
+  Dimensions,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { BarChart } from "react-native-chart-kit";
 
 import PickerModal from '../components/PickerModal'
 import { useProjects } from '../providers/TaskProvider'
@@ -18,7 +20,7 @@ const AggregationScreen = (props) => {
   const project = props.route.params.project
   const task = props.route.params.task
 
-  const { getMinStartDate, getMaxEndDate } = useProjects()
+  const { getMinStartDate, getMaxEndDate, getTaskTotalTime } = useProjects()
   const getProjectNameList = (projects: any): Array<string> => {
     let result = new Array<string>()
     for (var i=0; i<projects.length; i++) {
@@ -70,6 +72,10 @@ const AggregationScreen = (props) => {
   const [startDate, setStartDate] = useState(new Date)
   const [endDate, setEndDate] = useState(new Date)
 
+  // chart
+  const [chartLabels, setChartLabels] = useState([''])
+  const [chartDatas, setChartDatas] = useState([0])
+
   useEffect(() => {
     const project = projects[selectedProject]
     setTaskList(getTaskNameList(project)) 
@@ -101,6 +107,7 @@ const AggregationScreen = (props) => {
       totalTime = calcTotalTaskTime(task, startDate, endDate)
     }
     setTotalWorkTime(totalTime)
+    createChartData()
   }
 
   const calcTotalTaskTime = (task: any, startTime: Date, endTime: Date): number => {
@@ -118,6 +125,8 @@ const AggregationScreen = (props) => {
   // update aggregation period
   const onChangeStartDate = (event: any, date: Date) => {
     const settedDate = startDate
+    settedDate.setFullYear(date.getFullYear())
+    settedDate.setMonth(date.getMonth())
     settedDate.setDate(date.getDate())
     setStartDate(settedDate)
     updateTotalTime()
@@ -132,16 +141,80 @@ const AggregationScreen = (props) => {
 
   const onChangeEndDate = (event: any, date: Date) => {
     const settedDate = endDate
+    settedDate.setFullYear(date.getFullYear())
+    settedDate.setMonth(date.getMonth())
     settedDate.setDate(date.getDate())
-    setStartDate(settedDate)
+    setEndDate(settedDate)
     updateTotalTime()
   }
 
   const onChangeEndTime = (event: any, time: Date) => {
     const settedDate = endDate
     settedDate.setTime(time.getTime())
-    setStartDate(settedDate)
+    setEndDate(settedDate)
     updateTotalTime()
+  }
+
+  const createChartData = () => {
+    // 開始日時、終了日時から期間を計算
+    const startDateTmp = new Date(startDate.getTime())
+    startDateTmp.setMilliseconds(0)
+    const endDateTmp = new Date(endDate.getTime())
+    endDateTmp.setMilliseconds(0)
+    const periodTime = endDateTmp - startDateTmp 
+    var period = 2; // 0: 7日以内, 1: 7ヶ月以内, 2: 8ヶ月以上
+    if (period <= 7 * 86400) {
+      period = 0
+    } else if (period <= 7 * 31 * 86400) {
+      period = 1
+    }
+
+    // labels
+    var labels = ['', '', '', '', '', '', '']
+    var startLabel = ''
+    var endLabel = ''
+    const startYear = startDateTmp.getFullYear() + '年'
+    const startMonth = startDateTmp.getMonth() + 1 + '月'
+    const startDateLabel = startDateTmp.getDate() + '日'
+    const endYear = endDateTmp.getFullYear() + '年'
+    const endMonth = endDateTmp.getMonth() + 1 + '月'
+    const endDateLabel = endDateTmp.getDate() + '日'
+    switch(period) {
+      case 0: // 月日
+        startLabel = startMonth + startDateLabel
+        endLabel = endMonth + endDateLabel
+        break
+      case 1: // 年月
+        startLabel = startYear + startMonth
+        endLabel = endYear + endMonth
+        break
+      case 2: // 年
+        startLabel = startYear
+        endLabel = endYear
+    }
+    labels[0] = startLabel
+    labels[5] = endLabel    // 表示位置がずれるので一個手前に表示する
+
+    // datas
+    var datas = []
+    const project = projects[selectedProject]
+    const task = project.tasks[selectedTask]
+    let periodStart = new Date(startDateTmp.getTime())
+    let workTime = 0
+    switch(period) {
+      case 0:
+        // 日毎
+        for (var i=0; i<7; i++) {
+          var periodEnd = new Date(periodStart.getTime())
+          periodEnd.setDate(periodEnd.getDate() + 1)
+          workTime = getTaskTotalTime(task, periodStart, periodEnd)
+          datas.push(workTime / 3600000)
+          periodStart.setDate(periodStart.getDate() + 1)
+        }
+        break
+    }
+    setChartLabels(labels)
+    setChartDatas(datas)
   }
 
   return (
@@ -239,6 +312,36 @@ const AggregationScreen = (props) => {
           <Text style={styles.totalWorkTimeName}>総作業時間</Text>
           <Text style={styles.totalWorkTimeValue}>{toDispTime(totalWorkTime)}</Text>
         </View>
+        <View style={styles.chartContainer}>
+          <BarChart
+            data={{
+              labels: chartLabels,
+              datasets: [
+                {
+                  data: chartDatas,
+                }
+              ]
+            }}
+            width={Dimensions.get('window').width - 40}
+            height={220}
+            yAxisLabel=""
+            yAxisSuffix="時間"
+            yAxisInterval={1} // optional, defaults to 1
+            fromZero={true}
+            chartConfig={{
+              backgroundColor: colors.graph.background,
+              backgroundGradientFrom: colors.graph.gradientFrom,
+              backgroundGradientTo: colors.graph.gradientTo,
+              decimalPlaces: 1, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            }}
+            style={{
+              marginTop: 24,
+              borderRadius: 8, 
+            }}
+          />
+        </View>
       </View>
     </View>
   )
@@ -296,5 +399,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     width: '50%',
     textAlign: 'center',
+  },
+  chartContainer: {
+
   }
 });

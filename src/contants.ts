@@ -18,7 +18,15 @@ const colors = {
     project: '#5293d0',
     task: '#29b87c',
   },
+  graph: {
+    background: '#70c7ff',
+    gradientFrom: '#67b9ff',
+    gradientTo: '#579cdd',
+  }
 };
+
+//['#67b9ff', '#579cdd'];
+
 
 // ["#70c7ff", "#80daeb", "#67ddab", "#0b9b8a", "#909090"]
 

@@ -86,12 +86,16 @@ const TasksProvider = ({ children }) => {
     });
   };
 
-  // 指定したtaskの合計作業時間を取得する
+  // task, 取得する作業時間の期間を指定し合計作業時間を返す
   // msで返す
-  const getTaskTotalTime = (task: any): number => {
+  const getTaskTotalTime = (task: any, startTime?: Date, endTime?: Date): number => {
     var totalTime = 0
     for (var i = 0; i < task.works.length; i++) {
-      totalTime += task.works[i].workTime
+      if (startTime && endTime) {
+        if (task.works[i].startTime >= startTime && task.works[i].startTime <= endTime) {
+          totalTime += task.works[i].workTime
+        }
+      }
     }
     return totalTime
   }
