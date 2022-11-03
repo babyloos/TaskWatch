@@ -163,9 +163,9 @@ const AggregationScreen = (props) => {
     endDateTmp.setMilliseconds(0)
     const periodTime = endDateTmp - startDateTmp 
     var period = 2; // 0: 7日以内, 1: 7ヶ月以内, 2: 8ヶ月以上
-    if (period <= 7 * 86400) {
+    if (periodTime <= 7 * 86400000) {
       period = 0
-    } else if (period <= 7 * 31 * 86400) {
+    } else if (period <= 7 * 31 * 86400000) {
       period = 1
     }
 
@@ -193,7 +193,7 @@ const AggregationScreen = (props) => {
         endLabel = endYear
     }
     labels[0] = startLabel
-    labels[5] = endLabel    // 表示位置がずれるので一個手前に表示する
+    labels[5] = '           ' + endLabel    // 表示位置がずれるので一個手前に表示する
 
     // datas
     var datas = []
@@ -207,11 +207,23 @@ const AggregationScreen = (props) => {
         for (var i=0; i<7; i++) {
           var periodEnd = new Date(periodStart.getTime())
           periodEnd.setDate(periodEnd.getDate() + 1)
+          if (periodEnd > endDate) {
+            continue
+          }
           workTime = getTaskTotalTime(task, periodStart, periodEnd)
-          datas.push(workTime / 3600000)
+          datas.push(workTime)
           periodStart.setDate(periodStart.getDate() + 1)
         }
         break
+    }
+    // 最大作業時間によって縦軸の単位を変える
+    const aryMax = function (a: number, b: number) {return Math.max(a, b);}
+    if (datas.length > 0) {
+      if (datas.reduce(aryMax) <= 3600000) {
+        datas = datas.map(d => d / 60000)
+      } else if (datas.reduce(aryMax) <= 24 * 3600000) {
+        datas = datas.map(d => d / 3600000)
+      }
     }
     setChartLabels(labels)
     setChartDatas(datas)
