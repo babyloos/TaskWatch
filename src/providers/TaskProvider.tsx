@@ -95,6 +95,8 @@ const TasksProvider = ({ children }) => {
         if (task.works[i].startTime >= startTime && task.works[i].startTime <= endTime) {
           totalTime += task.works[i].workTime
         }
+      } else {
+        totalTime += task.works[i].workTime
       }
     }
     return totalTime
