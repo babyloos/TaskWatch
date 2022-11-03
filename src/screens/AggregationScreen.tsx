@@ -75,6 +75,7 @@ const AggregationScreen = (props) => {
   // chart
   const [chartLabels, setChartLabels] = useState([''])
   const [chartDatas, setChartDatas] = useState([0])
+  const [yAxisSuffix, setYAxisSuffix] = useState('時間')
 
   useEffect(() => {
     const project = projects[selectedProject]
@@ -165,7 +166,7 @@ const AggregationScreen = (props) => {
     var period = 2; // 0: 7日以内, 1: 7ヶ月以内, 2: 8ヶ月以上
     if (periodTime <= 7 * 86400000) {
       period = 0
-    } else if (period <= 7 * 31 * 86400000) {
+    } else if (periodTime <= 7 * 31 * 86400000) {
       period = 1
     }
 
@@ -215,14 +216,40 @@ const AggregationScreen = (props) => {
           periodStart.setDate(periodStart.getDate() + 1)
         }
         break
+      case 1:
+        // 月毎
+        for (var i=0; i<7; i++) {
+          var periodEnd = new Date(periodStart.getTime())
+          periodEnd.setMonth(periodEnd.getMonth() + 1)
+          if (periodEnd > endDate) {
+            continue
+          }
+          workTime = getTaskTotalTime(task, periodStart, periodEnd)
+          datas.push(workTime)
+          periodStart.setMonth(periodStart.getMonth() + 1)
+        }
+      case 2:
+        // 年毎
+        for (var i=0; i<7; i++) {
+          var periodEnd = new Date(periodStart.getTime())
+          periodEnd.setYear(periodEnd.getFullYear() + 1)
+          if (periodEnd > endDate) {
+            continue
+          }
+          workTime = getTaskTotalTime(task, periodStart, periodEnd)
+          datas.push(workTime)
+          periodStart.setFullYear(periodStart.getFullYear() + 1)
+        }
     }
     // 最大作業時間によって縦軸の単位を変える
     const aryMax = function (a: number, b: number) {return Math.max(a, b);}
     if (datas.length > 0) {
       if (datas.reduce(aryMax) <= 3600000) {
         datas = datas.map(d => d / 60000)
+        setYAxisSuffix('分')
       } else if (datas.reduce(aryMax) <= 24 * 3600000) {
         datas = datas.map(d => d / 3600000)
+        setYAxisSuffix('時間')
       }
     }
     setChartLabels(labels)
@@ -337,7 +364,7 @@ const AggregationScreen = (props) => {
             width={Dimensions.get('window').width - 40}
             height={220}
             yAxisLabel=""
-            yAxisSuffix="時間"
+            yAxisSuffix={yAxisSuffix}
             yAxisInterval={1} // optional, defaults to 1
             fromZero={true}
             chartConfig={{
