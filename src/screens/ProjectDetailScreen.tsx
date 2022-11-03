@@ -15,7 +15,7 @@ import TaskBox from '../components/TaskBox';
 import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
 
-const ProjectDetailScreen = (props) => {
+const ProjectDetailScreen = (props: any) => {
   const { createTask, deleteItem } = useProjects()
   const project = props.route.params.project
   var listRef = React.useRef(null)
