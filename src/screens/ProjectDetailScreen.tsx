@@ -16,8 +16,8 @@ import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
 
 const ProjectDetailScreen = (props: any) => {
-  const { createTask, deleteItem } = useProjects()
-  const project = props.route.params.project
+  const { createTask, deleteItem, getProjectById } = useProjects()
+  const project = getProjectById(props.route.params.projectId)
   var listRef = React.useRef(null)
   const [isUpdateListView, setIsUpdateListView] = React.useState(false)
 
@@ -55,7 +55,7 @@ const ProjectDetailScreen = (props: any) => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              props.navigation.navigate('TaskDetail', { title: item.name, task: item })
+              props.navigation.navigate('TaskDetail', { title: item.name, taskId: item._id })
             }}
           >
             <TaskBox navigation={props.navigation} task={item} editable={false} showWatch={false} />

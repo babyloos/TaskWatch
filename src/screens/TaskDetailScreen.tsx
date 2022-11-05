@@ -15,8 +15,8 @@ import DelButton from '../components/DelButton';
 import { useProjects } from '../providers/TaskProvider';
 
 const TaskDetailScreen = (props: any) => {
-  const { deleteItem, delNullWorks } = useProjects();
-  const task = props.route.params.task;
+  const { deleteItem, delNullWorks, getTaskById } = useProjects()
+  const task = getTaskById(props.route.params.taskId)
   const isFocused = useIsFocused()
 
   useEffect(() => {

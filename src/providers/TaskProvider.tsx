@@ -40,8 +40,8 @@ const TasksProvider = ({ children }) => {
     });
   };
 
-  const getProjectFromName = (name: string) => {
-    const project = realmRef.current.objects('Project').filtered('name', name)[0]
+  const getProjectById = (id: Int32) => {
+    const project = realmRef.current.objects('Project').filtered('_id == ' + id)[0]
     return project
   }
 
@@ -86,6 +86,11 @@ const TasksProvider = ({ children }) => {
     });
   };
 
+  const getTaskById = (id: Int32) => {
+    const task = realmRef.current?.objects('Task').filtered('_id == ' + id)[0]
+    return task
+  }
+
   // task, 取得する作業時間の期間を指定し合計作業時間を返す
   // msで返す
   const getTaskTotalTime = (task: any, startTime?: Date, endTime?: Date): number => {
@@ -112,7 +117,7 @@ const TasksProvider = ({ children }) => {
       return null
     }
     var minDate = new Date('3000-1-1 00:00:00')
-    for (var i=0; i<works.length; i++) {
+    for (var i = 0; i < works.length; i++) {
       if (works[i].startTime < minDate) {
         minDate = works[i].startTime
       }
@@ -129,7 +134,7 @@ const TasksProvider = ({ children }) => {
       return null
     }
     var maxDate = new Date('1970-1-1 00:00:00')
-    for (var i=0; i<works.length; i++) {
+    for (var i = 0; i < works.length; i++) {
       if (works[i].endTime > maxDate) {
         maxDate = works[i].endTime
       }
@@ -158,6 +163,13 @@ const TasksProvider = ({ children }) => {
       });
     });
   };
+
+  const getWorkById = (id: Int32) => {
+    if (id) {
+      const work = realmRef.current?.objects('Work').filtered('_id == ' + id)[0]
+      return work
+    }
+  }
 
   // 最後に追加したワークを取得する
   const getResentWork = () => {
@@ -210,10 +222,13 @@ const TasksProvider = ({ children }) => {
         createProject,
         deleteItem,
         updateProject,
+        getProjectById,
         createTask,
+        getTaskById,
         updateTask,
         getTaskTotalTime,
         createWork,
+        getWorkById,
         updateWork,
         getResentWork,
         getActiveWork,
