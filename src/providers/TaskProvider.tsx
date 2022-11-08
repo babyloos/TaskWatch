@@ -164,13 +164,6 @@ const TasksProvider = ({ children }) => {
     });
   };
 
-  const getWorkById = (id: Int32) => {
-    if (id) {
-      const work = realmRef.current?.objects('Work').filtered('_id == ' + id)[0]
-      return work
-    }
-  }
-
   // 最後に追加したワークを取得する
   const getResentWork = () => {
     const resentWork = realmRef.current.objects('Work').sorted('createdAt', true)[0]
@@ -228,7 +221,6 @@ const TasksProvider = ({ children }) => {
         updateTask,
         getTaskTotalTime,
         createWork,
-        getWorkById,
         updateWork,
         getResentWork,
         getActiveWork,

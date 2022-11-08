@@ -17,9 +17,8 @@ import WatchDisplay from '../components/WatchDisplay';
 import { useProjects } from '../providers/TaskProvider';
 
 const TimerScreen = (props) => {
-  const { updateWork, getTaskSpecifyWork, getWorkById } = useProjects();
-  // const work = getWorkById(props.route.params.work)
-  const work = props.route.params.work
+  const { updateWork, getTaskSpecifyWork, getResentWork} = useProjects();
+  const work = getResentWork()
   const [time, setTime] = useState(work.workTime)
   const intervalId = useRef(null)
   const [inActionTimer, setInActionTimer] = useState<boolean>(work.inActive)
