@@ -31,6 +31,7 @@ const ProjectDetailScreen = (props: any) => {
           title="集計"
         />
       ),
+      title: project.name
     });
   }, []);
 
