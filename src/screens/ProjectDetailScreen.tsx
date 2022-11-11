@@ -92,7 +92,7 @@ const ProjectDetailScreen = (props: any) => {
           scrollView()
           setIsUpdateListView(true)
         }}>
-        <Icon icon={faCirclePlus} size={34} />
+        <Icon icon={faCirclePlus} size={62} />
       </TouchableOpacity>
     </View>
   );
@@ -105,9 +105,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addTaskButton: {
-    alignSelf: 'flex-end',
-    marginTop: 16,
-    marginBottom: 16,
-    marginRight: 32,
-  }
+    position: 'absolute',
+    bottom: 32,
+    right: 32,
+  },
 });
