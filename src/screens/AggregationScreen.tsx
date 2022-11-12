@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -257,132 +258,134 @@ const AggregationScreen = (props) => {
   }
 
   return (
-    <View style={styles.body}>
-      <View style={styles.specifyItemContainer}>
-        <View style={{marginBottom: 8}}>
-          <Text>集計の対象</Text>
-        </View>
-        <View style={styles.specifyItem}>
-          <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>プロジェクト</Text></View>
-          <View style={styles.specifyItemValue}>
-            <TouchableOpacity onPress={() => {
-              setIsShowProjectPicker(true)
-            }}>
-              <Text 
-                numberOfLines={1}
-                style={styles.selectedItem}>{projectList[selectedProject]}</Text>
-            </TouchableOpacity>
+    <ScrollView>
+      <View style={styles.body}>
+        <View style={styles.specifyItemContainer}>
+          <View style={{marginBottom: 8}}>
+            <Text>集計の対象</Text>
+          </View>
+          <View style={styles.specifyItem}>
+            <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>プロジェクト</Text></View>
+            <View style={styles.specifyItemValue}>
+              <TouchableOpacity onPress={() => {
+                setIsShowProjectPicker(true)
+              }}>
+                <Text 
+                  numberOfLines={1}
+                  style={styles.selectedItem}>{projectList[selectedProject]}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-      <PickerModal
-        isShowPicker={isShowProjectPicker} setIsShowPicker={setIsShowProjectPicker}
-        selectedItem={selectedProject} setSelectedItem={setSelectedProjcet}
-        items={projectList}
-      />
-      <View style={[styles.specifyItemContainer, {marginTop: 24}]}>
-        <View style={styles.specifyItem}>
-          <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>タスク</Text></View>
-          <View style={styles.specifyItemValue}>
-            <TouchableOpacity onPress={() => {
-              if (taskList.length > 0) {
-                setIsShowTaskPicker(true)
-              }
-            }}>
-              <Text 
-                numberOfLines={1}
-                style={styles.selectedItem}>{!taskList[selectedTask] ? 'タスクなし' : taskList[selectedTask]}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <PickerModal
-        isShowPicker={isShowTaskPicker} setIsShowPicker={setIsShowTaskPicker}
-        selectedItem={selectedTask} setSelectedItem={setSelectedTask}
-        items={taskList}
-      />
-      <View style={[styles.specifyItemContainer, {marginTop: 24}]}>
-        <View style={{marginBottom: 8}}>
-          <Text>集計する期間</Text>
-        </View>
-        <View style={styles.specifyItem}>
-          <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>開始</Text></View>
-            <View style={styles.dateTimePickerContainer}>
-              <DateTimePicker
-                style={styles.dateTimePickerDate}
-                mode='date'
-                value={startDate}
-                locale='ja-JP'
-                is24Hour={true}
-                onChange={onChangeStartDate}
-              />
-              <DateTimePicker
-                style={styles.dateTimePickerDate}
-                mode='time'
-                value={startDate}
-                locale='ja-JP'
-                is24Hour={true}
-                onChange={onChangeStartTime}
-              />
-            </View>
-        </View>
-        <View style={[styles.specifyItem, {marginTop: 18}]}>
-          <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>終了</Text></View>
-            <View style={styles.dateTimePickerContainer}>
-              <DateTimePicker
-                style={styles.dateTimePickerDate}
-                mode='date'
-                value={endDate}
-                locale='ja-JP'
-                is24Hour={true}
-                onChange={onChangeEndDate}
-              />
-              <DateTimePicker
-                style={styles.dateTimePickerDate}
-                mode='time'
-                value={endDate}
-                locale='ja-JP'
-                is24Hour={true}
-                onChange={onChangeEndTime}
-              />
-            </View>
-        </View>
-        <View style={styles.totalWorkTimeContainer}>
-          <Text style={styles.totalWorkTimeName}>総作業時間</Text>
-          <Text style={styles.totalWorkTimeValue}>{toDispTime(totalWorkTime)}</Text>
-        </View>
-        <View style={styles.chartContainer}>
-          <BarChart
-            data={{
-              labels: chartLabels,
-              datasets: [
-                {
-                  data: chartDatas,
+        <PickerModal
+          isShowPicker={isShowProjectPicker} setIsShowPicker={setIsShowProjectPicker}
+          selectedItem={selectedProject} setSelectedItem={setSelectedProjcet}
+          items={projectList}
+        />
+        <View style={[styles.specifyItemContainer, {marginTop: 24}]}>
+          <View style={styles.specifyItem}>
+            <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>タスク</Text></View>
+            <View style={styles.specifyItemValue}>
+              <TouchableOpacity onPress={() => {
+                if (taskList.length > 0) {
+                  setIsShowTaskPicker(true)
                 }
-              ]
-            }}
-            width={Dimensions.get('window').width - 40}
-            height={220}
-            yAxisLabel=""
-            yAxisSuffix={yAxisSuffix}
-            yAxisInterval={1} // optional, defaults to 1
-            fromZero={true}
-            chartConfig={{
-              backgroundColor: colors.graph.background,
-              backgroundGradientFrom: colors.graph.gradientFrom,
-              backgroundGradientTo: colors.graph.gradientTo,
-              decimalPlaces: 1, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            }}
-            style={{
-              marginTop: 24,
-              borderRadius: 8, 
-            }}
-          />
+              }}>
+                <Text 
+                  numberOfLines={1}
+                  style={styles.selectedItem}>{!taskList[selectedTask] ? 'タスクなし' : taskList[selectedTask]}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <PickerModal
+          isShowPicker={isShowTaskPicker} setIsShowPicker={setIsShowTaskPicker}
+          selectedItem={selectedTask} setSelectedItem={setSelectedTask}
+          items={taskList}
+        />
+        <View style={[styles.specifyItemContainer, {marginTop: 24}]}>
+          <View style={{marginBottom: 8}}>
+            <Text>集計する期間</Text>
+          </View>
+          <View style={styles.specifyItem}>
+            <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>開始</Text></View>
+              <View style={styles.dateTimePickerContainer}>
+                <DateTimePicker
+                  style={styles.dateTimePickerDate}
+                  mode='date'
+                  value={startDate}
+                  locale='ja-JP'
+                  is24Hour={true}
+                  onChange={onChangeStartDate}
+                />
+                <DateTimePicker
+                  style={styles.dateTimePickerDate}
+                  mode='time'
+                  value={startDate}
+                  locale='ja-JP'
+                  is24Hour={true}
+                  onChange={onChangeStartTime}
+                />
+              </View>
+          </View>
+          <View style={[styles.specifyItem, {marginTop: 18}]}>
+            <View style={styles.specifyItemName}><Text numberOfLines={1} style={styles.itemNameText}>終了</Text></View>
+              <View style={styles.dateTimePickerContainer}>
+                <DateTimePicker
+                  style={styles.dateTimePickerDate}
+                  mode='date'
+                  value={endDate}
+                  locale='ja-JP'
+                  is24Hour={true}
+                  onChange={onChangeEndDate}
+                />
+                <DateTimePicker
+                  style={styles.dateTimePickerDate}
+                  mode='time'
+                  value={endDate}
+                  locale='ja-JP'
+                  is24Hour={true}
+                  onChange={onChangeEndTime}
+                />
+              </View>
+          </View>
+          <View style={styles.totalWorkTimeContainer}>
+            <Text style={styles.totalWorkTimeName}>総作業時間</Text>
+            <Text style={styles.totalWorkTimeValue}>{toDispTime(totalWorkTime)}</Text>
+          </View>
+          <View style={styles.chartContainer}>
+            <BarChart
+              data={{
+                labels: chartLabels,
+                datasets: [
+                  {
+                    data: chartDatas,
+                  }
+                ]
+              }}
+              width={Dimensions.get('window').width - 40}
+              height={220}
+              yAxisLabel=""
+              yAxisSuffix={yAxisSuffix}
+              yAxisInterval={1} // optional, defaults to 1
+              fromZero={true}
+              chartConfig={{
+                backgroundColor: colors.graph.background,
+                backgroundGradientFrom: colors.graph.gradientFrom,
+                backgroundGradientTo: colors.graph.gradientTo,
+                decimalPlaces: 1, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              }}
+              style={{
+                marginTop: 24,
+                borderRadius: 8, 
+              }}
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
