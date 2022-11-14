@@ -45,6 +45,16 @@ const TasksProvider = ({ children }) => {
     return project
   }
 
+  const getProjectNo = (projectId) => {
+    for (var i = 0; i < projects.length; i++) {
+      const project = projects[i]
+      if (project._id == projectId) {
+        return i
+      }
+    }
+    return 0
+  }
+
   // プロジェクト等を削除する
   const deleteItem = (item) => {
     const projectRealm = realmRef.current;
@@ -89,6 +99,34 @@ const TasksProvider = ({ children }) => {
   const getTaskById = (id: Int32) => {
     const task = realmRef.current?.objects('Task').filtered('_id == ' + id)[0]
     return task
+  }
+
+  const getTaskNo = (projectNo, taskId) => {
+    const project = projects[projectNo]
+    for (var i = 0; i < project.tasks.length; i++) {
+      const task = project.tasks[i]
+      if (task._id == taskId) {
+        return i
+      }
+    }
+    return 0
+  }
+
+  // 指定したタスクが含まれるプロジェクトを返す
+  const getProjectSpecifyTaskId = (taskId: any) => {
+    for (var i = 0; i < projects.length; i++) {
+      const project = projects[i]
+      if (!project.tasks) {
+        continue
+      }
+      for (var j = 0; j < project.tasks.length; j++) {
+        const task = project.tasks[j]
+        if (task._id == taskId) {
+          return project
+        }
+      }
+    }
+    return null
   }
 
   // task, 取得する作業時間の期間を指定し合計作業時間を返す
@@ -216,8 +254,11 @@ const TasksProvider = ({ children }) => {
         deleteItem,
         updateProject,
         getProjectById,
+        getProjectSpecifyTaskId,
+        getProjectNo,
         createTask,
         getTaskById,
+        getTaskNo,
         updateTask,
         getTaskTotalTime,
         createWork,

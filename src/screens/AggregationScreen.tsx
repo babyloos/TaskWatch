@@ -16,12 +16,9 @@ import colors from '../contants'
 import { toDispTime } from '../utils/utils'
 
 const AggregationScreen = (props) => {
-
   // props
-  const project = props.route.params.project
-  const task = props.route.params.task
+  const { getMinStartDate, getMaxEndDate, getTaskTotalTime, getProjectSpecifyTaskId } = useProjects()
 
-  const { getMinStartDate, getMaxEndDate, getTaskTotalTime } = useProjects()
   const getProjectNameList = (projects: any): Array<string> => {
     let result = new Array<string>()
     for (var i=0; i<projects.length; i++) {
@@ -44,19 +41,24 @@ const AggregationScreen = (props) => {
   const [isShowProjectPicker, setIsShowProjectPicker] = useState(false)
   const [selectedProject, setSelectedProjcet] = useState(0)
 
+  const projectNo = props.route.params.projectNo
+  const taskNo = props.route.params.taskNo
+  const project = projects[projectNo]
+  const task = project.tasks[taskNo]
+
   useEffect(() => {
     if (project) {
-      const projectName = project.name
+      const projectId = project._id
       for (var i=0; i<projects.length; i++) {
-        if (projects[i].name === projectName) {
+        if (projects[i]._id === projectId) {
           setSelectedProjcet(i)
         }
       }
     }
     if (task) {
-      const taskName = task.name
+      const taskId = task._id
       for (var i=0; i<project.tasks.length; i++) {
-        if (project.tasks[i].name === taskName) {
+        if (project.tasks[i]._id === taskId) {
           setSelectedTask(i)
         }
       }

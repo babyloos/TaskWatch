@@ -5,6 +5,7 @@ import {
   Alert,
   TouchableOpacity,
   Text,
+  Button,
 } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { useIsFocused } from '@react-navigation/native'
@@ -15,9 +16,26 @@ import DelButton from '../components/DelButton';
 import { useProjects } from '../providers/TaskProvider';
 
 const TaskDetailScreen = (props: any) => {
-  const { deleteItem, delNullWorks, getTaskById } = useProjects()
+  const { deleteItem, delNullWorks, getTaskById, getProjectSpecifyTaskId, getProjectNo, getTaskNo} = useProjects()
   const task = getTaskById(props.route.params.taskId)
   const isFocused = useIsFocused()
+
+  React.useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => {
+            const project = getProjectSpecifyTaskId(task._id)
+            const projectNo = getProjectNo(project._id)
+            const taskNo = getTaskNo(projectNo, task._id)
+            props.navigation.navigate('Aggregation', { projectNo: projectNo, taskNo: taskNo});
+          }}
+          title="集計"
+        />
+      ),
+      title: task.name
+    });
+  }, []);
 
   useEffect(() => {
     // endTimeの入っていないタスクを削除する

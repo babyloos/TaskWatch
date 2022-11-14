@@ -16,7 +16,7 @@ import { useProjects } from '../providers/TaskProvider';
 import DelButton from '../components/DelButton';
 
 const ProjectDetailScreen = (props: any) => {
-  const { createTask, deleteItem, getProjectById } = useProjects()
+  const { createTask, deleteItem, getProjectById, getProjectNo } = useProjects()
   const project = getProjectById(props.route.params.projectId)
   var listRef = React.useRef(null)
   const [isUpdateListView, setIsUpdateListView] = React.useState(false)
@@ -26,7 +26,8 @@ const ProjectDetailScreen = (props: any) => {
       headerRight: () => (
         <Button
           onPress={() => {
-            props.navigation.navigate('Aggregation', { project: project, task: null });
+            const projectNo = getProjectNo(project._id)
+            props.navigation.navigate('Aggregation', { projectNo: projectNo, taskNo: 0});
           }}
           title="集計"
         />
