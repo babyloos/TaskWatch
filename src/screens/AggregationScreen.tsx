@@ -39,36 +39,12 @@ const AggregationScreen = (props) => {
   const { projects } = useProjects()
   const projectList = getProjectNameList(projects)
   const [isShowProjectPicker, setIsShowProjectPicker] = useState(false)
-  const [selectedProject, setSelectedProjcet] = useState(0)
-
-  const projectNo = props.route.params.projectNo
-  const taskNo = props.route.params.taskNo
-  const project = projects[projectNo]
-  const task = project.tasks[taskNo]
-
-  useEffect(() => {
-    if (project) {
-      const projectId = project._id
-      for (var i=0; i<projects.length; i++) {
-        if (projects[i]._id === projectId) {
-          setSelectedProjcet(i)
-        }
-      }
-    }
-    if (task) {
-      const taskId = task._id
-      for (var i=0; i<project.tasks.length; i++) {
-        if (project.tasks[i]._id === taskId) {
-          setSelectedTask(i)
-        }
-      }
-    }
-  }, [project, task])
+  const [selectedProject, setSelectedProjcet] = useState(props.route.params.projectNo)
 
   // Tasks
   const [taskList, setTaskList] = useState([''])
   const [isShowTaskPicker, setIsShowTaskPicker] = useState(false)
-  const [selectedTask, setSelectedTask] = useState(0)
+  const [selectedTask, setSelectedTask] = useState(props.route.params.taskNo)
   const [totalWorkTime, setTotalWorkTime] = useState(0)
 
   // period
@@ -83,7 +59,6 @@ const AggregationScreen = (props) => {
   useEffect(() => {
     const project = projects[selectedProject]
     setTaskList(getTaskNameList(project)) 
-    setSelectedTask(0)
   }, [selectedProject])
 
   useEffect(() => {
