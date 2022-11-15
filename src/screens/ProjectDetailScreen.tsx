@@ -27,12 +27,12 @@ const ProjectDetailScreen = (props: any) => {
         <Button
           onPress={() => {
             const projectNo = getProjectNo(project._id)
-            props.navigation.navigate('Aggregation', { projectNo: projectNo, taskNo: 0});
+            props.navigation.navigate('Aggregation', { projectNo: projectNo, taskNo: 0 });
           }}
           title="集計"
         />
       ),
-      title: project.name
+      title: project.name,
     });
   }, []);
 

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   StyleSheet,
+  Button,
 } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import 'react-native-get-random-values'
@@ -54,7 +55,12 @@ const App = () => {
     <MenuProvider>
       <TasksProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="ProjectList">
+          <Stack.Navigator
+            initialRouteName="ProjectList"
+            screenOptions={{
+              headerBackTitle: '戻る'
+            }}
+          >
             <Stack.Screen
               name="ProjectList"
               component={ProjectListScreen}
