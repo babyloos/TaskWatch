@@ -47,12 +47,18 @@ const WorkEditScreen = (props: any) => {
   }
 
   const onChangeWorkHour = (input: string) => {
-    const inputNum = parseInt(input.replace(/[^0-9]/g, ''), 10)
+    let inputNum = parseInt(input.replace(/[^0-9]/g, ''), 10)
+    if (!inputNum) {
+      inputNum = 0
+    }
     setWorkTimeHour(inputNum)
   }
 
   const onChangeWorkMinute = (input: string) => {
-    const inputNum = parseInt(input.replace(/[^0-9]/g, ''), 10)
+    let inputNum = parseInt(input.replace(/[^0-9]/g, ''), 10)
+    if (!inputNum) {
+      inputNum = 0
+    }
     setWorkTimeMinute(inputNum)
   }
 
@@ -133,7 +139,7 @@ const WorkEditScreen = (props: any) => {
           <View style={styles.timeInputContainer}>
             <TextInput
               style={styles.workTimeInput}
-              keyboardType='decimal-pad'
+              keyboardType='numeric'
               placeholder={toDispHour(workTime)}
               placeholderTextColor='#808080'
               onChangeText={(input: string) => { onChangeWorkHour(input) }}
@@ -143,7 +149,7 @@ const WorkEditScreen = (props: any) => {
           <View style={[styles.timeInputContainer, { marginLeft: -20 }]}>
             <TextInput
               style={styles.workTimeInput}
-              keyboardType='decimal-pad'
+              keyboardType='numeric'
               placeholder={toDispMinute(workTime)}
               placeholderTextColor='#808080'
               onChangeText={(input: string) => { onChangeWorkMinute(input) }}
