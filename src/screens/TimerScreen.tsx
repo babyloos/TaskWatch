@@ -8,6 +8,7 @@ import {
   AppState,
   Button,
   Alert,
+  ScrollView,
 } from 'react-native';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-native-fontawesome'
 import { faPauseCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
@@ -145,6 +146,7 @@ const TimerScreen = (props) => {
   }
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.timerContainer}>
         <WatchDisplay time={time} />
@@ -188,6 +190,7 @@ const TimerScreen = (props) => {
         </Text>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
